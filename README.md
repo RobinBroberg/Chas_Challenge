@@ -51,6 +51,8 @@ DB_NAME=chas_challenge
 
     Run this command:
 
+    ```bash
     npm run db:reset
+    ```
 
 This will create all the tables and add some test users and questions.
