@@ -44,3 +44,13 @@ DB_PORT=8889   # Use 3306 if you're on Windows
 DB_HOST=localhost
 DB_NAME=chas_challenge
 ```
+
+#### 3. Fill the database
+
+    Open a terminal and go to the /backend folder
+
+    Run this command:
+
+    npm run db:reset
+
+This will create all the tables and add some test users and questions.
