@@ -26,7 +26,7 @@ Inside the `/backend` folder, there is a `db` folder that contains:
 
 - Open MAMP
 - Start the servers
-- Go to [http://localhost/phpMyAdmin](http://localhost/phpMyAdmin)
+- Go to [http://localhost/phpMyAdmin]
 - Click “New” on the left
 - Name the database: `chas_challenge`
 - Click **Create**
