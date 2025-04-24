@@ -1,5 +1,5 @@
 "use client";
-import CreateLoginForWorkers from "../CreateLoginForWorkers";
+import CreateLoginForWorkers from "../createLoginForWorkers/page";
 
 export default function WorkerLoginPage() {
   return <CreateLoginForWorkers />;

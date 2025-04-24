@@ -1,5 +1,5 @@
 "use client";
-import CreateLoginForHR from "../CreateLoginForHR";
+import CreateLoginForHR from "../createLoginForHr/page";
 
 export default function HRLoginPage() {
   return <CreateLoginForHR />;
