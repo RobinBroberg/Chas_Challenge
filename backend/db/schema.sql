@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS answers;
 DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS users;
@@ -44,4 +45,3 @@ INSERT INTO questions (question_text) VALUES
 INSERT INTO users (first_name, last_name, email, password, role) VALUES
 ('Admin', 'User', 'admin@example.com', 'admin123', 'admin'),
 ('Jane', 'Doe', 'user@example.com', 'user123', 'user');
-

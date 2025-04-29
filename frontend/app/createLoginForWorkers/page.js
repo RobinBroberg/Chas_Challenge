@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function CreateLoginForWorkers() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Användardata skickas till backend:", {
+      firstName,
+      lastName,
+      email,
+      username,
+      password,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-cover bg-center">
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -11,7 +28,7 @@ export default function CreateLoginForWorkers() {
             Skapa Konto för Medarbetare
           </h2>
 
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
                 htmlFor="first-name"
@@ -24,6 +41,8 @@ export default function CreateLoginForWorkers() {
                 id="first-name"
                 name="first-name"
                 required
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 className="w-full p-3 mt-2 border border-[#d4bfa5] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d4bfa5] focus:border-[#b9a38a]"
                 placeholder="Förnamn"
               />
@@ -41,6 +60,8 @@ export default function CreateLoginForWorkers() {
                 id="last-name"
                 name="last-name"
                 required
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 className="w-full p-3 mt-2 border border-[#d4bfa5] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d4bfa5] focus:border-[#b9a38a]"
                 placeholder="Efternamn"
               />
@@ -58,6 +79,8 @@ export default function CreateLoginForWorkers() {
                 id="email"
                 name="email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-3 mt-2 border border-[#d4bfa5] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d4bfa5] focus:border-[#b9a38a]"
                 placeholder="Epostadress"
               />
@@ -75,6 +98,8 @@ export default function CreateLoginForWorkers() {
                 id="username"
                 name="username"
                 required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="w-full p-3 mt-2 border border-[#d4bfa5] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d4bfa5] focus:border-[#b9a38a]"
                 placeholder="Användarnamn"
               />
@@ -92,6 +117,8 @@ export default function CreateLoginForWorkers() {
                 id="password"
                 name="password"
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-3 mt-2 border border-[#d4bfa5] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d4bfa5] focus:border-[#b9a38a]"
                 placeholder="Lösenord"
               />

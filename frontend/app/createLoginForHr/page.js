@@ -1,6 +1,18 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 const CreateLoginForHr = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Användarnamn:", username);
+    console.log("Lösenord:", password);
+    // Här kan du lägga till kod för att skicka datan till backend senare
+  };
+
   return (
     <div className="min-h-screen w-full bg-cover bg-center flex items-center justify-center">
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -10,13 +22,15 @@ const CreateLoginForHr = () => {
           HR / Chef
         </h2>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
             <label className="block mb-1 text-[#6d665e] font-medium">
               Användarnamn
             </label>
             <input
               type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               placeholder="Ditt användarnamn"
               className="w-full p-3 rounded-lg border border-[#d4bfa5] focus:ring-2 focus:ring-[#d4bfa5] outline-none"
             />
@@ -28,6 +42,8 @@ const CreateLoginForHr = () => {
             </label>
             <input
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Ditt lösenord"
               className="w-full p-3 rounded-lg border border-[#d4bfa5] focus:ring-2 focus:ring-[#d4bfa5] outline-none"
             />
