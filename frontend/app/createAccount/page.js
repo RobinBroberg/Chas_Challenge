@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 
 export default function creaeteAccount() {
-  const [mode, setMode] = useState<"login" | "register">("login");
-  const [userType, setUserType] = useState<"hr" | "worker">("hr");
+  const [mode, setMode] = (useState < "login") | ("register" > "login");
+  const [userType, setUserType] = (useState < "hr") | ("worker" > "hr");
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -65,7 +65,7 @@ export default function creaeteAccount() {
               <label className="text-sm mr-3">Välj roll:</label>
               <select
                 value={userType}
-                onChange={(e) => setUserType(e.target.value as "hr" | "worker")}
+                onChange={(e) => setUserType(e.target.value)}
                 className="text-sm border rounded px-2 py-1"
               >
                 <option value="hr">HR / Chef</option>
