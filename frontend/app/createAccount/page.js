@@ -1,147 +1,99 @@
 "use client";
-
 import React, { useState } from "react";
 
-export default function creaeteAccount() {
-  const [mode, setMode] = (useState < "login") | ("register" > "login");
-  const [userType, setUserType] = (useState < "hr") | ("worker" > "hr");
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
+const CreateAccountPage = () => {
+  const [role, setRole] = useState("hr");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    console.log("Loggar in som:", userType);
-    console.log("Användarnamn:", username);
-    console.log("Lösenord:", password);
-  };
-
-  const handleRegister = () => {
-    console.log("Registrerar medarbetare:");
-    console.log({ firstName, lastName, email, username, password });
+  const handleCreateAccount = () => {
+    console.log("Skapar konto:", {
+      role,
+      firstName,
+      lastName,
+      email,
+      username,
+      password,
+    });
   };
 
   return (
     <div
-      className="w-full min-h-screen flex items-center justify-center bg-cover bg-center relative px-4"
+      className="w-full h-screen flex items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: "url('/loginpic.png')" }}
     >
-      <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
-
-      <div className="relative z-10 w-full max-w-md bg-white bg-opacity-90 backdrop-blur-md rounded-2xl shadow-2xl p-8 space-y-6">
-        <h2 className="text-3xl font-bold text-center text-[#4e4a45] mb-4">
-          {mode === "login" ? "Logga in" : "Skapa Konto"}
+      <div className="flex flex-col space-y-6 mb-30">
+        <h2
+          className="text-4xl font-medium text-left mb-18"
+          style={{ color: "#F6F4F0" }}
+        >
+          Skapa konto
         </h2>
 
-        <div className="flex justify-center space-x-4 mb-4">
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          className="border-b-2 w-160 border-white p-2 text-lg bg-transparent text-white focus:outline-none"
+        >
+          <option value="hr">HR / Chef</option>
+          <option value="worker">Medarbetare</option>
+        </select>
+
+        <input
+          type="text"
+          placeholder="Förnamn"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          className="border-b-2 w-160 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300"
+        />
+
+        <input
+          type="text"
+          placeholder="Efternamn"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          className="border-b-2 w-160 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300"
+        />
+
+        <input
+          type="email"
+          placeholder="E-postadress"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="border-b-2 w-160 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300"
+        />
+
+        <input
+          type="text"
+          placeholder="Användarnamn"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="border-b-2 w-160 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300"
+        />
+
+        <input
+          type="password"
+          placeholder="Lösenord"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="border-b-2 w-160 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300"
+        />
+
+        <div className="flex justify-center">
           <button
-            onClick={() => setMode("login")}
-            className={`px-4 py-2 rounded-full text-sm font-semibold ${
-              mode === "login"
-                ? "bg-[#d4bfa5] text-white"
-                : "bg-gray-200 text-[#47423E]"
-            }`}
-          >
-            Logga in
-          </button>
-          <button
-            onClick={() => setMode("register")}
-            className={`px-4 py-2 rounded-full text-sm font-semibold ${
-              mode === "register"
-                ? "bg-[#d4bfa5] text-white"
-                : "bg-gray-200 text-[#47423E]"
-            }`}
+            onClick={handleCreateAccount}
+            className="px-27 py-4 bg-gray-300 text-white rounded-full hover:bg-gray-400 transition font-bold text-lg"
+            style={{ color: "#47423E" }}
           >
             Skapa konto
           </button>
         </div>
-
-        {mode === "login" ? (
-          <>
-            <div className="flex justify-center mb-4">
-              <label className="text-sm mr-3">Välj roll:</label>
-              <select
-                value={userType}
-                onChange={(e) => setUserType(e.target.value)}
-                className="text-sm border rounded px-2 py-1"
-              >
-                <option value="hr">HR / Chef</option>
-                <option value="worker">Medarbetare</option>
-              </select>
-            </div>
-
-            <input
-              type="text"
-              placeholder="Användarnamn"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-3 border-b-2 border-[#d4bfa5] bg-transparent focus:outline-none text-[#47423E] placeholder-[#aaa]"
-            />
-            <input
-              type="password"
-              placeholder="Lösenord"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border-b-2 border-[#d4bfa5] bg-transparent focus:outline-none text-[#47423E] placeholder-[#aaa]"
-            />
-
-            <button
-              onClick={handleLogin}
-              className="w-full py-3 mt-4 bg-[#d4bfa5] text-white font-semibold rounded-lg shadow-md hover:bg-[#c6aa8c] transition"
-            >
-              Logga in
-            </button>
-          </>
-        ) : (
-          <>
-            <input
-              type="text"
-              placeholder="Förnamn"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              className="w-full p-3 border-b-2 border-[#d4bfa5] bg-transparent focus:outline-none text-[#47423E] placeholder-[#aaa]"
-            />
-            <input
-              type="text"
-              placeholder="Efternamn"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              className="w-full p-3 border-b-2 border-[#d4bfa5] bg-transparent focus:outline-none text-[#47423E] placeholder-[#aaa]"
-            />
-            <input
-              type="email"
-              placeholder="Epostadress"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 border-b-2 border-[#d4bfa5] bg-transparent focus:outline-none text-[#47423E] placeholder-[#aaa]"
-            />
-            <input
-              type="text"
-              placeholder="Användarnamn"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-3 border-b-2 border-[#d4bfa5] bg-transparent focus:outline-none text-[#47423E] placeholder-[#aaa]"
-            />
-            <input
-              type="password"
-              placeholder="Lösenord"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border-b-2 border-[#d4bfa5] bg-transparent focus:outline-none text-[#47423E] placeholder-[#aaa]"
-            />
-
-            <button
-              onClick={handleRegister}
-              className="w-full py-3 mt-4 bg-[#d4bfa5] text-white font-semibold rounded-lg shadow-md hover:bg-[#c6aa8c] transition"
-            >
-              Skapa konto
-            </button>
-          </>
-        )}
       </div>
     </div>
   );
-}
+};
+
+export default CreateAccountPage;
