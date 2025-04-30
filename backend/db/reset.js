@@ -17,9 +17,9 @@ const runSchema = async () => {
   const schema = fs.readFileSync("./db/schema.sql", "utf-8");
   try {
     await connection.query(schema);
-    console.log("✅ Database schema applied!");
+    console.log("Database schema applied!");
   } catch (error) {
-    console.error("❌ Failed to apply schema:", error.message);
+    console.error("Failed to apply schema:", error.message);
   } finally {
     await connection.end();
   }

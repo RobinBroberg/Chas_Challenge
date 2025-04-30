@@ -1,4 +1,4 @@
-# 📘 Chas Challenge — Database Setup Guide
+# 🚀 Chas Challenge — Backend Setup & Usage Guide
 
 This guide helps you set up the local database for our project.
 
@@ -42,6 +42,9 @@ Inside the `/backend` folder, there is a `db` folder that contains:
         DB_PORT=8889 # (your port for mysql)
         DB_HOST=localhost
         DB_NAME=chas_challenge
+        JWT_SECRET=your_jwt_secret_here
+
+> 🛡️ `JWT_SECRET` is used to sign login tokens. You can use any long random string.
 
 #### 3. Install the backend dependencies
 
@@ -62,3 +65,23 @@ This installs everything needed for the database reset script and the backend to
          npm run db:reset
 
 This will create all the tables and add some test users and questions.
+
+---
+
+### 🔐 Test Logins (for local testing)
+
+You can log in using the following test users after running `npm run db:reset`:
+
+#### 👤 Admin User
+
+- **Email:** `admin@example.com`
+- **Password:** `admin123`
+- **Role:** `admin`
+
+#### 👤 Regular User
+
+- **Email:** `user@example.com`
+- **Password:** `user123`
+- **Role:** `user`
+
+These accounts are created automatically when the database is reset. Use them to test login, permissions, and role-based views.

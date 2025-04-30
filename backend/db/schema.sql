@@ -43,5 +43,5 @@ INSERT INTO questions (question_text) VALUES
 
 
 INSERT INTO users (first_name, last_name, email, password, role) VALUES
-('Admin', 'User', 'admin@example.com', 'admin123', 'admin'),
-('Jane', 'Doe', 'user@example.com', 'user123', 'user');
+('Admin', 'User', 'admin@example.com', '$2b$10$LNxeqdrCANv3aaebZRveyu8GilpDKn7pCEF2LtU7Ta0ajl0FTDuI.', 'admin'),
+('Jane', 'Doe', 'user@example.com', '$2b$10$JB1pdro3jxWVaCaHnbggqeHuRSTaqnaAuT7jwQHSjKd.hJNenyxEW', 'user');
