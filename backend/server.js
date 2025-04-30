@@ -83,7 +83,11 @@ app.post("/login", async (req, res) => {
       secure: process.env.NODE_ENV === "production", // only send cookie over HTTPS in prod
     });
 
-    res.json({ message: "Login successful" });
+    res.json({
+      message: "Login successful",
+      userId: user.id,
+      role: user.role,
+    });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Internal server error" });
