@@ -178,6 +178,20 @@ app.post("/register", async (req, res) => {
   }
 });
 
+app.get("/me", (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ message: "Not logged in" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, serverPassword);
+    res.json({ userId: decoded.userId, role: decoded.role });
+  } catch (err) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+});
+
 app.listen(port, () => {
   console.log(`CC backend running at http://localhost:${port}`);
 });

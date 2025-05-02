@@ -1,22 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchQuestions } from "@/utils/api";
+import { useRouter } from "next/navigation";
+import { fetchQuestions, getCurrentUser } from "@/utils/api";
 
 export default function QuestionsPage() {
   const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const load = async () => {
+      const user = await getCurrentUser();
+      if (!user || user.role !== "admin") {
+        router.push("/login");
+        return;
+      }
+
       try {
         const data = await fetchQuestions();
         setQuestions(data);
       } catch (err) {
-        console.error(err);
+        console.error("Failed to load questions:", err);
+      } finally {
+        setLoading(false);
       }
     };
+
     load();
   }, []);
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div
