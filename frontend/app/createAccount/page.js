@@ -29,9 +29,7 @@ const CreateAccountPage = () => {
         <h2
           className="text-4xl font-medium text-left mb-18"
           style={{ color: "#F6F4F0" }}
-        >
-          Skapa konto
-        </h2>
+        ></h2>
 
         <select
           value={role}
