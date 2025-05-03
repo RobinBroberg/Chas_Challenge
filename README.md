@@ -37,9 +37,9 @@ Inside the `/backend` folder, there is a `db` folder that contains:
 - Make a copy of it and rename it to `.env`
 - Open `.env` and check that it looks like this:
 
-        DB_USER=root
-        DB_PASS=root
-        DB_PORT=8889 # (your port for mysql)
+        DB_USER=your_mysql_user
+        DB_PASS=your_mysql_password
+        DB_PORT=your_mysql_port
         DB_HOST=localhost
         DB_NAME=chas_challenge
         JWT_SECRET=your_jwt_secret_here

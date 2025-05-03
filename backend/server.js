@@ -9,7 +9,13 @@ import bcrypt from "bcrypt";
 const app = express();
 const port = 3001;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -52,6 +58,54 @@ app.get("/questions", async (req, res) => {
   }
 });
 
+app.put("/questions/:id", async (req, res) => {
+  const questionId = req.params.id;
+  const { question_text } = req.body;
+
+  if (!question_text) {
+    return res.status(400).json({ message: "question_text is required" });
+  }
+  try {
+    const [result] = await pool.execute(
+      "UPDATE questions SET question_text = ? WHERE id = ?",
+      [question_text, questionId]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+
+    res.json({ message: "Question updated successfully" });
+  } catch (error) {
+    console.error("Error updating question:", error);
+    res.status(500).json({ message: "Failed to update question" });
+  }
+});
+
+app.put("/questions", async (req, res) => {
+  const updates = req.body;
+
+  if (!Array.isArray(updates)) {
+    return res.status(400).json({ message: "Expected an array of updates" });
+  }
+
+  try {
+    const updatePromises = updates.map((q) =>
+      pool.execute("UPDATE questions SET question_text = ? WHERE id = ?", [
+        q.question_text,
+        q.id,
+      ])
+    );
+
+    await Promise.all(updatePromises);
+
+    res.json({ message: "All questions updated successfully" });
+  } catch (error) {
+    console.error("Error updating questions:", error);
+    res.status(500).json({ message: "Failed to update questions" });
+  }
+});
+
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -91,6 +145,50 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.post("/register", async (req, res) => {
+  const { first_name, last_name, email, password, role = "user" } = req.body;
+
+  if (!first_name || !last_name || !email || !password) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  try {
+    const [existing] = await pool.execute(
+      "SELECT id FROM users WHERE email = ?",
+      [email]
+    );
+    if (existing.length > 0) {
+      return res.status(409).json({ message: "Email already in use" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await pool.execute(
+      "INSERT INTO users (first_name, last_name, email, password, role) VALUES (?, ?, ?, ?, ?)",
+      [first_name, last_name, email, hashedPassword, role]
+    );
+
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error("Error during registration:", error);
+    res.status(500).json({ message: "Failed to register user" });
+  }
+});
+
+app.get("/me", (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ message: "Not logged in" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, serverPassword);
+    res.json({ userId: decoded.userId, role: decoded.role });
+  } catch (err) {
+    res.status(401).json({ message: "Invalid token" });
   }
 });
 
