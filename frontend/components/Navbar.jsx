@@ -2,9 +2,9 @@
 import Link from "next/link";
 
 const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", label: "START" },
+  { href: "/omOss", label: "OM OSS" },
+  { href: "/undersökning", label: "OM MEDARBETARUNDERÖKNINGEN" },
 ];
 
 const Navbar = () => {
@@ -14,11 +14,11 @@ const Navbar = () => {
         <div className="container mx-auto flex justify-between items-center">
           <Link
             href="/"
-            className="text-[#413C38] dark:text-white text-xl font-bold"
+            className="text-[#413C38] dark:text-white text-4xl font-playfair"
           >
-            Logo
+            BALANCE
           </Link>
-          <div className="flex gap-4">
+          <div className="hidden md:flex gap-4">
             {NAV_LINKS.map(({ href, label }) => (
               <Link
                 key={href}
