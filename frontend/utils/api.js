@@ -19,9 +19,6 @@ export async function fetchQuestions() {
 
 /**
  * Log in a user and return role + userId
- * @param {string} email - user's email
- * @param {string} password - user's password
- * @returns {Promise<{ message: string, userId: number, role: string }>}
  */
 export async function login(email, password) {
   const res = await fetch(`${API_BASE}/login`, {
@@ -43,12 +40,21 @@ export async function login(email, password) {
 }
 
 /**
+ * Logs out the currently authenticated user by clearing the auth cookie.
+ */
+export async function logout() {
+  const res = await fetch(`${API_BASE}/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Logout failed");
+  }
+}
+
+/**
  * Fetch the currently logged-in user from the backend using the token cookie.
- *
- * This function makes a request to the `/me` endpoint and returns the user's
- * `userId` and `role` if the token is valid. It returns `null` if not authenticated.
- *
- * @returns {Promise<{ userId: number, role: string } | null>}
  */
 export async function getCurrentUser() {
   const res = await fetch(`${API_BASE}/me`, {

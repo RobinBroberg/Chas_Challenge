@@ -148,6 +148,16 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
+
+  res.json({ message: "Logged out successfully" });
+});
+
 app.post("/register", async (req, res) => {
   const { first_name, last_name, email, password, role = "user" } = req.body;
 

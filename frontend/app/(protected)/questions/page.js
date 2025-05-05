@@ -2,12 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchQuestions, getCurrentUser } from "@/utils/api";
+import { fetchQuestions, getCurrentUser, logout } from "@/utils/api";
 
 export default function QuestionsPage() {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/");
+  };
 
   useEffect(() => {
     const load = async () => {
@@ -41,6 +46,7 @@ export default function QuestionsPage() {
         {questions.map((q) => (
           <p key={q.id}>{q.question_text}</p>
         ))}
+        <button onClick={handleLogout}>Logout</button>
       </div>
     </div>
   );
