@@ -32,14 +32,12 @@ const UserManagement = () => {
     setUserList([...userList, newUser]);
     setNewUserName("");
     setNewUserRole("HR");
-    setErrorMessage(""); // Rensa felmeddelande
+    setErrorMessage("");
   };
 
   return (
     <div className="bg-[#2a2a2a] p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
       <h2 className="text-3xl font-semibold mb-6 text-white"></h2>{" "}
-      {/* Förbättrad header */}
-      {/* Felmeddelande */}
       {errorMessage && (
         <div className="bg-red-600 text-white p-2 rounded mb-4">
           {errorMessage}
@@ -92,15 +90,12 @@ const UserManagement = () => {
             <tr>
               <th className="px-6 py-3">Namn</th>
               <th className="px-6 py-3">Roll</th>
-              <th className="px-6 py-3">Åtgärd</th>
             </tr>
           </thead>
           <tbody>
             {userList.length === 0 ? (
               <tr>
-                <td colSpan="3" className="text-center text-white py-4">
-                  Inga användare tillagda.
-                </td>
+                <td colSpan="3" className="text-center text-white py-4"></td>
               </tr>
             ) : (
               userList.map((user) => (
