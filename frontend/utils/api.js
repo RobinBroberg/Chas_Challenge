@@ -17,9 +17,7 @@ export async function fetchQuestions() {
   return await res.json();
 }
 
-/**
- * Log in a user and return role + userId
- */
+// Log in a user and return role + userId
 export async function login(email, password) {
   const res = await fetch(`${API_BASE}/login`, {
     method: "POST",
@@ -39,9 +37,7 @@ export async function login(email, password) {
   return data;
 }
 
-/**
- * Logs out the currently authenticated user by clearing the auth cookie.
- */
+// Logs out the currently authenticated user by clearing the auth cookie.
 export async function logout() {
   const res = await fetch(`${API_BASE}/logout`, {
     method: "POST",
@@ -53,10 +49,7 @@ export async function logout() {
   }
 }
 
-/**
- * Fetch the currently logged-in user from the backend using the token cookie.
- * @returns {Promise<{ userId: number, role: string, company_id: number } | null>}
- */
+// Fetch the currently logged-in user from the backend using the token cookie.
 export async function getCurrentUser() {
   const res = await fetch(`${API_BASE}/me`, {
     method: "GET",
@@ -64,5 +57,33 @@ export async function getCurrentUser() {
   });
 
   if (!res.ok) return null;
+  return await res.json();
+}
+
+// Get the logged-in user's wellness allowance
+export async function getAllowance() {
+  const res = await fetch(`${API_BASE}/allowance`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch allowance");
+  }
+
+  return await res.json();
+}
+
+// Get the wellness allowance for a specific user (admin only)
+export async function getUserAllowance(userId) {
+  const res = await fetch(`${API_BASE}/users/${userId}/allowance`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch user allowance");
+  }
+
   return await res.json();
 }
