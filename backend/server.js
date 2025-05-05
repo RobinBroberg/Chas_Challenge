@@ -38,17 +38,63 @@ async function query(sql, params) {
 }
 
 app.get("/users", requireAuth, async (req, res) => {
-  const { company_id } = req.user;
+  const { role, company_id } = req.user;
+  const userId = req.params.id;
+
+  if (role !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Only admins can access this endpoint" });
+  }
 
   try {
     const users = await query(
-      "SELECT id, first_name, last_name, email, role FROM users WHERE company_id = ?",
+      `SELECT id, first_name, last_name, email, role, remaining_wellness_allowance 
+       FROM users 
+       WHERE company_id = ?`,
       [company_id]
     );
     res.json(users);
   } catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).json({ message: "Failed to get users" });
+  }
+});
+
+app.get("/users/:id/allowance", requireAuth, async (req, res) => {
+  const adminRole = req.user.role;
+  const adminCompanyId = req.user.company_id;
+  const userId = req.params.id;
+
+  if (adminRole !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Only admins can access this endpoint" });
+  }
+
+  try {
+    const [rows] = await pool.execute(
+      `SELECT first_name, last_name, remaining_wellness_allowance 
+       FROM users 
+       WHERE id = ? AND company_id = ?`,
+      [userId, adminCompanyId]
+    );
+
+    if (rows.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "User not found or not in your company" });
+    }
+
+    const user = rows[0];
+
+    res.json({
+      name: `${user.first_name} ${user.last_name}`,
+      allowance: user.remaining_wellness_allowance,
+    });
+  } catch (error) {
+    console.error("Error fetching user allowance:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -192,14 +238,15 @@ app.post("/register", async (req, res) => {
     email,
     password,
     role = "user",
-    company_id = 1, //fallback to company 1 if not provided
+    company_id = 1, // fallback to 1 if none provided
   } = req.body;
 
-  if (!first_name || !last_name || !email || !password) {
+  if (!first_name || !last_name || !email || !password || !company_id) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
   try {
+    // Check if user already exists
     const [existing] = await pool.execute(
       "SELECT id FROM users WHERE email = ?",
       [email]
@@ -208,12 +255,27 @@ app.post("/register", async (req, res) => {
       return res.status(409).json({ message: "Email already in use" });
     }
 
+    const [companyRows] = await pool.execute(
+      "SELECT wellness_allowance FROM companies WHERE id = ?",
+      [company_id]
+    );
+    const startingAllowance =
+      role === "user" ? companyRows[0]?.wellness_allowance ?? 0 : null;
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await pool.execute(
-      `INSERT INTO users (first_name, last_name, email, password, role, company_id) 
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [first_name, last_name, email, hashedPassword, role, company_id]
+      `INSERT INTO users (first_name, last_name, email, password, role, company_id, remaining_wellness_allowance)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        first_name,
+        last_name,
+        email,
+        hashedPassword,
+        role,
+        company_id,
+        startingAllowance,
+      ]
     );
 
     res.status(201).json({ message: "User registered successfully" });
@@ -238,6 +300,30 @@ app.get("/me", (req, res) => {
     });
   } catch (err) {
     res.status(401).json({ message: "Invalid token" });
+  }
+});
+
+app.get("/allowance", requireAuth, async (req, res) => {
+  const { userId, role } = req.user;
+
+  if (role !== "user") {
+    return res.status(403).json({ message: "Only users have an allowance" });
+  }
+
+  try {
+    const [rows] = await pool.execute(
+      "SELECT remaining_wellness_allowance FROM users WHERE id = ?",
+      [userId]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ remaining: rows[0].remaining_wellness_allowance });
+  } catch (error) {
+    console.error("Error fetching allowance:", error);
+    res.status(500).json({ message: "Failed to fetch allowance" });
   }
 });
 
