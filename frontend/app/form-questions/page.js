@@ -1,159 +1,109 @@
 "use client";
+import { useState } from "react";
 
 export default function Form() {
+  const [responses, setResponses] = useState({
+    q1: "",
+    q2: "",
+    q3: "",
+    q4: "",
+    q5: "",
+    q6: "",
+    q7: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setResponses((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = () => {
-    alert(" Survey submitted.");
+    console.log("Responses:", responses);
+    alert("Ditt svar har skickats.");
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#f5f1ea]">
+    <div>
+      <div
+        className="w-full h-[500px] flex items-center justify-center bg-cover bg-center"
+        style={{ backgroundImage: "url('/loginpic.png')" }}
+      >
+        <div className="flex flex-col space-y-10">
+          <h1 className="flex justify-center font-bold text-6xl">
+            MEDARBETARANKÄT
+          </h1>
+          <h2
+            className="flex justify-center font-semibold text-3xl"
+            style={{ color: "#FFFAFA" }}
+          >
+            Undersökning om medarbetarnöjdhet
+          </h2>
+        </div>
+      </div>
+
       <form
         onSubmit={handleSubmit}
-        className="max-w-lg p-6 bg-white rounded-lg space-y-6 text-black"
+        className="flex flex-col pl-[155px] bg-white space-y-6 text-black"
       >
-        <h2 className="text-2xl font-semibold text-center ">Survey-form</h2>
-        <h3 className="font-semibold text-center">
-          Answer from 1-5 (1 being lowest and 5 being heighest)
+        <h3 className="font-semibold pt-10 text-xl">
+          Svar från 1-5 (1 lägsta betyg och 5 högsta)
         </h3>
 
-        <div>
-          <p className="font-medium mb-2">
-            1. How often do you feel happy and content?
-          </p>
-          <div className="flex space-x-4">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <label className="flex flex-col items-center">
-                <input
-                  type="radio"
-                  name="q1"
-                  value={num}
-                  className="accent-blue-500"
-                />
-                <span className="text-sm mt-1">{num}</span>
-              </label>
-            ))}
+        {[
+          { name: "q1", question: "1. hur ofta är du nöjd på jobbet?" },
+          { name: "q2", question: "2. Hur är din sömnskvalite?" },
+          {
+            name: "q3",
+            question: "3. hur upplever mängden av arbete som du får?",
+          },
+          {
+            name: "q4",
+            question:
+              "4. Hur bekväm är du med att ta tiden till din psykisk och fysisk hälsa?",
+          },
+          {
+            name: "q5",
+            question: "5. Hur mycket energi har du inför ett arbetspass?",
+          },
+          {
+            name: "q6",
+            question:
+              "6. Hur ofta tar du småpauser för att samla energin under ett arbetspass?",
+          },
+          {
+            name: "q7",
+            question: "7. Hur väl hjälper jobbet till ett mer hälsosamt liv?",
+          },
+        ].map(({ name, question }) => (
+          <div key={name}>
+            <p className="font-medium mb-2">{question}</p>
+            <div className="flex space-x-4">
+              {[1, 2, 3, 4, 5].map((num) => (
+                <label key={num} className="flex flex-col items-center">
+                  <input
+                    type="radio"
+                    name={name}
+                    value={num}
+                    required
+                    className="accent-blue-500"
+                    onChange={handleChange}
+                  />
+                  <span className="text-sm mt-1">{num}</span>
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
+        ))}
 
         <div>
-          <p className="font-medium mb-2">
-            2. How would you rate your sleep quality?
-          </p>
-          <div className="flex space-x-4">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <label className="flex flex-col items-center">
-                <input
-                  type="radio"
-                  name="q2"
-                  value={num}
-                  className="accent-blue-500"
-                />
-                <span className="text-sm mt-1">{num}</span>
-              </label>
-            ))}
-          </div>
+          <button
+            type="submit"
+            className="px-27 py-4 bg-gray-300 text-white rounded-full hover:bg-gray-400 transition font-bold text-lg m-6"
+            style={{ color: "#47423E" }}
+          >
+            Skicka
+          </button>
         </div>
-
-        <div>
-          <p className="font-medium mb-2">
-            3. How well do you feel your workload is managed?
-          </p>
-          <div className="flex space-x-4">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <label className="flex flex-col items-center">
-                <input
-                  type="radio"
-                  name="q3"
-                  value={num}
-                  className="accent-blue-500"
-                />
-                <span className="text-sm mt-1">{num}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <p className="font-medium mb-2">
-            4. How comfortable are you taking time off for mental or physical
-            health?
-          </p>
-          <div className="flex space-x-4">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <label className="flex flex-col items-center">
-                <input
-                  type="radio"
-                  name="q4"
-                  value={num}
-                  className="accent-blue-500"
-                />
-                <span className="text-sm mt-1">{num}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="font-medium mb-2">
-            5. How energized do you feel at the start of your workday?
-          </p>
-          <div className="flex space-x-4">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <label className="flex flex-col items-center">
-                <input
-                  type="radio"
-                  name="q5"
-                  value={num}
-                  className="accent-blue-500"
-                />
-                <span className="text-sm mt-1">{num}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="font-medium mb-2">
-            6. How often do you take breaks that help you recharge during the
-            day?
-          </p>
-          <div className="flex space-x-4">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <label className="flex flex-col items-center">
-                <input
-                  type="radio"
-                  name="q6"
-                  value={num}
-                  className="accent-blue-500"
-                />
-                <span className="text-sm mt-1">{num}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="font-medium mb-2">
-            7.How well does your workplace promote a healthy lifestyle?
-          </p>
-          <div className="flex space-x-4">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <label className="flex flex-col items-center">
-                <input
-                  type="radio"
-                  name="q7"
-                  value={num}
-                  className="accent-blue-500"
-                />
-                <span className="text-sm mt-1">{num}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Submit
-        </button>
       </form>
     </div>
   );
