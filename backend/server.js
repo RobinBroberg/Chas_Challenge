@@ -98,6 +98,30 @@ app.get("/users/:id/allowance", requireAuth, async (req, res) => {
   }
 });
 
+app.get("/allowance", requireAuth, async (req, res) => {
+  const { userId, role } = req.user;
+
+  if (role !== "user") {
+    return res.status(403).json({ message: "Only users have an allowance" });
+  }
+
+  try {
+    const [rows] = await pool.execute(
+      "SELECT remaining_wellness_allowance FROM users WHERE id = ?",
+      [userId]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ remaining: rows[0].remaining_wellness_allowance });
+  } catch (error) {
+    console.error("Error fetching allowance:", error);
+    res.status(500).json({ message: "Failed to fetch allowance" });
+  }
+});
+
 app.get("/questions", requireAuth, async (req, res) => {
   const { company_id } = req.user;
 
@@ -300,30 +324,6 @@ app.get("/me", (req, res) => {
     });
   } catch (err) {
     res.status(401).json({ message: "Invalid token" });
-  }
-});
-
-app.get("/allowance", requireAuth, async (req, res) => {
-  const { userId, role } = req.user;
-
-  if (role !== "user") {
-    return res.status(403).json({ message: "Only users have an allowance" });
-  }
-
-  try {
-    const [rows] = await pool.execute(
-      "SELECT remaining_wellness_allowance FROM users WHERE id = ?",
-      [userId]
-    );
-
-    if (rows.length === 0) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.json({ remaining: rows[0].remaining_wellness_allowance });
-  } catch (error) {
-    console.error("Error fetching allowance:", error);
-    res.status(500).json({ message: "Failed to fetch allowance" });
   }
 });
 
