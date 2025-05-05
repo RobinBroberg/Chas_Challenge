@@ -55,6 +55,7 @@ export async function logout() {
 
 /**
  * Fetch the currently logged-in user from the backend using the token cookie.
+ * @returns {Promise<{ userId: number, role: string, company_id: number } | null>}
  */
 export async function getCurrentUser() {
   const res = await fetch(`${API_BASE}/me`, {
