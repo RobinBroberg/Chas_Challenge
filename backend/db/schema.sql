@@ -4,14 +4,12 @@ DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS companies;
 
--- Companies table
 CREATE TABLE companies (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   wellness_allowance INT DEFAULT 0
 );
 
--- Users table
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(100) NOT NULL,
@@ -24,7 +22,6 @@ CREATE TABLE users (
   FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
 );
 
--- Questions table
 CREATE TABLE questions (
   id INT AUTO_INCREMENT PRIMARY KEY,
   company_id INT NOT NULL,
@@ -33,7 +30,6 @@ CREATE TABLE questions (
   FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE
 );
 
--- Answers table
 CREATE TABLE answers (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
@@ -44,13 +40,10 @@ CREATE TABLE answers (
   FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
 
--- Insert companies with default wellness allowance
 INSERT INTO companies (name, wellness_allowance) VALUES
 ('TechCorp', 3000),
 ('HealthGroup', 2500);
 
--- Insert users (admin and regular), connected to companies
--- For now, we assign their remaining_wellness_allowance manually based on company
 INSERT INTO users (first_name, last_name, email, password, role, company_id, remaining_wellness_allowance) VALUES
 ('Admin', 'User', 'admin@example.com', '$2b$10$LNxeqdrCANv3aaebZRveyu8GilpDKn7pCEF2LtU7Ta0ajl0FTDuI.', 'admin', 1, NULL),
 ('Admin', 'User', 'admin2@example.com', '$2b$10$LNxeqdrCANv3aaebZRveyu8GilpDKn7pCEF2LtU7Ta0ajl0FTDuI.', 'admin', 2, NULL),
