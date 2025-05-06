@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
 import bcrypt from "bcrypt";
+import { requireAuth } from "./middleware.js";
 
 const app = express();
 const port = 3001;
@@ -36,10 +37,22 @@ async function query(sql, params) {
   return results;
 }
 
-app.get("/users", async (req, res) => {
+app.get("/users", requireAuth, async (req, res) => {
+  const { role, company_id } = req.user;
+  const userId = req.params.id;
+
+  if (role !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Only admins can access this endpoint" });
+  }
+
   try {
     const users = await query(
-      "SELECT id, first_name, last_name, email, role FROM users"
+      `SELECT id, first_name, last_name, email, role, remaining_wellness_allowance 
+       FROM users 
+       WHERE company_id = ?`,
+      [company_id]
     );
     res.json(users);
   } catch (error) {
@@ -48,31 +61,103 @@ app.get("/users", async (req, res) => {
   }
 });
 
-app.get("/questions", async (req, res) => {
+app.get("/users/:id/allowance", requireAuth, async (req, res) => {
+  const adminRole = req.user.role;
+  const adminCompanyId = req.user.company_id;
+  const userId = req.params.id;
+
+  if (adminRole !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Only admins can access this endpoint" });
+  }
+
   try {
-    const questions = await query("SELECT * FROM questions");
+    const [rows] = await pool.execute(
+      `SELECT first_name, last_name, remaining_wellness_allowance 
+       FROM users 
+       WHERE id = ? AND company_id = ?`,
+      [userId, adminCompanyId]
+    );
+
+    if (rows.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "User not found or not in your company" });
+    }
+
+    const user = rows[0];
+
+    res.json({
+      name: `${user.first_name} ${user.last_name}`,
+      allowance: user.remaining_wellness_allowance,
+    });
+  } catch (error) {
+    console.error("Error fetching user allowance:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.get("/allowance", requireAuth, async (req, res) => {
+  const { userId, role } = req.user;
+
+  if (role !== "user") {
+    return res.status(403).json({ message: "Only users have an allowance" });
+  }
+
+  try {
+    const [rows] = await pool.execute(
+      "SELECT remaining_wellness_allowance FROM users WHERE id = ?",
+      [userId]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ remaining: rows[0].remaining_wellness_allowance });
+  } catch (error) {
+    console.error("Error fetching allowance:", error);
+    res.status(500).json({ message: "Failed to fetch allowance" });
+  }
+});
+
+app.get("/questions", requireAuth, async (req, res) => {
+  const { company_id } = req.user;
+
+  try {
+    const questions = await query(
+      "SELECT * FROM questions WHERE company_id = ?",
+      [company_id]
+    );
     res.json(questions);
   } catch (error) {
     console.error("Error fetching questions:", error);
+
     res.status(500).json({ message: "Failed to get questions" });
   }
 });
 
-app.put("/questions/:id", async (req, res) => {
+app.put("/questions/:id", requireAuth, async (req, res) => {
+  const { company_id } = req.user;
   const questionId = req.params.id;
   const { question_text } = req.body;
 
   if (!question_text) {
     return res.status(400).json({ message: "question_text is required" });
   }
+
   try {
     const [result] = await pool.execute(
-      "UPDATE questions SET question_text = ? WHERE id = ?",
-      [question_text, questionId]
+      `UPDATE questions SET question_text = ? 
+       WHERE id = ? AND company_id = ?`,
+      [question_text, questionId, company_id]
     );
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Question not found" });
+      return res
+        .status(404)
+        .json({ message: "Question not found or unauthorized" });
     }
 
     res.json({ message: "Question updated successfully" });
@@ -82,7 +167,8 @@ app.put("/questions/:id", async (req, res) => {
   }
 });
 
-app.put("/questions", async (req, res) => {
+app.put("/questions", requireAuth, async (req, res) => {
+  const { company_id } = req.user;
   const updates = req.body;
 
   if (!Array.isArray(updates)) {
@@ -90,16 +176,27 @@ app.put("/questions", async (req, res) => {
   }
 
   try {
-    const updatePromises = updates.map((q) =>
-      pool.execute("UPDATE questions SET question_text = ? WHERE id = ?", [
-        q.question_text,
-        q.id,
-      ])
+    const [rows] = await pool.execute(
+      "SELECT id FROM questions WHERE company_id = ?",
+      [company_id]
+    );
+    const validIds = new Set(rows.map((q) => q.id));
+
+    const filteredUpdates = updates.filter((q) => validIds.has(q.id));
+
+    if (filteredUpdates.length === 0) {
+      return res.status(403).json({ message: "No valid questions to update" });
+    }
+    const updatePromises = filteredUpdates.map((q) =>
+      pool.execute(
+        "UPDATE questions SET question_text = ? WHERE id = ? AND company_id = ?",
+        [q.question_text, q.id, company_id]
+      )
     );
 
     await Promise.all(updatePromises);
 
-    res.json({ message: "All questions updated successfully" });
+    res.json({ message: "Questions updated successfully" });
   } catch (error) {
     console.error("Error updating questions:", error);
     res.status(500).json({ message: "Failed to update questions" });
@@ -111,7 +208,7 @@ app.post("/login", async (req, res) => {
 
   try {
     const [rows] = await pool.execute(
-      "SELECT id, password, role FROM users WHERE email = ?",
+      "SELECT id, password, role, company_id FROM users WHERE email = ?",
       [email]
     );
 
@@ -126,8 +223,8 @@ app.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { userId: user.id, role: user.role },
-      serverPassword,
+      { userId: user.id, role: user.role, company_id: user.company_id },
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
@@ -159,13 +256,21 @@ app.post("/logout", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { first_name, last_name, email, password, role = "user" } = req.body;
+  const {
+    first_name,
+    last_name,
+    email,
+    password,
+    role = "user",
+    company_id = 1, // fallback to 1 if none provided
+  } = req.body;
 
-  if (!first_name || !last_name || !email || !password) {
+  if (!first_name || !last_name || !email || !password || !company_id) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
   try {
+    // Check if user already exists
     const [existing] = await pool.execute(
       "SELECT id FROM users WHERE email = ?",
       [email]
@@ -174,11 +279,27 @@ app.post("/register", async (req, res) => {
       return res.status(409).json({ message: "Email already in use" });
     }
 
+    const [companyRows] = await pool.execute(
+      "SELECT wellness_allowance FROM companies WHERE id = ?",
+      [company_id]
+    );
+    const startingAllowance =
+      role === "user" ? companyRows[0]?.wellness_allowance ?? 0 : null;
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await pool.execute(
-      "INSERT INTO users (first_name, last_name, email, password, role) VALUES (?, ?, ?, ?, ?)",
-      [first_name, last_name, email, hashedPassword, role]
+      `INSERT INTO users (first_name, last_name, email, password, role, company_id, remaining_wellness_allowance)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        first_name,
+        last_name,
+        email,
+        hashedPassword,
+        role,
+        company_id,
+        startingAllowance,
+      ]
     );
 
     res.status(201).json({ message: "User registered successfully" });
@@ -196,7 +317,11 @@ app.get("/me", (req, res) => {
 
   try {
     const decoded = jwt.verify(token, serverPassword);
-    res.json({ userId: decoded.userId, role: decoded.role });
+    res.json({
+      userId: decoded.userId,
+      role: decoded.role,
+      company_id: decoded.company_id,
+    });
   } catch (err) {
     res.status(401).json({ message: "Invalid token" });
   }
