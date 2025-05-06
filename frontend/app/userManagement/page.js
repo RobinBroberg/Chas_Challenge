@@ -3,8 +3,8 @@ import React, { useState } from "react";
 
 const UserManagement = () => {
   const [userList, setUserList] = useState([
-    { id: 1, name: "Anna Svensson", role: "HR" },
-    { id: 2, name: "Erik Johansson", role: "Medarbetare" },
+    { id: 1, name: "", role: "HR" },
+    { id: 2, name: "", role: "Medarbetare" },
   ]);
 
   const [newUserName, setNewUserName] = useState("");
