@@ -20,7 +20,7 @@ async function logout() {
 
     if (response.ok) {
       console.log("Logout successful");
-      window.location.href = "/loginPage";
+      window.location.href = "/login";
     } else {
       console.error("Logout failed");
     }
