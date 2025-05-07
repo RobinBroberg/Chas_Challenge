@@ -80,34 +80,6 @@ export async function getCurrentUser() {
   return await res.json();
 }
 
-// Get the logged-in user's wellness allowance
-export async function getAllowance() {
-  const res = await fetch(`${API_BASE}/allowance`, {
-    method: "GET",
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch allowance");
-  }
-
-  return await res.json();
-}
-
-// Get the wellness allowance for a specific user (admin only)
-export async function getUserAllowance(userId) {
-  const res = await fetch(`${API_BASE}/allowance/user/${userId}`, {
-    method: "GET",
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch user allowance");
-  }
-
-  return await res.json();
-}
-
 // Register a new user (worker) under the admin's company
 export async function registerUser(userData) {
   const currentUser = await getCurrentUser();
@@ -136,4 +108,32 @@ export async function registerUser(userData) {
   }
 
   return data; // { message: "User registered successfully" }
+}
+
+// Get the logged-in user's wellness allowance
+export async function getAllowance() {
+  const res = await fetch(`${API_BASE}/allowance`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch allowance");
+  }
+
+  return await res.json();
+}
+
+// Get the wellness allowance for a specific user (admin only)
+export async function getUserAllowance(userId) {
+  const res = await fetch(`${API_BASE}/allowance/user/${userId}`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch user allowance");
+  }
+
+  return await res.json();
 }
