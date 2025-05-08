@@ -70,7 +70,7 @@ export async function registerUser(userData) {
     throw new Error(data.message || "Failed to register user");
   }
 
-  return data; // { message: "User registered successfully" }
+  return data;
 }
 
 // Get the logged-in user's wellness allowance
