@@ -66,15 +66,17 @@ const Navbar = () => {
 
           {/* Login button (shown if NOT logged in) */}
           {!isLoggedIn && (
-            <button
-              onClick={() => {
-                localStorage.setItem("isLoggedIn", "true");
-                setIsLoggedIn(true);
-              }}
-              className="bg-white text-black px-4 py-2 rounded-full text-xs"
-            >
-              Logga in
-            </button>
+            <Link href="/login">
+              <button
+                onClick={() => {
+                  localStorage.setItem("isLoggedIn", "true");
+                  setIsLoggedIn(true);
+                }}
+                className="bg-white text-black px-4 py-2 rounded-full text-xs"
+              >
+                Logga in
+              </button>
+            </Link>
           )}
         </div>
       </div>
