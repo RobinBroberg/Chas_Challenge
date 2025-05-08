@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { login, getCurrentUser } from "@/utils/api";
+import { login, getCurrentUser } from "@/services/api";
 import { useRouter } from "next/navigation";
 
 const loginPage = () => {

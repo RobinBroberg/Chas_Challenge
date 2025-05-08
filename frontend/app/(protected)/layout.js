@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getCurrentUser } from "@/utils/api";
+import { getCurrentUser } from "@/services/api";
 
 export default function ProtectedLayout({ children }) {
   const [loading, setLoading] = useState(true);

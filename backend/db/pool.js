@@ -7,7 +7,7 @@ const pool = mysql.createPool({
   user: DB_USER,
   password: DB_PASS,
   host: DB_HOST,
-  database: chas_challenge,
+  database: DB_NAME,
   port: DB_PORT,
 });
 
