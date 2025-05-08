@@ -1,32 +1,68 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 const ResetPasswordPage = () => {
-  const [email, setEmail] = useState("");
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  const emailFromURL = searchParams.get("email");
+
+  const [email, setEmail] = useState(emailFromURL || "");
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleResetPassword = async () => {
+  const isResetMode = token && emailFromURL;
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
     setLoading(true);
+    setError("");
+    setMessage("");
+
     try {
-      const response = await fetch("http://localhost:3001/forgot-password", {
+      const res = await fetch("http://localhost:3001/forgot-password", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
+      const data = await res.json();
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage("A password reset link has been sent to your email.");
+      if (res.ok) {
+        setMessage(data.message);
       } else {
-        setMessage(data.message || "Something went wrong, please try again.");
+        setError(data.message || "Något gick fel.");
       }
-    } catch (error) {
-      setMessage("Error occurred. Please try again later.");
-      console.error("Reset password error:", error);
+    } catch (err) {
+      setError("Serverfel. Försök igen senare.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setMessage("");
+
+    try {
+      const res = await fetch("http://localhost:3001/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailFromURL, token, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage("Lösenordet har återställts.");
+      } else {
+        setError(data.message || "Misslyckades att återställa lösenord.");
+      }
+    } catch (err) {
+      setError("Något gick fel. Försök igen.");
     } finally {
       setLoading(false);
     }
@@ -37,35 +73,53 @@ const ResetPasswordPage = () => {
       className="w-full h-screen flex items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: "url('/loginpic.png')" }}
     >
-      <div className="flex flex-col space-y-6 mb-30 p-4 bg-white rounded-lg shadow-lg">
-        <h2
-          className="text-3xl font-medium text-left mb-4"
-          style={{ color: "#47423E" }}
+      <div className="flex flex-col space-y-6 p-6 bg-black bg-opacity-60 rounded-xl w-full max-w-md">
+        <h1 className="text-3xl font-semibold text-white text-center">
+          {isResetMode ? "Sätt nytt lösenord" : "Glömt lösenord"}
+        </h1>
+
+        <form
+          onSubmit={isResetMode ? handleResetPassword : handleForgotPassword}
+          className="space-y-4"
         >
-          Reset Password
-        </h2>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="E-postadress"
+            disabled={!!emailFromURL}
+            className="w-full border-b-2 border-white bg-transparent text-white placeholder-white p-2 focus:outline-none"
+          />
 
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border-b-2 w-160 border-gray-300 p-2 text-lg focus:outline-none placeholder-gray-400"
-        />
+          {isResetMode && (
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Nytt lösenord"
+              className="w-full border-b-2 border-white bg-transparent text-white placeholder-white p-2 focus:outline-none"
+            />
+          )}
 
-        <div className="flex justify-center">
           <button
-            onClick={handleResetPassword}
-            className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition font-bold text-lg"
+            type="submit"
             disabled={loading}
+            className="w-full py-2 bg-gray-300 text-[#47423E] font-bold rounded-full hover:bg-gray-400 transition"
           >
-            {loading ? "Sending..." : "Send Reset Link"}
+            {loading
+              ? "Skickar..."
+              : isResetMode
+              ? "Återställ lösenord"
+              : "Skicka återställningslänk"}
           </button>
-        </div>
+        </form>
 
         {message && (
-          <div className="mt-4 text-center text-lg text-red-500">{message}</div>
+          <p className="text-green-400 text-center text-sm">{message}</p>
         )}
+        {error && <p className="text-red-400 text-center text-sm">{error}</p>}
       </div>
     </div>
   );

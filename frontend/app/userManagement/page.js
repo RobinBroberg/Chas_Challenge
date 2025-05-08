@@ -1,57 +1,84 @@
 "use client";
 import React, { useState } from "react";
 
+const PrimaryButton = ({ children, onClick, disabled }) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    className="bg-[#d4bfa5] text-white px-6 py-3 rounded-full w-full hover:bg-[#c6aa8c] transition font-semibold disabled:opacity-50"
+  >
+    {children}
+  </button>
+);
+
 const UserManagement = () => {
-  const [userList, setUserList] = useState([
-    { id: 1, name: "", role: "HR" },
-    { id: 2, name: "", role: "Medarbetare" },
-  ]);
-
+  const [userList, setUserList] = useState([]);
   const [newUserName, setNewUserName] = useState("");
-  const [newUserRole, setNewUserRole] = useState("HR");
+  const [newUserPassword, setNewUserPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  // Ta bort användare
-  const deleteUser = (id) => {
-    setUserList(userList.filter((user) => user.id !== id));
+  const resetForm = () => {
+    setNewUserName("");
+    setNewUserPassword("");
+    setErrorMessage("");
+    setSuccessMessage("");
   };
 
-  // Lägg till användare
-  const addUser = () => {
-    if (newUserName.trim() === "") {
-      setErrorMessage("Användarnamn kan inte vara tomt.");
+  const addUser = async () => {
+    if (newUserName.trim() === "" || newUserPassword.trim() === "") {
+      setErrorMessage("Användarnamn och lösenord krävs.");
       return;
     }
 
     const newUser = {
-      id: userList.length + 1,
       name: newUserName,
-      role: newUserRole,
+      password: newUserPassword,
     };
 
-    setUserList([...userList, newUser]);
-    setNewUserName("");
-    setNewUserRole("HR");
-    setErrorMessage("");
+    try {
+      const response = await fetch("http://localhost:3001/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newUser),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setUserList([...userList, { ...newUser, id: Date.now() }]);
+        setSuccessMessage("Användare tillagd.");
+        resetForm();
+      } else {
+        setErrorMessage(data.message || "Något gick fel.");
+      }
+    } catch (error) {
+      setErrorMessage("Kunde inte ansluta till servern.");
+    }
   };
 
   return (
-    <div className="bg-[#2a2a2a] p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
-      <h2 className="text-3xl font-semibold mb-6 text-white"></h2>{" "}
+    <div className="bg-[#2a2a2a] p-8 rounded-lg shadow-lg max-w-4xl mx-auto mt-10">
+      <h2 className="text-3xl font-semibold mb-6 text-white text-center">
+        Användarhantering
+      </h2>
+
       {errorMessage && (
         <div className="bg-red-600 text-white p-2 rounded mb-4">
           {errorMessage}
         </div>
       )}
-      {/* Formulär för att skapa en ny användare */}
-      <div className="space-y-4">
+      {successMessage && (
+        <div className="bg-green-600 text-white p-2 rounded mb-4">
+          {successMessage}
+        </div>
+      )}
+
+      <div className="space-y-4 mb-8">
         <div>
-          <label className="text-white block mb-1" htmlFor="username">
-            Användarnamn
-          </label>
+          <label className="text-white block mb-1">Användarnamn</label>
           <input
             type="text"
-            id="username"
             value={newUserName}
             onChange={(e) => setNewUserName(e.target.value)}
             placeholder="Skriv användarnamn"
@@ -60,56 +87,38 @@ const UserManagement = () => {
         </div>
 
         <div>
-          <label className="text-white block mb-1" htmlFor="role">
-            Roll
-          </label>
-          <select
-            id="role"
-            value={newUserRole}
-            onChange={(e) => setNewUserRole(e.target.value)}
+          <label className="text-white block mb-1">Lösenord</label>
+          <input
+            type="password"
+            value={newUserPassword}
+            onChange={(e) => setNewUserPassword(e.target.value)}
+            placeholder="Skriv lösenord"
             className="bg-[#47423E] text-white p-3 rounded w-full focus:outline-none"
-          >
-            <option value="HR">HR</option>
-            <option value="Medarbetare">Medarbetare</option>
-          </select>
+          />
         </div>
 
-        <button
-          onClick={addUser}
-          className="bg-[#d4bfa5] text-white px-6 py-3 rounded-full w-full hover:bg-[#c6aa8c] transition"
-        >
-          Lägg till användare
-        </button>
+        <PrimaryButton onClick={addUser}>Lägg till användare</PrimaryButton>
       </div>
-      {/* Lista över användare */}
-      <div className="mt-8">
-        <h3 className="text-xl font-semibold text-white">Användarlista</h3>
 
-        <table className="min-w-full text-white mt-4">
+      <div className="mt-8">
+        <h3 className="text-xl font-semibold text-white mb-4">Användarlista</h3>
+        <table className="min-w-full text-white">
           <thead>
             <tr>
-              <th className="px-6 py-3">Namn</th>
-              <th className="px-6 py-3">Roll</th>
+              <th className="px-6 py-3 text-left">Namn</th>
             </tr>
           </thead>
           <tbody>
             {userList.length === 0 ? (
               <tr>
-                <td colSpan="3" className="text-center text-white py-4"></td>
+                <td className="text-center py-4 text-gray-300">
+                  Inga användare ännu.
+                </td>
               </tr>
             ) : (
               userList.map((user) => (
                 <tr key={user.id} className="border-t border-[#47423E]">
                   <td className="px-6 py-3">{user.name}</td>
-                  <td className="px-6 py-3">{user.role}</td>
-                  <td className="px-6 py-3">
-                    <button
-                      onClick={() => deleteUser(user.id)}
-                      className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
-                    >
-                      Ta bort
-                    </button>
-                  </td>
                 </tr>
               ))
             )}
