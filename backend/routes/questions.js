@@ -1,5 +1,4 @@
 import express from "express";
-import pool from "../db/pool.js";
 import { requireAuth, requireRole } from "../middleware.js";
 import { query } from "../db/query.js";
 
@@ -33,7 +32,7 @@ router.put("/:id", requireAuth, async (req, res) => {
   }
 
   try {
-    const [result] = await pool.execute(
+    const result = await query(
       `UPDATE questions SET question_text = ? 
          WHERE id = ? AND company_id = ?`,
       [question_text, questionId, company_id]
@@ -62,10 +61,9 @@ router.put("/", requireAuth, requireRole("admin"), async (req, res) => {
   }
 
   try {
-    const [rows] = await pool.execute(
-      "SELECT id FROM questions WHERE company_id = ?",
-      [company_id]
-    );
+    const rows = await query("SELECT id FROM questions WHERE company_id = ?", [
+      company_id,
+    ]);
     const validIds = new Set(rows.map((q) => q.id));
 
     const filteredUpdates = updates.filter((q) => validIds.has(q.id));
@@ -74,7 +72,7 @@ router.put("/", requireAuth, requireRole("admin"), async (req, res) => {
       return res.status(403).json({ message: "No valid questions to update" });
     }
     const updatePromises = filteredUpdates.map((q) =>
-      pool.execute(
+      query(
         "UPDATE questions SET question_text = ? WHERE id = ? AND company_id = ?",
         [q.question_text, q.id, company_id]
       )
@@ -99,7 +97,7 @@ router.post("/", requireAuth, requireRole("admin"), async (req, res) => {
   }
 
   try {
-    const [result] = await pool.execute(
+    const result = await query(
       "INSERT INTO questions (company_id, question_text) VALUES (?, ?)",
       [company_id, question_text]
     );
@@ -120,7 +118,7 @@ router.delete("/:id", requireAuth, requireRole("admin"), async (req, res) => {
   const questionId = req.params.id;
 
   try {
-    const [result] = await pool.execute(
+    const result = await query(
       "DELETE FROM questions WHERE id = ? AND company_id = ?",
       [questionId, company_id]
     );

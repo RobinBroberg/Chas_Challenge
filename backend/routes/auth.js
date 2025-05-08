@@ -1,5 +1,5 @@
 import express from "express";
-import pool from "../db/pool.js";
+import { query } from "../db/query.js";
 import { requireAuth } from "../middleware.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -13,7 +13,7 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const [rows] = await pool.execute(
+    const rows = await query(
       "SELECT id, password, role, company_id FROM users WHERE email = ?",
       [email]
     );
@@ -79,15 +79,14 @@ router.post("/register", async (req, res) => {
   }
 
   try {
-    const [existing] = await pool.execute(
-      "SELECT id FROM users WHERE email = ?",
-      [email]
-    );
+    const existing = await query("SELECT id FROM users WHERE email = ?", [
+      email,
+    ]);
     if (existing.length > 0) {
       return res.status(409).json({ message: "Email already in use" });
     }
 
-    const [companyRows] = await pool.execute(
+    const companyRows = await query(
       "SELECT wellness_allowance FROM companies WHERE id = ?",
       [company_id]
     );
@@ -96,7 +95,7 @@ router.post("/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await pool.execute(
+    await query(
       `INSERT INTO users (first_name, last_name, email, password, role, company_id, remaining_wellness_allowance)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [

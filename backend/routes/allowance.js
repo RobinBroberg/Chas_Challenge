@@ -1,5 +1,5 @@
 import express from "express";
-import pool from "../db/pool.js";
+import { query } from "../db/query.js";
 import { requireAuth } from "../middleware.js";
 
 const router = express.Router();
@@ -16,7 +16,7 @@ router.get("/user/:id", requireAuth, async (req, res) => {
   }
 
   try {
-    const [rows] = await pool.execute(
+    const rows = await query(
       `SELECT first_name, last_name, email, remaining_wellness_allowance 
          FROM users 
          WHERE id = ? AND company_id = ?`,
@@ -50,7 +50,7 @@ router.get("/", requireAuth, async (req, res) => {
   }
 
   try {
-    const [rows] = await pool.execute(
+    const rows = await query(
       "SELECT remaining_wellness_allowance FROM users WHERE id = ?",
       [userId]
     );
