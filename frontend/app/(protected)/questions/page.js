@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { registerUser } from "@/utils/api";
+import { registerUser, addQuestion, deleteQuestion } from "@/utils/api";
 import {
   fetchQuestions,
   getCurrentUser,
@@ -14,6 +14,8 @@ export default function QuestionsPage() {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [newQuestionText, setNewQuestionText] = useState("");
+
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -37,6 +39,34 @@ export default function QuestionsPage() {
       alert("Failed to save questions.");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleAddQuestion = async () => {
+    if (!newQuestionText.trim()) return;
+
+    try {
+      const result = await addQuestion(newQuestionText);
+      setQuestions([
+        ...questions,
+        { id: result.id, question_text: newQuestionText },
+      ]);
+      setNewQuestionText("");
+    } catch (err) {
+      console.error("Failed to add question:", err);
+      alert("Failed to add question");
+    }
+  };
+
+  const handleDeleteQuestion = async (id) => {
+    if (!confirm("Are you sure you want to delete this question?")) return;
+
+    try {
+      await deleteQuestion(id);
+      setQuestions(questions.filter((q) => q.id !== id));
+    } catch (err) {
+      console.error("Failed to delete question:", err);
+      alert("Failed to delete question");
     }
   };
 
@@ -94,16 +124,42 @@ export default function QuestionsPage() {
       style={{ backgroundImage: "url('/loginpic.png')" }}
     >
       <div className="bg-white p-6 rounded-xl w-full max-w-2xl space-y-4 shadow-md">
+        <div className="mt-4">
+          <h3 className="text-md font-semibold text-gray-800 mb-2">
+            Add New Question
+          </h3>
+          <div className="flex space-x-2">
+            <input
+              type="text"
+              value={newQuestionText}
+              onChange={(e) => setNewQuestionText(e.target.value)}
+              placeholder="New question..."
+              className="flex-grow border border-gray-300 rounded p-2 text-gray-800"
+            />
+            <button
+              onClick={handleAddQuestion}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Add
+            </button>
+          </div>
+        </div>
         <h1 className="text-xl font-bold mb-4 text-gray-800">Edit Questions</h1>
 
         {questions.map((q, index) => (
-          <div key={q.id}>
+          <div key={q.id} className="flex items-center space-x-2 mb-2">
             <input
               type="text"
               value={q.question_text}
               onChange={(e) => handleQuestionChange(index, e.target.value)}
-              className="w-full border border-gray-400 rounded p-2 mb-2 text-gray-800 placeholder-gray-500"
+              className="flex-grow border border-gray-400 rounded p-2 text-gray-800 placeholder-gray-500"
             />
+            <button
+              onClick={() => handleDeleteQuestion(q.id)}
+              className="px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            >
+              Delete
+            </button>
           </div>
         ))}
 

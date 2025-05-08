@@ -1,42 +1,5 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
-/**
- * Fetch all questions from the backend
- * @returns Array of questions: [{ id, question_text, created_at }]
- */
-export async function fetchQuestions() {
-  const res = await fetch(`${API_BASE}/questions`, {
-    method: "GET",
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch questions");
-  }
-
-  return await res.json();
-}
-
-// Update multiple questions
-export async function updateQuestions(updates) {
-  const res = await fetch(`${API_BASE}/questions`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify(updates),
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.message || "Failed to update questions");
-  }
-
-  return data;
-}
-
 // Log in a user and return role + userId
 export async function login(email, password) {
   const res = await fetch(`${API_BASE}/auth/login`, {
@@ -136,4 +99,84 @@ export async function getUserAllowance(userId) {
   }
 
   return await res.json();
+}
+
+/**
+ * Fetch all questions from the backend
+ * @returns Array of questions: [{ id, question_text, created_at }]
+ */
+export async function fetchQuestions() {
+  const res = await fetch(`${API_BASE}/questions`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch questions");
+  }
+
+  return await res.json();
+}
+
+// Update multiple questions
+export async function updateQuestions(updates) {
+  const res = await fetch(`${API_BASE}/questions`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(updates),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to update questions");
+  }
+
+  return data;
+}
+
+/**
+ * Add a new question to the backend
+ * @param {string} questionText - The text of the new question
+ * @returns {Object} - { message, id }
+ */
+export async function addQuestion(questionText) {
+  const res = await fetch(`${API_BASE}/questions`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({ question_text: questionText }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to add question");
+  }
+
+  return data;
+}
+
+/**
+ * Delete a question by ID
+ * @param {number} id - ID of the question to delete
+ */
+export async function deleteQuestion(id) {
+  const res = await fetch(`${API_BASE}/questions/${id}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to delete question");
+  }
+
+  return data;
 }

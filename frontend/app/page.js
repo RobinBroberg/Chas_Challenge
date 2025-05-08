@@ -79,7 +79,7 @@ export default function Home() {
       {/* Full Width Image */}
       <div className="w-full max-w-7xl px-6 my-10">
         <img
-          src="/landingIMG.svg"
+          src="/landingIMG.jpg"
           alt="Landing Image"
           className="w-full h-auto md:h-[450px] object-cover"
         />
