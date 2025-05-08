@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { registerUser, addQuestion, deleteQuestion } from "@/utils/api";
+import { registerUser, addQuestion, deleteQuestion } from "@/services/api";
 import {
   fetchQuestions,
   getCurrentUser,
   logout,
   updateQuestions,
-} from "@/utils/api";
+} from "@/services/api";
 
 export default function QuestionsPage() {
   const [questions, setQuestions] = useState([]);
