@@ -5,13 +5,12 @@
   --background: #ffffff;
   --foreground: #171717;
   --font-playfair: "Playfair Display", serif;
-  --coffee: #3c3835;
+  --font-montserrat: "Montserrat", sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-coffee: var(--coffee);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -31,4 +30,7 @@ body {
 
 .font-playfair {
   font-family: var(--font-playfair);
+}
+.font-montserrat {
+  font-family: var(--font-montserrat);
 }

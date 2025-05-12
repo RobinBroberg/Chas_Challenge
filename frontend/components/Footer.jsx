@@ -1,7 +1,7 @@
 import Link from "next/link";
+import { FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
 const FOOTER_LINKS1 = [
-  { href: "/start", label: "Start" },
   { href: "/om", label: "Om Balance" },
   { href: "/kontakt", label: "Kontakt" },
   { href: "/support", label: "Support" },
@@ -9,59 +9,144 @@ const FOOTER_LINKS1 = [
 
 const FOOTER_LINKS2 = [
   { href: "/privacy", label: "Integritetspolicy" },
-  { href: "/cookies", label: "Cookies Settings" },
+  { href: "/cookies", label: "Cookie Settings" },
 ];
 
 const currentYear = new Date().getFullYear();
 
 const Footer = () => {
   return (
-    <footer className="p-6 text-coffee font-sans">
+    <footer className="p-6 font-montserrat bg-[#FBFAF5]">
       <div className="container mx-auto">
-        {/* Logga till vänster på desktop, centrerad på mobil */}
-        <div className="w-full md:w-auto text-center md:text-left mb-6 md:mb-0">
-          <Link href="/" className="text-3xl font-playfair">
-            BALANCE
-          </Link>
-        </div>
+        {/* Desktop layout */}
+        <div className="hidden md:flex justify-between items-start mb-4 mt-4">
+          {/* Vänster: Balance logga */}
+          <div>
+            <Link href="/">
+              <img
+                src="/logo.png"
+                alt="Balance logo"
+                className="w-[180px] h-auto mt-6 ml-6"
+              />
+            </Link>
+          </div>
 
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between text-center gap-4">
-          {/* Centrera FOOTER_LINKS1 på desktop */}
-          <div className="w-full">
-            <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-8 text-sm md:text-base text-center leading-loose md:mb-12">
+          {/* Mitten: Navigationslänkar */}
+          <div className="flex flex-col items-center">
+            <div className="flex gap-8 mb-12  mt-4">
               {FOOTER_LINKS1.map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}
-                  className="hover:text-gray-300 transition-colors"
+                  className="hover:text-gray-400 transition-colors text-sm font-medium"
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+            <div className="flex gap-8 text-xs">
+              <p>© {currentYear} Balance. Alla rättigheter förbehållna.</p>
+              {FOOTER_LINKS2.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="underline hover:text-gray-400"
                 >
                   {label}
                 </Link>
               ))}
             </div>
           </div>
+
+          {/* Höger: Socials + CTA */}
+          <div className="flex flex-col items-center gap-4 mt-9 mr-6">
+            <div className="flex gap-4 text-xl mb-2 ">
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaInstagram />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaLinkedin />
+              </a>
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaYoutube />
+              </a>
+            </div>
+            <p className="text-lg">Kom igång med Balance</p>
+          </div>
         </div>
 
-        {/* Separationslinje – synlig endast på mobil */}
-        <div className="block md:hidden h-px w-full bg-gray-300 my-4" />
+        {/* Mobil layout */}
+        <div className="md:hidden text-center">
+          <div>
+            <Link href="/">
+              <img
+                src="/logo.png"
+                alt="Balance logo"
+                className="mx-auto w-[150px] m-8"
+              />
+            </Link>
+          </div>
 
-        {/* Copyright + FOOTER_LINKS2 */}
-        <div className="flex flex-col md:flex-row gap-5 md:gap-8 justify-center items-center mt-4 text-center">
-          <p className="text-sm order-2 md:order-1 mt-6 mb-6 md:mt-0 ">
-            © {currentYear} Balance. Alla rättigheter förbehållna.
-          </p>
-
-          <div className="flex flex-col md:flex-row gap-4 md:gap-8 justify-center order-1 md:order-2 mb-6">
-            {FOOTER_LINKS2.map(({ href, label }) => (
+          <div className="flex flex-col gap-5 mb-4">
+            {FOOTER_LINKS1.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                className="hover:text-gray-300 transition-colors underline text-sm leading-loose font-thin"
+                className="hover:text-gray-400 transition-colors text-sm"
               >
                 {label}
               </Link>
             ))}
           </div>
+
+          <div className="flex justify-center gap-4 my-10">
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaLinkedin />
+            </a>
+            <a
+              href="https://youtube.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaYoutube />
+            </a>
+          </div>
+          {/* Separationslinje */}
+          <div className="block md:hidden h-px w-full bg-black my-4" />
+
+          <div className="flex flex-col gap-5 text-xs">
+            {FOOTER_LINKS2.map(({ href, label }) => (
+              <Link key={href} href={href} className="underline">
+                {label}
+              </Link>
+            ))}
+          </div>
+          <p className="text-xs  mt-10">
+            © {currentYear} Balance. Alla rättigheter förbehållna.
+          </p>
         </div>
       </div>
     </footer>

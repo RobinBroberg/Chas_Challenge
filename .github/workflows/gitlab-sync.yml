@@ -1,0 +1,23 @@
+name: Sync to GitLab
+
+on:
+  push:
+    branches:
+      - main  # Ändra vid behov
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout koden
+        uses: actions/checkout@v3
+
+      - name: Push till GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}  # Token som du lagt in i GitHub
+        run: |
+          git config --global user.name "SebGrb"
+          git config --global user.email "sebastian.grbovic@chasacademy.se"
+
+          git remote add gitlab https://oauth2:${GITLAB_TOKEN}@git.chasacademy.dev/chas-challenge-2025/Grupp-1/github-pipeline.git
+          git push gitlab main --force
