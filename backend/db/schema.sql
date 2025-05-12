@@ -37,7 +37,8 @@ CREATE TABLE answers (
   answer_value TINYINT NOT NULL CHECK (answer_value BETWEEN 1 AND 5),
   submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
+  FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
+  UNIQUE KEY uq_user_question (user_id, question_id)
 );
 
 INSERT INTO companies (name, wellness_allowance) VALUES

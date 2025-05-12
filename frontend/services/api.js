@@ -70,7 +70,7 @@ export async function registerUser(userData) {
     throw new Error(data.message || "Failed to register user");
   }
 
-  return data; // { message: "User registered successfully" }
+  return data;
 }
 
 // Get the logged-in user's wellness allowance
@@ -105,7 +105,7 @@ export async function getUserAllowance(userId) {
  * Fetch all questions from the backend
  * @returns Array of questions: [{ id, question_text, created_at }]
  */
-export async function fetchQuestions() {
+export async function getQuestions() {
   const res = await fetch(`${API_BASE}/questions`, {
     method: "GET",
     credentials: "include",
@@ -179,4 +179,70 @@ export async function deleteQuestion(id) {
   }
 
   return data;
+}
+
+/**
+ * Submit answers for the current user
+ * @param {Array} answers - Array of { question_id, answer_value }
+ */
+export async function postAnswers(answers) {
+  const res = await fetch(`${API_BASE}/answers`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(answers),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to submit answers");
+  }
+
+  return data;
+}
+
+/**
+ * Fetch average answer scores for the admin's company
+ * @returns Array of objects like: { question_id, question_text, average_score, total_answers }
+ */
+export async function getCompanyAverages() {
+  const res = await fetch(`${API_BASE}/answers/average`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to fetch averages");
+  }
+
+  return data;
+}
+
+/**
+ * Get the overall average score and total answers for the logged-in user's company.
+ * Admins only.
+ * @returns {Object} - { overall_average, total_answers }
+ */
+export async function getOverallCompanyAverage() {
+  const res = await fetch(`${API_BASE}/answers/average/overall`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  const text = await res.text();
+
+  if (!res.ok) {
+    throw new Error(`Failed: ${text || res.status}`);
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error("Failed to parse JSON");
+  }
 }

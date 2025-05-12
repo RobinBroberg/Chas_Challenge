@@ -7,6 +7,7 @@ import allowanceRoutes from "./routes/allowance.js";
 import authRoutes from "./routes/auth.js";
 import questionRoutes from "./routes/questions.js";
 import userRoutes from "./routes/users.js";
+import answerRoutes from "./routes/answers.js";
 
 const app = express();
 const port = 3001;
@@ -25,6 +26,7 @@ app.use("/allowance", allowanceRoutes);
 app.use("/auth", authRoutes);
 app.use("/questions", questionRoutes);
 app.use("/users", userRoutes);
+app.use("/answers", answerRoutes);
 
 app.listen(port, () => {
   console.log(`CC backend running at http://localhost:${port}`);

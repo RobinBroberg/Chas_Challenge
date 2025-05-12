@@ -46,6 +46,29 @@ const runSchema = async () => {
       }
     }
 
+    const [userRows] = await connection.query(
+      `SELECT id FROM users WHERE email = 'user@example.com'`
+    );
+    const testUser = userRows[0];
+
+    if (testUser) {
+      const [questionRows] = await connection.query(
+        `SELECT id FROM questions WHERE company_id = 1`
+      );
+
+      for (const question of questionRows) {
+        const randomAnswer = Math.floor(Math.random() * 5) + 1;
+        await connection.query(
+          `INSERT INTO answers (user_id, question_id, answer_value) VALUES (?, ?, ?)`,
+          [testUser.id, question.id, randomAnswer]
+        );
+      }
+
+      console.log("Test answers inserted for user@example.com");
+    } else {
+      console.log("Test user not found. Skipping test answers.");
+    }
+
     console.log("Companies and default questions seeded!");
   } catch (error) {
     console.error("Failed to apply schema or seed data:", error.message);
