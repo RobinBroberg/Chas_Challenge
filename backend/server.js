@@ -8,7 +8,6 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js"; // Importera users.js rutter
 import allowanceRoutes from "./routes/allowance.js";
 import questionRoutes from "./routes/questions.js";
-import userRoutes from "./routes/users.js";
 import answerRoutes from "./routes/answers.js";
 
 const app = express();
@@ -26,7 +25,6 @@ app.use(cookieParser());
 
 // Definiera rutter
 app.use("/auth", authRoutes);
-app.use("/users", userRoutes); // Lägg till rutt för användare
 app.use("/allowance", allowanceRoutes);
 app.use("/questions", questionRoutes);
 app.use("/users", userRoutes);

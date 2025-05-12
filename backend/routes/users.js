@@ -34,7 +34,7 @@ router.post("/", requireAuth, requireRole("admin"), async (req, res) => {
 
   // Kontrollera om användaren redan finns
   try {
-    const [existingUser] = await pool.execute(
+    const existingUser = await query(
       `SELECT * FROM users WHERE email = ? AND company_id = ?`,
       [email, company_id]
     );
@@ -49,7 +49,7 @@ router.post("/", requireAuth, requireRole("admin"), async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Spara användaren i databasen
-    const [result] = await pool.execute(
+    const result = await query(
       `INSERT INTO users (first_name, email, password, company_id, role) VALUES (?, ?, ?, ?, ?)`,
       [name, email, hashedPassword, company_id, "user"]
     );
