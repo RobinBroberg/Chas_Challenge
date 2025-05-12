@@ -71,8 +71,8 @@ router.get("/", requireAuth, async (req, res) => {
   }
 });
 
-//Get average score for all answers by company_id
-router.get("/average", requireAuth, async (req, res) => {
+//Get average score per answer for the admin's company
+router.get("/average", requireAuth, requireRole("admin"), async (req, res) => {
   const { role, company_id } = req.user;
 
   if (role !== "admin") {
@@ -101,5 +101,40 @@ router.get("/average", requireAuth, async (req, res) => {
     res.status(500).json({ message: "Failed to fetch average scores" });
   }
 });
+
+// Get overall average score and total answers for the admin's company
+
+router.get(
+  "/average/overall",
+  requireAuth,
+  requireRole("admin"),
+  async (req, res) => {
+    const { company_id } = req.user;
+
+    try {
+      const rows = await query(
+        `
+      SELECT 
+      ROUND(AVG(a.answer_value), 2) AS average,
+      COUNT(a.id) AS totalAnswers
+      FROM answers a
+      JOIN questions q ON a.question_id = q.id
+      WHERE q.company_id = ?
+      `,
+        [company_id]
+      );
+
+      const result = rows[0];
+
+      res.json({
+        average: result?.average ?? null,
+        totalAnswers: result?.totalAnswers ?? 0,
+      });
+    } catch (error) {
+      console.error("Error calculating overall average:", error);
+      res.status(500).json({ message: "Failed to get overall average" });
+    }
+  }
+);
 
 export default router;

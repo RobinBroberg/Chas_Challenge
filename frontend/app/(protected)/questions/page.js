@@ -7,6 +7,7 @@ import {
   addQuestion,
   deleteQuestion,
   getCompanyAverages,
+  getOverallCompanyAverage,
 } from "@/services/api";
 import {
   getQuestions,
@@ -21,6 +22,7 @@ export default function QuestionsPage() {
   const [saving, setSaving] = useState(false);
   const [newQuestionText, setNewQuestionText] = useState("");
   const [averages, setAverages] = useState([]);
+  const [overallAvg, setOverallAvg] = useState(null);
 
   const router = useRouter();
 
@@ -84,12 +86,10 @@ export default function QuestionsPage() {
   });
   const [regMsg, setRegMsg] = useState("");
 
-  // Handles input change
   const handleNewUserInput = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
   };
 
-  // Handles user registration
   const handleRegister = async () => {
     try {
       await registerUser(newUser);
@@ -112,10 +112,15 @@ export default function QuestionsPage() {
       try {
         const data = await getQuestions();
         setQuestions(data);
+
         const avg = await getCompanyAverages();
         setAverages(avg);
+
+        const overall = await getOverallCompanyAverage();
+        console.log("Overall average response:", overall);
+        setOverallAvg(overall);
       } catch (err) {
-        console.error("Failed to load questions:", err);
+        console.error("Failed to load data:", err);
       } finally {
         setLoading(false);
       }
@@ -236,7 +241,7 @@ export default function QuestionsPage() {
       </div>
       <div className="mt-10 p-4 bg-white rounded shadow-md w-full max-w-2xl">
         <h2 className="text-lg font-bold mb-2 text-gray-800">
-          📊 Company Average Scores
+          Company Average Scores
         </h2>
 
         {averages.length === 0 ? (
@@ -254,6 +259,15 @@ export default function QuestionsPage() {
           </ul>
         )}
       </div>
+      {overallAvg && (
+        <div className="mt-6 bg-white p-4 rounded shadow text-gray-800">
+          <h2 className="font-semibold mb-2">Company Overall Score</h2>
+          <p>
+            Average: <strong>{overallAvg.average}</strong> (based on{" "}
+            {overallAvg.totalAnswers} answers)
+          </p>
+        </div>
+      )}
     </div>
   );
 }

@@ -201,7 +201,7 @@ export async function postAnswers(answers) {
     throw new Error(data.message || "Failed to submit answers");
   }
 
-  return data; // e.g., { message: "Answers submitted successfully" }
+  return data;
 }
 
 /**
@@ -221,4 +221,28 @@ export async function getCompanyAverages() {
   }
 
   return data;
+}
+
+/**
+ * Get the overall average score and total answers for the logged-in user's company.
+ * Admins only.
+ * @returns {Object} - { overall_average, total_answers }
+ */
+export async function getOverallCompanyAverage() {
+  const res = await fetch(`${API_BASE}/answers/average/overall`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  const text = await res.text();
+
+  if (!res.ok) {
+    throw new Error(`Failed: ${text || res.status}`);
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error("Failed to parse JSON");
+  }
 }
