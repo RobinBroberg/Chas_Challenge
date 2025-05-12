@@ -38,7 +38,7 @@ router.post("/login", async (req, res) => {
       httpOnly: true,
       sameSite: "strict",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 60 * 24 * 7, // Token livslängd - 7 dagar
     });
 
     res.json({
