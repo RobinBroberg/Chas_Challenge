@@ -25,10 +25,13 @@ const Navbar = () => {
     <nav className="w-full bg-[#56584D] text-white px-6 py-4 relative z-20">
       <div className="flex justify-between items-center w-full max-w-screen-2xl mx-auto">
         {/* Left: Logo */}
-        <Link href="/" className="text-2xl tracking-widest">
-          BALANCE
+        <Link href="/">
+          <img
+            src="/logonavbar.png"
+            alt="Balance logo"
+            className="w-[150px] h-auto"
+          />
         </Link>
-
         {/* Nav links in center (desktop only) */}
         <div className="hidden md:flex gap-6 items-center justify-center flex-1">
           {MAIN_NAV.map(({ href, label }) => (
