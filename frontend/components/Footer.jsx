@@ -16,7 +16,7 @@ const currentYear = new Date().getFullYear();
 
 const Footer = () => {
   return (
-    <footer className="p-6 font-sans bg-[#FBFAF5]">
+    <footer className="p-6 font-montserrat bg-[#FBFAF5]">
       <div className="container mx-auto">
         {/* Desktop layout */}
         <div className="hidden md:flex justify-between items-start mb-4 mt-4">
@@ -83,7 +83,7 @@ const Footer = () => {
                 <FaYoutube />
               </a>
             </div>
-            <p>Kom igång med Balance</p>
+            <p className="text-lg">Kom igång med Balance</p>
           </div>
         </div>
 

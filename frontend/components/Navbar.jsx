@@ -23,7 +23,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-[#45463F] text-white px-6 py-5 relative z-20">
+    <nav className="w-full bg-[#45463F] text-white px-6 py-5 relative z-20 font-montserrat">
       <div className="flex justify-between items-center w-full max-w-screen-2xl mx-auto">
         {/* Left: Logo */}
         <Link href="/">
@@ -35,9 +35,9 @@ const Navbar = () => {
         </Link>
         {/* Nav links in center (desktop only NOT logged in) */}
         {!isLoggedIn && (
-          <div className="hidden md:flex gap-6 items-center justify-center flex-1">
+          <div className="hidden md:flex gap-6 items-center justify-center flex-1 text-l font-medium">
             {MAIN_NAV.map(({ href, label }) => (
-              <Link key={href} href={href} className="text-sm">
+              <Link key={href} href={href}>
                 {label}
               </Link>
             ))}
@@ -46,9 +46,9 @@ const Navbar = () => {
 
         {/* Nav links in center (desktop only when logged in) */}
         {isLoggedIn && (
-          <div className="hidden md:flex gap-6 items-center justify-center flex-1">
+          <div className="hidden md:flex gap-6 items-center justify-center flex-1 text-l font-medium">
             {MAIN_NAV_LOGGED_IN.map(({ href, label }) => (
-              <Link key={href} href={href} className="text-sm">
+              <Link key={href} href={href}>
                 {label}
               </Link>
             ))}
