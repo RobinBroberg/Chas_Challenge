@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 
 const ResetPasswordPage = () => {
@@ -9,11 +9,20 @@ const ResetPasswordPage = () => {
 
   const [email, setEmail] = useState(emailFromURL || "");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const emailInputRef = useRef(null);
 
-  const isResetMode = token && emailFromURL;
+  const isResetMode = !!token && !!emailFromURL;
+
+  useEffect(() => {
+    if (!isResetMode) {
+      emailInputRef.current?.focus();
+    }
+  }, [isResetMode]);
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
@@ -30,11 +39,11 @@ const ResetPasswordPage = () => {
       const data = await res.json();
 
       if (res.ok) {
-        setMessage(data.message);
+        setMessage(data.message || "Återställningslänk skickad.");
       } else {
         setError(data.message || "Något gick fel.");
       }
-    } catch (err) {
+    } catch {
       setError("Serverfel. Försök igen senare.");
     } finally {
       setLoading(false);
@@ -46,6 +55,12 @@ const ResetPasswordPage = () => {
     setLoading(true);
     setError("");
     setMessage("");
+
+    if (password !== confirmPassword) {
+      setError("Lösenorden matchar inte.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch("http://localhost:3001/reset-password", {
@@ -61,7 +76,7 @@ const ResetPasswordPage = () => {
       } else {
         setError(data.message || "Misslyckades att återställa lösenord.");
       }
-    } catch (err) {
+    } catch {
       setError("Något gick fel. Försök igen.");
     } finally {
       setLoading(false);
@@ -70,11 +85,11 @@ const ResetPasswordPage = () => {
 
   return (
     <div
-      className="w-full h-screen flex items-center justify-center bg-cover bg-center"
+      className="min-h-screen flex items-center justify-center bg-cover bg-center px-4"
       style={{ backgroundImage: "url('/loginpic.png')" }}
     >
-      <div className="flex flex-col space-y-6 p-6 bg-black bg-opacity-60 rounded-xl w-full max-w-md">
-        <h1 className="text-3xl font-semibold text-white text-center">
+      <div className="bg-black bg-opacity-70 backdrop-blur-sm p-8 rounded-xl w-full max-w-md shadow-xl text-white">
+        <h1 className="text-2xl font-bold text-center mb-6">
           {isResetMode ? "Sätt nytt lösenord" : "Glömt lösenord"}
         </h1>
 
@@ -82,31 +97,57 @@ const ResetPasswordPage = () => {
           onSubmit={isResetMode ? handleResetPassword : handleForgotPassword}
           className="space-y-4"
         >
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="E-postadress"
-            disabled={!!emailFromURL}
-            className="w-full border-b-2 border-white bg-transparent text-white placeholder-white p-2 focus:outline-none"
-          />
+          <div>
+            <input
+              ref={emailInputRef}
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={!!emailFromURL}
+              placeholder="E-postadress"
+              className="w-full px-4 py-2 bg-transparent border-b-2 border-white text-white placeholder-white focus:outline-none"
+            />
+          </div>
 
           {isResetMode && (
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Nytt lösenord"
-              className="w-full border-b-2 border-white bg-transparent text-white placeholder-white p-2 focus:outline-none"
-            />
+            <>
+              <div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Nytt lösenord"
+                  className="w-full px-4 py-2 bg-transparent border-b-2 border-white text-white placeholder-white focus:outline-none"
+                />
+              </div>
+              <div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Bekräfta lösenord"
+                  className="w-full px-4 py-2 bg-transparent border-b-2 border-white text-white placeholder-white focus:outline-none"
+                />
+              </div>
+              <div className="flex items-center text-sm">
+                <input
+                  type="checkbox"
+                  checked={showPassword}
+                  onChange={() => setShowPassword((prev) => !prev)}
+                  className="mr-2"
+                />
+                Visa lösenord
+              </div>
+            </>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 bg-gray-300 text-[#47423E] font-bold rounded-full hover:bg-gray-400 transition"
+            className="w-full py-2 bg-white text-[#47423E] font-semibold rounded-full hover:bg-gray-200 transition"
           >
             {loading
               ? "Skickar..."
@@ -117,9 +158,11 @@ const ResetPasswordPage = () => {
         </form>
 
         {message && (
-          <p className="text-green-400 text-center text-sm">{message}</p>
+          <p className="mt-4 text-green-400 text-center text-sm">{message}</p>
         )}
-        {error && <p className="text-red-400 text-center text-sm">{error}</p>}
+        {error && (
+          <p className="mt-4 text-red-400 text-center text-sm">{error}</p>
+        )}
       </div>
     </div>
   );

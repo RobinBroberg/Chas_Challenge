@@ -1,10 +1,12 @@
+// server.js
 import express from "express";
-import cors from "cors";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import "dotenv/config";
 
-import allowanceRoutes from "./routes/allowance.js";
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js"; // Importera users.js rutter
+import allowanceRoutes from "./routes/allowance.js";
 import questionRoutes from "./routes/questions.js";
 import userRoutes from "./routes/users.js";
 import answerRoutes from "./routes/answers.js";
@@ -12,22 +14,24 @@ import answerRoutes from "./routes/answers.js";
 const app = express();
 const port = 3001;
 
+// Middleware för CORS och cookies
 app.use(
   cors({
     origin: "http://localhost:3000",
-    credentials: true,
+    credentials: true, // Låt cookies skickas med
   })
 );
-
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/allowance", allowanceRoutes);
+// Definiera rutter
 app.use("/auth", authRoutes);
+app.use("/users", userRoutes); // Lägg till rutt för användare
+app.use("/allowance", allowanceRoutes);
 app.use("/questions", questionRoutes);
 app.use("/users", userRoutes);
 app.use("/answers", answerRoutes);
 
 app.listen(port, () => {
-  console.log(`CC backend running at http://localhost:${port}`);
+  console.log(`Backend is running at http://localhost:${port}`);
 });

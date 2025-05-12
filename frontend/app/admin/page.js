@@ -1,8 +1,11 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const AdminPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -10,6 +13,7 @@ const AdminPage = () => {
 
   return (
     <div className="flex min-h-screen bg-[#f6f4f0]">
+      {/* Mobilmeny-overlay */}
       <div
         className={`${
           isMenuOpen ? "block" : "hidden"
@@ -19,49 +23,70 @@ const AdminPage = () => {
         <div className="flex flex-col p-6">
           <ul>
             <li className="mb-4">
-              <a href="#" className="text-[#d4bfa5] hover:text-[#c6aa8c]">
+              <Link
+                href="/admin/users"
+                className="text-[#d4bfa5] hover:text-[#c6aa8c]"
+              >
                 Användare
-              </a>
+              </Link>
             </li>
             <li className="mb-4">
-              <a href="#" className="text-[#d4bfa5] hover:text-[#c6aa8c]">
+              <Link
+                href="/admin/surveys"
+                className="text-[#d4bfa5] hover:text-[#c6aa8c]"
+              >
                 Enkäter
-              </a>
+              </Link>
             </li>
             <li className="mb-4">
-              <a href="#" className="text-[#d4bfa5] hover:text-[#c6aa8c]">
+              <Link
+                href="/admin/settings"
+                className="text-[#d4bfa5] hover:text-[#c6aa8c]"
+              >
                 Inställningar
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
       </div>
 
+      {/* Sidomeny desktop */}
       <div className="w-64 bg-[#47423E] text-white p-6 hidden md:block">
         <h2 className="text-2xl font-bold mb-6">Adminpanel</h2>
         <ul>
           <li className="mb-4">
-            <a href="#" className="text-[#d4bfa5] hover:text-[#c6aa8c]">
+            <Link
+              href="/admin/users"
+              className="text-[#d4bfa5] hover:text-[#c6aa8c]"
+            >
               Användare
-            </a>
+            </Link>
           </li>
           <li className="mb-4">
-            <a href="#" className="text-[#d4bfa5] hover:text-[#c6aa8c]">
+            <Link
+              href="/admin/surveys"
+              className="text-[#d4bfa5] hover:text-[#c6aa8c]"
+            >
               Enkäter
-            </a>
+            </Link>
           </li>
           <li className="mb-4">
-            <a href="#" className="text-[#d4bfa5] hover:text-[#c6aa8c]">
+            <Link
+              href="/admin/settings"
+              className="text-[#d4bfa5] hover:text-[#c6aa8c]"
+            >
               Inställningar
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
 
+      {/* Innehåll */}
       <div className="flex-1 p-6">
         <header className="flex justify-between items-center mb-10 pt-20">
           <h1 className="text-4xl font-extrabold text-[#47423E]">Adminpanel</h1>
 
+          {/* Menyknapp för mobil */}
           <button
             className="md:hidden text-[#47423E] p-2 rounded"
             onClick={toggleMenu}
@@ -84,6 +109,7 @@ const AdminPage = () => {
         </header>
 
         <section className="grid gap-4 md:grid-cols-3">
+          {/* Användarhantering */}
           <div className="bg-[#2a2a2a] shadow-md rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-2 text-white">
               Användarhantering
@@ -91,11 +117,15 @@ const AdminPage = () => {
             <p className="text-sm mb-4 text-white">
               Skapa, redigera eller ta bort användare.
             </p>
-            <button className="bg-[#d4bfa5] text-white px-4 py-2 rounded hover:bg-[#c6aa8c] transition">
+            <button
+              onClick={() => router.push("/admin/users")}
+              className="bg-[#d4bfa5] text-white px-4 py-2 rounded hover:bg-[#c6aa8c] transition"
+            >
               Hantera användare
             </button>
           </div>
 
+          {/* Enkätresultat */}
           <div className="bg-[#2a2a2a] shadow-md rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-2 text-white">
               Enkätresultat
@@ -103,11 +133,15 @@ const AdminPage = () => {
             <p className="text-sm mb-4 text-white">
               Se svar och statistik från enkäter.
             </p>
-            <button className="bg-[#d4bfa5] text-white px-4 py-2 rounded hover:bg-[#c6aa8c] transition">
+            <button
+              onClick={() => router.push("/admin/surveys")}
+              className="bg-[#d4bfa5] text-white px-4 py-2 rounded hover:bg-[#c6aa8c] transition"
+            >
               Visa resultat
             </button>
           </div>
 
+          {/* Inställningar */}
           <div className="bg-[#2a2a2a] shadow-md rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-2 text-white">
               Inställningar
@@ -115,7 +149,10 @@ const AdminPage = () => {
             <p className="text-sm mb-4 text-white">
               Hantera systeminställningar och roller.
             </p>
-            <button className="bg-[#d4bfa5] text-white px-4 py-2 rounded hover:bg-[#c6aa8c] transition">
+            <button
+              onClick={() => router.push("/admin/settings")}
+              className="bg-[#d4bfa5] text-white px-4 py-2 rounded hover:bg-[#c6aa8c] transition"
+            >
               Gå till inställningar
             </button>
           </div>
