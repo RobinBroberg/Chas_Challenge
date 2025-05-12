@@ -1,8 +1,8 @@
+// frontend/app/addUser/page.js
 "use client";
 
 import React, { useState } from "react";
 
-// Din knappkomponent
 const PrimaryButton = ({ children, onClick, disabled }) => (
   <button
     onClick={onClick}
@@ -13,12 +13,12 @@ const PrimaryButton = ({ children, onClick, disabled }) => (
   </button>
 );
 
-const UserManagement = () => {
-  const [userList, setUserList] = useState([]);
+const AddUser = () => {
   const [newUserName, setNewUserName] = useState("");
   const [newUserPassword, setNewUserPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [userList, setUserList] = useState([]);
 
   const resetForm = () => {
     setNewUserName("");
@@ -37,6 +37,15 @@ const UserManagement = () => {
       name: newUserName,
       password: newUserPassword,
     };
+
+    // Hämta din autentiseringstoken från localStorage
+    const yourAuthToken = localStorage.getItem("authToken");
+
+    // Kontrollera om token finns, om inte visa ett felmeddelande
+    if (!yourAuthToken) {
+      setErrorMessage("Ingen autentiseringstoken hittades.");
+      return;
+    }
 
     try {
       const response = await fetch("http://localhost:3001/users", {
@@ -134,4 +143,4 @@ const UserManagement = () => {
   );
 };
 
-export default UserManagement;
+export default AddUser;
