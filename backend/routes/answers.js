@@ -71,7 +71,7 @@ router.get("/", requireAuth, async (req, res) => {
   }
 });
 
-//Get average score for all answers through company
+//Get average score for all answers by company_id
 router.get("/average", requireAuth, async (req, res) => {
   const { role, company_id } = req.user;
 

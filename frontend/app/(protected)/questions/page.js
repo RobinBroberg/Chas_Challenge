@@ -2,9 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { registerUser, addQuestion, deleteQuestion } from "@/services/api";
 import {
-  fetchQuestions,
+  registerUser,
+  addQuestion,
+  deleteQuestion,
+  getCompanyAverages,
+} from "@/services/api";
+import {
+  getQuestions,
   getCurrentUser,
   logout,
   updateQuestions,
@@ -15,6 +20,7 @@ export default function QuestionsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [newQuestionText, setNewQuestionText] = useState("");
+  const [averages, setAverages] = useState([]);
 
   const router = useRouter();
 
@@ -104,8 +110,10 @@ export default function QuestionsPage() {
       }
 
       try {
-        const data = await fetchQuestions();
+        const data = await getQuestions();
         setQuestions(data);
+        const avg = await getCompanyAverages();
+        setAverages(avg);
       } catch (err) {
         console.error("Failed to load questions:", err);
       } finally {
@@ -225,6 +233,26 @@ export default function QuestionsPage() {
         </button>
 
         {regMsg && <p className="mt-2 text-sm text-gray-700">{regMsg}</p>}
+      </div>
+      <div className="mt-10 p-4 bg-white rounded shadow-md w-full max-w-2xl">
+        <h2 className="text-lg font-bold mb-2 text-gray-800">
+          📊 Company Average Scores
+        </h2>
+
+        {averages.length === 0 ? (
+          <p className="text-gray-600">No data available yet.</p>
+        ) : (
+          <ul className="space-y-2">
+            {averages.map((q) => (
+              <li key={q.question_id} className="text-gray-800">
+                <strong>{q.question_text}</strong>:{" "}
+                {q.average_score !== null
+                  ? `${q.average_score} / 5`
+                  : "No answers yet"}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
