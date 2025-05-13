@@ -88,81 +88,85 @@ const ResetPasswordPage = () => {
       className="min-h-screen flex items-center justify-center bg-cover bg-center px-4"
       style={{ backgroundImage: "url('/loginpic.png')" }}
     >
-      <div className="bg-black bg-opacity-70 backdrop-blur-sm p-8 rounded-xl w-full max-w-md shadow-xl text-white">
-        <h1 className="text-2xl font-bold text-center mb-6">
-          {isResetMode ? "Sätt nytt lösenord" : "Glömt lösenord"}
-        </h1>
+      <div className="relative w-full max-w-md">
+        {/* Bakgrunds-overlay */}
+        <div className="absolute inset-0 bg-black/40 rounded-xl backdrop-blur-md z-0 shadow-2xl" />
 
-        <form
-          onSubmit={isResetMode ? handleResetPassword : handleForgotPassword}
-          className="space-y-4"
-        >
-          <div>
-            <input
-              ref={emailInputRef}
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={!!emailFromURL}
-              placeholder="E-postadress"
-              className="w-full px-4 py-2 bg-transparent border-b-2 border-white text-white placeholder-white focus:outline-none"
-            />
-          </div>
+        {/* Innehåll */}
+        <div className="relative z-10 p-8 rounded-xl w-full text-white">
+          <h1 className="text-3xl font-semibold text-center mb-6 drop-shadow-md">
+            {isResetMode ? "Sätt nytt lösenord" : "Glömt lösenord"}
+          </h1>
 
-          {isResetMode && (
-            <>
-              <div>
+          <form
+            onSubmit={isResetMode ? handleResetPassword : handleForgotPassword}
+            className="space-y-4"
+          >
+            <div>
+              <input
+                ref={emailInputRef}
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={!!emailFromURL}
+                placeholder="E-postadress"
+                className="w-full px-4 py-2 bg-white/10 border-b border-white/30 text-white placeholder-white/70 rounded-md focus:outline-none focus:ring-2 focus:ring-white/30"
+              />
+            </div>
+
+            {isResetMode && (
+              <>
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Nytt lösenord"
-                  className="w-full px-4 py-2 bg-transparent border-b-2 border-white text-white placeholder-white focus:outline-none"
+                  className="w-full px-4 py-2 bg-white/10 border-b border-white/30 text-white placeholder-white/70 rounded-md focus:outline-none focus:ring-2 focus:ring-white/30"
                 />
-              </div>
-              <div>
+
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Bekräfta lösenord"
-                  className="w-full px-4 py-2 bg-transparent border-b-2 border-white text-white placeholder-white focus:outline-none"
+                  className="w-full px-4 py-2 bg-white/10 border-b border-white/30 text-white placeholder-white/70 rounded-md focus:outline-none focus:ring-2 focus:ring-white/30"
                 />
-              </div>
-              <div className="flex items-center text-sm">
-                <input
-                  type="checkbox"
-                  checked={showPassword}
-                  onChange={() => setShowPassword((prev) => !prev)}
-                  className="mr-2"
-                />
-                Visa lösenord
-              </div>
-            </>
+
+                <label className="flex items-center text-sm">
+                  <input
+                    type="checkbox"
+                    checked={showPassword}
+                    onChange={() => setShowPassword((prev) => !prev)}
+                    className="mr-2"
+                  />
+                  Visa lösenord
+                </label>
+              </>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-2 bg-white text-[#47423E] font-semibold rounded-full hover:bg-gray-200 transition"
+            >
+              {loading
+                ? "Skickar..."
+                : isResetMode
+                ? "Återställ lösenord"
+                : "Skicka återställningslänk"}
+            </button>
+          </form>
+
+          {message && (
+            <p className="mt-4 text-green-400 text-center text-sm">{message}</p>
           )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2 bg-white text-[#47423E] font-semibold rounded-full hover:bg-gray-200 transition"
-          >
-            {loading
-              ? "Skickar..."
-              : isResetMode
-              ? "Återställ lösenord"
-              : "Skicka återställningslänk"}
-          </button>
-        </form>
-
-        {message && (
-          <p className="mt-4 text-green-400 text-center text-sm">{message}</p>
-        )}
-        {error && (
-          <p className="mt-4 text-red-400 text-center text-sm">{error}</p>
-        )}
+          {error && (
+            <p className="mt-4 text-red-400 text-center text-sm">{error}</p>
+          )}
+        </div>
       </div>
     </div>
   );
