@@ -3,14 +3,12 @@ import React, { useState, useEffect } from "react";
 import { login, getCurrentUser } from "@/services/api";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Montserrat } from 'next/font/google';
+import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'], 
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
-
-
 
 const loginPage = () => {
   const [email, setEmail] = useState("");
@@ -76,11 +74,13 @@ const loginPage = () => {
         />
 
         <div className="flex justify-end">
-          <Link href="/resetPassword" className="text-sm text-white hover:underline font-montserrat">
+          <Link
+            href="/resetPassword"
+            className="text-sm text-white hover:underline font-montserrat"
+          >
             Glömt lösenord?
-            </Link>
-          </div>
-
+          </Link>
+        </div>
 
         <div className="flex space-x-6 justify-center">
           <button
@@ -90,18 +90,15 @@ const loginPage = () => {
           >
             Logga in
           </button>
-          
+
           <Link href="/createAccount">
-
-
-          <button
-            className="px-27 py-4 bg-gray-300 text-white rounded-full hover:bg-gray-400 transition font-bold text-lg font-montserrat"
-           style={{ color: "#47423E" }}
-           >
-           Skapa konto
-           </button>
-            </Link>
-
+            <button
+              className="px-27 py-4 bg-gray-300 text-white rounded-full hover:bg-gray-400 transition font-bold text-lg font-montserrat"
+              style={{ color: "#47423E" }}
+            >
+              Skapa konto
+            </button>
+          </Link>
         </div>
       </div>
     </div>
