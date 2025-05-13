@@ -101,6 +101,25 @@ export async function getUserAllowance(userId) {
   return await res.json();
 }
 
+// Deduct a specified amount from the logged-in user's allowance
+export async function deductAllowance(amount) {
+  const res = await fetch(`${API_BASE}/allowance/deduct`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ amount }),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to deduct allowance");
+  }
+
+  return await res.json();
+}
+
 /**
  * Fetch all questions from the backend
  * @returns Array of questions: [{ id, question_text, created_at }]
