@@ -21,14 +21,17 @@ export async function extractReceiptData(filePath) {
             },
           },
           {
-            text: `Extract the total amount, vendor name, and purchase date from this receipt. 
-            Respond only with a JSON object. 
-            :
+            text: `Extract the total amount, vendor name, purchase date, and type of wellness activity from this receipt.
+              Respond only with a JSON object.
+        
+
+            Use this format:
             {
-            "amount": 389,
-            "vendor": "SATS",
-            "purchase_date": "2024-05-10"
-          }`,
+              "amount": 389,
+              "vendor": "SATS",
+              "purchase_date": "2024-05-10",
+              "activity": "Gym"
+              }`,
           },
         ],
       },
