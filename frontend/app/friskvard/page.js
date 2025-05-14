@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { IoReceiptOutline } from "react-icons/io5";
 import { HiOutlineAdjustmentsVertical } from "react-icons/hi2";
+import { getAllowance } from "@/services/api";
+import ReceiptUpload from "@/components/ReceiptUploadForm";
 
 // data på centers där man kan nyttja friskvårdsbidraget
 const Centers = [
@@ -98,7 +99,7 @@ const Centers = [
 const categories = ["Alla", "Avslappning & Återhämtning", "Träning & Motion"];
 
 export default function WellnessBenefitsPage() {
-  const [remainingBalance] = useState(3000);
+  const [remainingBalance, setRemainingBalance] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("Alla");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -111,16 +112,32 @@ export default function WellnessBenefitsPage() {
       selectedCategory === "Alla" || centerCategories.includes(selectedCategory)
     );
   });
+
+  async function fetchAllowance() {
+    try {
+      const data = await getAllowance();
+      setRemainingBalance(data.remaining);
+    } catch (err) {
+      console.error("Failed to load allowance:", err);
+    }
+  }
+
+  useEffect(() => {
+    fetchAllowance();
+  }, []);
+
   return (
     <div className="max-w mx-auto p-6 md:p-22 bg-[#FBFAF5] font-montserrat min-h-screen flex flex-col">
       {/* Friskvårdens balans + text */}
       <div className="flex flex-col md:flex-row items-center mb-5 md:mb-10">
         <div className="w-full md:w-1/3 bg-gradient-to-r from-[rgba(0,0,0,0.9)] to-[#C8B5A7] text-white shadow-2xl p-3 rounded-lg mb-4 mt-4 md:mt-0 md:mb-0 flex flex-col items-center justify-center">
           <p className="font-bold text-lg">FRISKVÅRDSBIDRAG</p>
-          <span className="text-6xl font-bold p-12">{remainingBalance} kr</span>
+          <span className="text-6xl font-bold p-12">
+            {remainingBalance !== null ? `${remainingBalance} kr` : "Laddar..."}
+          </span>
+
           <div className="flex justify-between items-center w-full px-2">
-            <p className="font-semibold text-sm">Belopp</p>
-            <IoReceiptOutline className="text-xl" />
+            <ReceiptUpload onUploadSuccess={fetchAllowance} />
           </div>
         </div>
 

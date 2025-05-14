@@ -265,3 +265,21 @@ export async function getOverallCompanyAverage() {
     throw new Error("Failed to parse JSON");
   }
 }
+
+export async function uploadReceipt(file) {
+  const formData = new FormData();
+  formData.append("receipt", file);
+
+  const res = await fetch(`${API_BASE}/receipts/upload`, {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to upload receipt");
+  }
+
+  return await res.json();
+}

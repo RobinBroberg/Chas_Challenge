@@ -1,8 +1,10 @@
 -- Drop existing tables in correct order due to foreign keys
+DROP TABLE IF EXISTS receipts;
 DROP TABLE IF EXISTS answers;
 DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS companies;
+
 
 CREATE TABLE companies (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -39,6 +41,18 @@ CREATE TABLE answers (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
   UNIQUE KEY uq_user_question (user_id, question_id)
+);
+
+CREATE TABLE receipts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  file_path VARCHAR(255) NOT NULL,
+  amount INT DEFAULT NULL,         
+  vendor VARCHAR(255) DEFAULT NULL,
+  purchase_date DATE DEFAULT NULL,
+  uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  is_approved BOOLEAN DEFAULT FALSE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 INSERT INTO companies (name, wellness_allowance) VALUES

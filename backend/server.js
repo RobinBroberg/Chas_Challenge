@@ -1,34 +1,36 @@
-// server.js
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
 
 import authRoutes from "./routes/auth.js";
-import userRoutes from "./routes/users.js"; // Importera users.js rutter
+import userRoutes from "./routes/users.js";
 import allowanceRoutes from "./routes/allowance.js";
 import questionRoutes from "./routes/questions.js";
 import answerRoutes from "./routes/answers.js";
+import receiptsRoutes from "./routes/receipts.js";
 
 const app = express();
 const port = 3001;
 
-// Middleware för CORS och cookies
+// Middleware for CORS and cookies
 app.use(
   cors({
     origin: "http://localhost:3000",
-    credentials: true, // Låt cookies skickas med
+    credentials: true, // Let cookies be sent with request
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 
-// Definiera rutter
+// Define routes
 app.use("/auth", authRoutes);
 app.use("/allowance", allowanceRoutes);
 app.use("/questions", questionRoutes);
 app.use("/users", userRoutes);
 app.use("/answers", answerRoutes);
+app.use("/receipts", receiptsRoutes);
+app.use("/uploads", express.static("uploads"));
 
 app.listen(port, () => {
   console.log(`Backend is running at http://localhost:${port}`);
