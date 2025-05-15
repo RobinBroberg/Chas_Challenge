@@ -19,5 +19,5 @@ jobs:
           git config --global user.name "SebGrb"        
           git config --global user.email "sebastian.grbovic@chasacademy.se"
 
-          git clone https://oauth2:glpat-GuszC6eT-cR2Xfv7DFFz@git.chasacademy.dev/chas-challenge-2025/Grupp-1/github-pipeline.git
+          git clone https://oauth2:glpat-DcBB4xy-s9gWxQFwWK@git.chasacademy.dev/chas-challenge-2025/Grupp-1/github-pipeline.git
           git push gitlab main --force
