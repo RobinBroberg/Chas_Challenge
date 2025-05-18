@@ -283,3 +283,46 @@ export async function uploadReceipt(file) {
 
   return await res.json();
 }
+
+export async function getPendingReceipts() {
+  const res = await fetch(`${API_BASE}/receipts`, {
+    credentials: "include",
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch receipts");
+
+  const all = await res.json();
+  return all.filter((r) => r.status === "pending");
+}
+
+export async function approveReceipt(receiptId) {
+  const res = await fetch(`${API_BASE}/receipts/${receiptId}/approve`, {
+    method: "PATCH",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Kunde inte godkänna kvittot");
+  }
+
+  return await res.json();
+}
+
+export async function rejectReceipt(receiptId, reason) {
+  const res = await fetch(`${API_BASE}/receipts/${receiptId}/reject`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ reason }),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Kunde inte avvisa kvittot");
+  }
+
+  return await res.json();
+}

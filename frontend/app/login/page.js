@@ -29,7 +29,7 @@ const loginPage = () => {
     try {
       const data = await login(email, password);
       if (data.role === "admin") {
-        router.push("(/admin/questions");
+        router.push("/admin/questions");
       } else {
         router.push("/");
       }

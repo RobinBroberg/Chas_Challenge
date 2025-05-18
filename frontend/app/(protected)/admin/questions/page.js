@@ -8,6 +8,9 @@ import {
   deleteQuestion,
   getCompanyAverages,
   getOverallCompanyAverage,
+  getPendingReceipts,
+  approveReceipt,
+  rejectReceipt,
 } from "@/services/api";
 import {
   getQuestions,
@@ -23,6 +26,8 @@ export default function QuestionsPage() {
   const [newQuestionText, setNewQuestionText] = useState("");
   const [averages, setAverages] = useState([]);
   const [overallAvg, setOverallAvg] = useState(null);
+  const [pendingReceipts, setPendingReceipts] = useState([]);
+  const [rejectionReasons, setRejectionReasons] = useState({});
 
   const router = useRouter();
 
@@ -119,6 +124,9 @@ export default function QuestionsPage() {
         const overall = await getOverallCompanyAverage();
         console.log("Overall average response:", overall);
         setOverallAvg(overall);
+
+        const pending = await getPendingReceipts();
+        setPendingReceipts(pending);
       } catch (err) {
         console.error("Failed to load data:", err);
       } finally {
@@ -268,6 +276,80 @@ export default function QuestionsPage() {
           </p>
         </div>
       )}
+      <div className="mt-10 p-4 bg-white rounded shadow-md w-full max-w-2xl">
+        <h2 className="text-lg font-bold mb-4 text-gray-800">
+          Pending Receipts
+        </h2>
+
+        {pendingReceipts.length === 0 ? (
+          <p className="text-gray-600">No pending receipts.</p>
+        ) : (
+          <ul className="space-y-4">
+            {pendingReceipts.map((r) => (
+              <li
+                key={r.id}
+                className="border rounded p-4 shadow-sm bg-gray-50"
+              >
+                <p className="text-gray-800">
+                  <strong>{r.vendor}</strong> – {r.amount} kr –{" "}
+                  <em>{r.activity}</em> (
+                  {new Date(r.purchase_date).toLocaleDateString()})
+                </p>
+
+                <div className="mt-2 flex items-center gap-2">
+                  <button
+                    onClick={async () => {
+                      try {
+                        await approveReceipt(r.id);
+                        setPendingReceipts(
+                          pendingReceipts.filter((p) => p.id !== r.id)
+                        );
+                      } catch (err) {
+                        alert(err);
+                      }
+                    }}
+                    className="px-3 py-1 bg-green-600 text-white rounded text-sm"
+                  >
+                    Approve
+                  </button>
+
+                  <input
+                    type="text"
+                    placeholder="Rejection reason"
+                    value={rejectionReasons[r.id] || ""}
+                    onChange={(e) =>
+                      setRejectionReasons({
+                        ...rejectionReasons,
+                        [r.id]: e.target.value,
+                      })
+                    }
+                    className="border p-1 rounded text-sm flex-1"
+                  />
+
+                  <button
+                    onClick={async () => {
+                      try {
+                        await rejectReceipt(
+                          r.id,
+                          rejectionReasons[r.id] || "No reason given"
+                        );
+                        setPendingReceipts(
+                          pendingReceipts.filter((p) => p.id !== r.id)
+                        );
+                      } catch (err) {
+                        alert("Rejection failed");
+                      }
+                    }}
+                    className="px-3 py-1 bg-red-600 text-white rounded text-sm"
+                  >
+                    Reject
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
