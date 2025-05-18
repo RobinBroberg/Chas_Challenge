@@ -47,11 +47,13 @@ CREATE TABLE receipts (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   file_path VARCHAR(255) NOT NULL,
-  amount INT DEFAULT NULL,         
+  amount INT DEFAULT NULL,
+  activity VARCHAR(255) DEFAULT NULL,         
   vendor VARCHAR(255) DEFAULT NULL,
   purchase_date DATE DEFAULT NULL,
   uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  is_approved BOOLEAN DEFAULT FALSE,
+  status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+  rejection_reason TEXT DEFAULT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 

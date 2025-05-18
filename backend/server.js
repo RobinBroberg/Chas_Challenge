@@ -30,7 +30,6 @@ app.use("/questions", questionRoutes);
 app.use("/users", userRoutes);
 app.use("/answers", answerRoutes);
 app.use("/receipts", receiptsRoutes);
-app.use("/uploads", express.static("uploads"));
 
 app.listen(port, () => {
   console.log(`Backend is running at http://localhost:${port}`);
