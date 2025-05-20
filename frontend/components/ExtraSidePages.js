@@ -6,12 +6,16 @@ const ExtraSidePages = ({ imageSrc, title, text }) => {
       <img
         src={imageSrc}
         alt={title}
-        className="w-full h-[400px] object-cover"
+        className="w-full h-[350px] object-cover"
       />
 
-      <div className="flex flex-col space-y-24 px-24 py-30">
-        <h2 className="font-extrabold text-2xl">{title}</h2>
-        <p className="font-Montserrat font-medium text-2xl w-4xl">{text}</p>
+      <div className="flex flex-col px-24 py-16 tracking-wider">
+        <h1 className="font-extrabold text-2xl font-Wix Madefor Display">
+          {title}
+        </h1>
+        <p className="font-Montserrat font-medium text-lg w-5xl pt-12">
+          {text}
+        </p>
       </div>
     </div>
   );
