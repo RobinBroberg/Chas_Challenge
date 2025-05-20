@@ -5,11 +5,11 @@ export default function FormStart() {
   const router = useRouter();
 
   const handleStart = () => {
-    router.push("/form");
+    router.push("/surveyPage");
   };
 
   const handleInfo = () => {
-    router.push("/aboutForm");
+    router.push("/aboutSurvey");
   };
 
   return (

@@ -122,7 +122,7 @@ export default function FormPage() {
 
     try {
       await postAnswers(formatted);
-      router.push("/formDone");
+      router.push("/surveyDone");
     } catch (err) {
       console.error("Failed to post answers:", err);
       alert("Något gick fel vid inskickningen.");
@@ -237,7 +237,6 @@ export default function FormPage() {
                 onSubmit={(e) => e.preventDefault()}
                 className="w-full max-w-4xl space-y-24 pt-14 sm:pt-18 md:pt-24"
               >
-                {/* Question 11: Thumbs */}
                 <div className="space-y-4 px-4">
                   <p className="font-semibold text-lg md:text-2xl md:px-28 font-Montserrat">
                     11. Skulle du rekommendera din arbetsplats till andra?
@@ -274,7 +273,7 @@ export default function FormPage() {
                     </button>
                   </div>
                 </div>
-                {/* Question 12: Textarea */}
+
                 <div className="space-y-4 px-4">
                   <p className="font-semibold text-lg md:text-2xl md:px-28 font-Montserrat">
                     12. Vill du ge någon mer feedback?
