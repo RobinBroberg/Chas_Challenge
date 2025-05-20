@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { getQuestions } from "@/services/api";
 import { postAnswers } from "@/services/api";
 
-function FormQuestions({ name, question, value, onChange }) {
+function FormQuestions({ id, question, value, onChange }) {
   return (
     <div className="font-Montserrat flex flex-col md:flex-row items-start md:items-center justify-between w-full py-5 gap-4 md:gap-10">
       <p className="font-medium text-base md:text-lg w-full md:w-1/3">
@@ -17,7 +17,7 @@ function FormQuestions({ name, question, value, onChange }) {
           <label key={num} className="flex items-center justify-center">
             <input
               type="radio"
-              name={name}
+              id={id}
               value={num}
               checked={value === String(num)}
               required
@@ -43,17 +43,19 @@ export default function FormPage() {
     async function fetchData() {
       try {
         const data = await getQuestions();
-        const formatted = data.map((q, index) => ({
+        const formatted = data.map((q) => ({
           ...q,
-          name: `q${index + 1}`,
+          id: q.id,
           question: q.question_text,
         }));
-        setAllQuestions(formatted);
 
-        const groups = [];
-        for (let i = 0; i < formatted.length; i += 4) {
-          groups.push(formatted.slice(i, i + 4));
-        }
+        const groups = [
+          formatted.slice(0, 4),
+          formatted.slice(4, 8),
+          formatted.slice(8, 10),
+        ];
+
+        setAllQuestions(formatted);
         setGroupedQuestions(groups);
         setLoading(false);
       } catch (error) {
@@ -67,19 +69,20 @@ export default function FormPage() {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setResponses((prev) => ({ ...prev, [name]: value }));
+    const { id, value } = e.target;
+    setResponses((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleNext = () => {
-    const currentQuestions = groupedQuestions[page];
-    const allAnswered = currentQuestions.every((q) => responses[q.name]);
-    if (!allAnswered) {
-      alert("Vänlig svara på alla frågor innan du går vidare.");
-      return;
-    }
+    if (page < groupedQuestions.length) {
+      const currentQuestions = groupedQuestions[page];
+      const allAnswered = currentQuestions.every((q) => responses[q.id]);
 
-    if (page < groupedQuestions.length - 1) {
+      if (!allAnswered) {
+        alert("Vänligen svara på alla frågor innan du går vidare.");
+        return;
+      }
+
       setPage((prev) => {
         const next = prev + 1;
         setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
@@ -99,12 +102,12 @@ export default function FormPage() {
   };
 
   const handleFinish = async () => {
-    const validQuestions = groupedQuestions
-      .flat()
-      .filter((q) => q.name !== "q9" && q.name !== "q10");
+    const validQuestions = allQuestions.filter(
+      (q) => q.id !== "q11" && q.id !== "q12"
+    );
 
     const allAnswered = validQuestions.every(
-      (q) => responses[q.name] && responses[q.name].toString().trim() !== ""
+      (q) => responses[q.id] && responses[q.id].toString().trim() !== ""
     );
 
     if (!allAnswered) {
@@ -114,7 +117,7 @@ export default function FormPage() {
 
     const formatted = validQuestions.map((q) => ({
       question_id: q.id,
-      answer_value: parseInt(responses[q.name]),
+      answer_value: parseInt(responses[q.id]),
     }));
 
     try {
@@ -157,16 +160,23 @@ export default function FormPage() {
           />
         </div>
       )}
-
+      {page === 2 && (
+        <div className="flex justify-center items-center pt-10 sm:pt-16 md:pt-20">
+          <img
+            src="Progressbar3.png"
+            className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
+          />
+        </div>
+      )}
       <div className="flex justify-center  md:pt-20 p-10">
         <div
           className={`w-full max-w-6xl mx-auto px-4 md:px-10 text-black ${
-            page !== 2
+            page < groupedQuestions.length
               ? "border border-[#CCCFBC] rounded-[10px] bg-[#F7F7F1]"
               : "bg-white"
           }`}
         >
-          {page < 2 ? (
+          {page < groupedQuestions.length ? (
             <form onSubmit={(e) => e.preventDefault()} className="py-10">
               <h2 className="font-semibold font-Montserrat text-xl md:text-2xl px-2 md:px-10">
                 Så upplever jag min arbetssituation
@@ -194,19 +204,20 @@ export default function FormPage() {
                   </li>
                 </ul>
               </div>
-              {groupedQuestions[page]?.map(({ name, question }, index) => {
+
+              {groupedQuestions[page]?.map(({ id, question }, index) => {
                 const questionNumber = page * 4 + index + 1;
                 return (
                   <div
-                    key={name}
+                    key={id}
                     className={`w-full min-h-[120px] px-4 md:px-10 py-8 ${
                       index % 2 === 0 ? "bg-[#DAE0D3]" : "bg-[#F7F7F1]"
                     }`}
                   >
                     <FormQuestions
-                      name={name}
+                      id={id}
                       question={`${questionNumber}. ${question}`}
-                      value={responses[name]}
+                      value={responses[id]}
                       onChange={handleChange}
                     />
                   </div>
@@ -214,7 +225,7 @@ export default function FormPage() {
               })}
             </form>
           ) : (
-            // last page
+            // Last page
             <div className="flex flex-col justify-center items-center bg-white">
               <div className="flex justify-center items-center pt-6 sm:pt-8 md:pt-10">
                 <img
@@ -226,67 +237,59 @@ export default function FormPage() {
                 onSubmit={(e) => e.preventDefault()}
                 className="w-full max-w-4xl space-y-24 pt-14 sm:pt-18 md:pt-24"
               >
-                {groupedQuestions[page].map(({ name, question }, index) => {
-                  const questionNumber = page * 4 + index + 1;
-                  return (
-                    <div key={name} className="space-y-4 px-4 ">
-                      <p className="font-semibold text-lg md:text-2xl md:px-28 font-Montserrat">
-                        {questionNumber}. {question}
-                      </p>
-                      {name === "q9" ? (
-                        <div className="flex flex-col sm:flex-row justify-center items-center gap-8 pt-10">
-                          <button
-                            type="button"
-                            className={`flex items-center justify-center bg-[#F5F5F1] w-40 h-40 sm:w-60 sm:h-60 md:w-[330px] md:h-[330px] rounded-full cursor-pointer transition-all duration-300
-                           ${
-                             responses.q9 === "yes"
-                               ? "border-4 border-green-500"
-                               : "border border-[#96A56B]"
-                           }`}
-                            onClick={() =>
-                              setResponses((prev) => ({ ...prev, q9: "yes" }))
-                            }
-                          >
-                            <LuThumbsUp className="size-16 sm:size-24 md:size-32 text-green-500" />
-                          </button>
+                {/* Question 11: Thumbs */}
+                <div className="space-y-4 px-4">
+                  <p className="font-semibold text-lg md:text-2xl md:px-28 font-Montserrat">
+                    11. Skulle du rekommendera din arbetsplats till andra?
+                  </p>
+                  <div className="flex flex-col sm:flex-row justify-center items-center gap-8 pt-10">
+                    <button
+                      type="button"
+                      className={`flex items-center justify-center bg-[#F5F5F1] w-40 h-40 sm:w-60 sm:h-60 md:w-[330px] md:h-[330px] rounded-full cursor-pointer transition-all duration-300
+                       ${
+                         responses.q11 === "yes"
+                           ? "border-4 border-green-500"
+                           : "border border-[#96A56B]"
+                       }`}
+                      onClick={() =>
+                        setResponses((prev) => ({ ...prev, q11: "yes" }))
+                      }
+                    >
+                      <LuThumbsUp className="size-16 sm:size-24 md:size-32 text-green-500" />
+                    </button>
 
-                          <button
-                            type="button"
-                            className={`flex items-center justify-center bg-[#F5F5F1] w-40 h-40 sm:w-60 sm:h-60 md:w-[330px] md:h-[330px] rounded-full cursor-pointer transition-all duration-300
-                           ${
-                             responses.q9 === "no"
-                               ? "border-4 border-red-500"
-                               : "border border-[#96A56B]"
-                           }`}
-                            onClick={() =>
-                              setResponses((prev) => ({ ...prev, q9: "no" }))
-                            }
-                          >
-                            <LuThumbsDown className="size-16 sm:size-24 md:size-32 text-red-500" />
-                          </button>
-                        </div>
-                      ) : name === "q10" ? (
-                        <div className="flex justify-center pt-4 font-Montserrat">
-                          <textarea
-                            name="q10"
-                            value={responses.q10 || ""}
-                            onChange={handleChange}
-                            required
-                            placeholder="Ange ditt svar"
-                            className="w-full max-w-[650px] h-40 md:h-56 bg-[#F5F5F1] border border-[#768354] rounded-lg text-base md:text-lg p-4 resize-none"
-                          />
-                        </div>
-                      ) : (
-                        <FormQuestions
-                          name={name}
-                          question={`${questionNumber}. ${question}`}
-                          value={responses[name]}
-                          onChange={handleChange}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
+                    <button
+                      type="button"
+                      className={`flex items-center justify-center bg-[#F5F5F1] w-40 h-40 sm:w-60 sm:h-60 md:w-[330px] md:h-[330px] rounded-full cursor-pointer transition-all duration-300
+                     ${
+                       responses.q11 === "no"
+                         ? "border-4 border-red-500"
+                         : "border border-[#96A56B]"
+                     }`}
+                      onClick={() =>
+                        setResponses((prev) => ({ ...prev, q11: "no" }))
+                      }
+                    >
+                      <LuThumbsDown className="size-16 sm:size-24 md:size-32 text-red-500" />
+                    </button>
+                  </div>
+                </div>
+                {/* Question 12: Textarea */}
+                <div className="space-y-4 px-4">
+                  <p className="font-semibold text-lg md:text-2xl md:px-28 font-Montserrat">
+                    12. Vill du ge någon mer feedback?
+                  </p>
+                  <div className="flex justify-center pt-4 font-Montserrat">
+                    <textarea
+                      name="q12"
+                      value={responses.q12 || ""}
+                      onChange={handleChange}
+                      required
+                      placeholder="Ange ditt svar"
+                      className="w-full max-w-[650px] h-40 md:h-56 bg-[#F5F5F1] border border-[#768354] rounded-lg text-base md:text-lg p-4 resize-none"
+                    />
+                  </div>
+                </div>
               </form>
             </div>
           )}
@@ -294,7 +297,7 @@ export default function FormPage() {
       </div>
 
       <div>
-        {page === groupedQuestions.length - 1 ? (
+        {page === groupedQuestions.length ? (
           <div className="flex justify-center pt-16 pb-20">
             <button
               onClick={handleFinish}
