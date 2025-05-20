@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { FiMenu, FiX } from "react-icons/fi";
 import { AiOutlineUser, AiOutlineHeart, AiOutlineSearch } from "react-icons/ai";
+import { useUser } from "@/context/UserContext";
 
 const MAIN_NAV = [
   { href: "/", label: "OM OSS" },
@@ -19,8 +20,10 @@ const MAIN_NAV_LOGGED_IN = [
 ];
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // toggle to true for testing
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user } = useUser();
+
+  const isLoggedIn = !!user;
 
   return (
     <nav className="w-full bg-[#45463F] text-white px-6 py-5 relative z-20 font-montserrat">
@@ -84,13 +87,7 @@ const Navbar = () => {
           {/* Login button (shown if NOT logged in) */}
           {!isLoggedIn && (
             <Link href="/login">
-              <button
-                onClick={() => {
-                  localStorage.setItem("isLoggedIn", "true");
-                  setIsLoggedIn(true);
-                }}
-                className="bg-white text-black px-4 py-2 rounded-full text-xs"
-              >
+              <button className="bg-white text-black px-4 py-2 rounded-full text-xs">
                 Logga in
               </button>
             </Link>

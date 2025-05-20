@@ -18,6 +18,7 @@ import {
   logout,
   updateQuestions,
 } from "@/services/api";
+import { useUser } from "@/context/UserContext";
 
 export default function QuestionsPage() {
   const [questions, setQuestions] = useState([]);
@@ -30,9 +31,11 @@ export default function QuestionsPage() {
   const [rejectionReasons, setRejectionReasons] = useState({});
 
   const router = useRouter();
+  const { setUser } = useUser();
 
   const handleLogout = async () => {
     await logout();
+    setUser(null);
     router.push("/");
   };
 

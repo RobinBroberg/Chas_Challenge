@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { login, getCurrentUser } from "@/services/api";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useUser } from "@/context/UserContext";
 import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
@@ -14,6 +15,7 @@ const loginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const { refreshUser } = useUser();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -28,6 +30,7 @@ const loginPage = () => {
   async function handleLogin() {
     try {
       const data = await login(email, password);
+      await refreshUser();
       if (data.role === "admin") {
         router.push("/admin/questions");
       } else {
