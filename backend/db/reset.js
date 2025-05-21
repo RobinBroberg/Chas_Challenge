@@ -24,16 +24,16 @@ const runSchema = async () => {
     const [companies] = await connection.query(`SELECT id FROM companies`);
 
     const defaultQuestions = [
-      "How energized do you feel today?",
-      "How stressed do you feel right now?",
-      "How well did you sleep last night?",
-      "How motivated are you to work today?",
-      "How productive do you feel today?",
-      "How satisfied are you with your work environment?",
-      "How clear are your work tasks today?",
-      "How supported do you feel by your team/manager?",
-      "How balanced do you feel between work and personal life?",
-      "How confident are you about your current workload?",
+      "Hur pigg känner du dig idag?",
+      "Hur stressad känner du dig just nu?",
+      "Hur bra sov du i natt?",
+      "Hur motiverad är du att arbeta idag?",
+      "Hur produktiv känner du dig idag?",
+      "Hur nöjd är du med din arbetsmiljö?",
+      "Hur tydliga är dina arbetsuppgifter idag?",
+      "Hur stöttad känner du dig av ditt team eller din chef?",
+      "Hur upplever du balansen mellan jobb och privatliv?",
+      "Hur trygg känner du dig med din nuvarande arbetsbelastning?",
     ];
 
     //  Insert the same questions for each company
