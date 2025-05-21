@@ -122,7 +122,7 @@ export default function FormPage() {
 
     try {
       await postAnswers(formatted);
-      router.push("/survey/done");
+      router.push("/survey/complete");
     } catch (err) {
       console.error("Failed to post answers:", err);
       alert("Något gick fel vid inskickningen.");

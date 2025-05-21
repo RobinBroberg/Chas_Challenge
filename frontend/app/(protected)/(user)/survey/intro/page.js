@@ -17,11 +17,11 @@ export default function FormStart() {
   }, []);
 
   const handleStart = () => {
-    router.push("/survey/page");
+    router.push("/survey/questions");
   };
 
   const handleInfo = () => {
-    router.push("/aboutSurvey");
+    router.push("/about/survey");
   };
 
   return (

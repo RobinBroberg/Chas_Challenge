@@ -13,7 +13,7 @@ const MAIN_NAV = [
 ];
 
 const MAIN_NAV_LOGGED_IN = [
-  { href: "/survey/start", label: "BALANSUNDERSÖKNING" },
+  { href: "/survey/intro", label: "BALANSUNDERSÖKNING" },
   { href: "/friskvard", label: "FRISKVÅRD" },
   { href: "/swipe", label: "SWIPE" },
   { href: "/challenges", label: "UTMANINGAR" },
