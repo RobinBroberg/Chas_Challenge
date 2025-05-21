@@ -122,7 +122,7 @@ export default function FormPage() {
 
     try {
       await postAnswers(formatted);
-      router.push("/surveyDone");
+      router.push("/survey/surveyDone");
     } catch (err) {
       console.error("Failed to post answers:", err);
       alert("Något gick fel vid inskickningen.");
@@ -145,7 +145,7 @@ export default function FormPage() {
           </div>
           <div className="flex justify-center items-center pt-10 sm:pt-16 md:pt-20">
             <img
-              src="Progressbar1.png"
+              src="/Progressbar1.png"
               className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
             />
           </div>
@@ -155,7 +155,7 @@ export default function FormPage() {
       {page === 1 && (
         <div className="flex justify-center items-center pt-10 sm:pt-16 md:pt-20">
           <img
-            src="Progressbar2.png"
+            src="/Progressbar2.png"
             className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
           />
         </div>
@@ -163,7 +163,7 @@ export default function FormPage() {
       {page === 2 && (
         <div className="flex justify-center items-center pt-10 sm:pt-16 md:pt-20">
           <img
-            src="Progressbar3.png"
+            src="/Progressbar3.png"
             className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
           />
         </div>
@@ -229,7 +229,7 @@ export default function FormPage() {
             <div className="flex flex-col justify-center items-center bg-white">
               <div className="flex justify-center items-center pt-6 sm:pt-8 md:pt-10">
                 <img
-                  src="Progressbar3.png"
+                  src="/Progressbar3.png"
                   className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
                 />
               </div>
@@ -300,7 +300,7 @@ export default function FormPage() {
           <div className="flex justify-center pt-16 pb-20">
             <button
               onClick={handleFinish}
-              className="text-white w-full max-w-[217px] h-16 md:h-[83px] bg-gradient-to-b from-[#4A5A41] to-[#99AE86] rounded-[60px] cursor-pointer text-xl md:text-3xl"
+              className="text-white w-full max-w-[217px] h-16 md:h-[83px] bg-gradient-to-b from-[#4A5A41] to-[#99AE86] rounded-[60px] cursor-pointer text-xl md:text-3xl hover:from-[#3e4c33] hover:to-[#7d8f69]"
             >
               Skicka
             </button>
