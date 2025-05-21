@@ -2,11 +2,10 @@
 import React, { useState } from "react";
 
 const CreateAccountPage = () => {
-  const [role, setRole] = useState("hr");
+  const [role, setRole] = useState("worker");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleCreateAccount = () => {
@@ -15,7 +14,6 @@ const CreateAccountPage = () => {
       firstName,
       lastName,
       email,
-      username,
       password,
     });
   };
@@ -36,7 +34,7 @@ const CreateAccountPage = () => {
           onChange={(e) => setRole(e.target.value)}
           className="border-b-2 w-160 border-white p-2 text-lg bg-transparent text-white focus:outline-none"
         >
-          <option value="hr">HR / Chef</option>
+          <option value="admin">HR / Chef</option>
           <option value="worker">Medarbetare</option>
         </select>
 
@@ -61,14 +59,6 @@ const CreateAccountPage = () => {
           placeholder="E-postadress"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border-b-2 w-160 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300"
-        />
-
-        <input
-          type="text"
-          placeholder="Användarnamn"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
           className="border-b-2 w-160 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300"
         />
 
