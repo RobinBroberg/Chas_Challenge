@@ -17,7 +17,7 @@ export default function FormStart() {
   }, []);
 
   const handleStart = () => {
-    router.push("/survey/surveyPage");
+    router.push("/survey/page");
   };
 
   const handleInfo = () => {

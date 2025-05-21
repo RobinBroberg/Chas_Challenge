@@ -7,13 +7,13 @@ import { AiOutlineUser, AiOutlineHeart, AiOutlineSearch } from "react-icons/ai";
 import { useUser } from "@/context/UserContext";
 
 const MAIN_NAV = [
-  { href: "/", label: "OM OSS" },
-  { href: "/aboutSurvey", label: "OM BALANSUNDERSÖKNINGEN" },
-  { href: "/aboutChallenges", label: "OM UTMANINGAR" },
+  { href: "/about", label: "OM OSS" },
+  { href: "/about/survey", label: "OM BALANSUNDERSÖKNINGEN" },
+  { href: "/about/challenges", label: "OM UTMANINGAR" },
 ];
 
 const MAIN_NAV_LOGGED_IN = [
-  { href: "/survey", label: "BALANSUNDERSÖKNING" },
+  { href: "/survey/start", label: "BALANSUNDERSÖKNING" },
   { href: "/friskvard", label: "FRISKVÅRD" },
   { href: "/swipe", label: "SWIPE" },
   { href: "/challenges", label: "UTMANINGAR" },
