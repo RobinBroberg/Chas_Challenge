@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "jsonwebtoken": "^9.0.2",
-    "next": "^15.3.2"
+    "next": "^15.3.2",
+    "recharts": "^2.15.3"
   }
 }
