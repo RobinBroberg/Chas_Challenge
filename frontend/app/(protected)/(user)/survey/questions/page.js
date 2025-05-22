@@ -8,7 +8,7 @@ import { postAnswers } from "@/services/api";
 
 function FormQuestions({ id, question, value, onChange }) {
   return (
-    <div className="font-Montserrat flex flex-col md:flex-row items-start md:items-center justify-between w-full py-5 gap-4 md:gap-10">
+    <div className="font-montserrat flex flex-col md:flex-row items-start md:items-center justify-between w-full py-5 gap-4 md:gap-10">
       <p className="font-medium text-base md:text-lg w-full md:w-1/3">
         {question}
       </p>
@@ -138,7 +138,7 @@ export default function FormPage() {
               <h1 className="font-bold text-3xl md:text-5xl font-Wix Madefor Display">
                 Balansundersökning
               </h1>
-              <h2 className="font-normal text-lg md:text-2xl font-Montserrat">
+              <h2 className="font-normal text-lg md:text-2xl font-montserrat">
                 Kartläggning av arbetssituation
               </h2>
             </div>
@@ -178,11 +178,11 @@ export default function FormPage() {
         >
           {page < groupedQuestions.length ? (
             <form onSubmit={(e) => e.preventDefault()} className="py-10">
-              <h2 className="font-semibold font-Montserrat text-xl md:text-2xl px-2 md:px-10">
+              <h2 className="font-semibold font-montserrat text-xl md:text-2xl px-2 md:px-10">
                 Så upplever jag min arbetssituation
               </h2>
               <div className="flex justify-end">
-                <ul className="grid grid-cols-5 gap-x-2 sm:gap-x-4 w-full md:w-2/3 font-Montserrat text-xs sm:text-sm md:text-lg pt-10 pb-5">
+                <ul className="grid grid-cols-5 gap-x-2 sm:gap-x-4 w-full md:w-2/3 font-montserrat text-xs sm:text-sm md:text-lg pt-10 pb-5">
                   <li className="text-center">
                     Instämmer
                     <br />
@@ -238,7 +238,7 @@ export default function FormPage() {
                 className="w-full max-w-4xl space-y-24 pt-14 sm:pt-18 md:pt-24"
               >
                 <div className="space-y-4 px-4">
-                  <p className="font-semibold text-lg md:text-2xl md:px-28 font-Montserrat">
+                  <p className="font-semibold text-lg md:text-2xl md:px-28 font-montserrat">
                     11. Skulle du rekommendera din arbetsplats till andra?
                   </p>
                   <div className="flex flex-col sm:flex-row justify-center items-center gap-8 pt-10">
@@ -275,10 +275,10 @@ export default function FormPage() {
                 </div>
 
                 <div className="space-y-4 px-4">
-                  <p className="font-semibold text-lg md:text-2xl md:px-28 font-Montserrat">
+                  <p className="font-semibold text-lg md:text-2xl md:px-28 font-montserrat">
                     12. Vill du ge någon mer feedback?
                   </p>
-                  <div className="flex justify-center pt-4 font-Montserrat">
+                  <div className="flex justify-center pt-4 font-montserrat">
                     <textarea
                       name="q12"
                       value={responses.q12 || ""}
@@ -300,7 +300,10 @@ export default function FormPage() {
           <div className="flex justify-center pt-16 pb-20">
             <button
               onClick={handleFinish}
-              className="text-white w-full max-w-[217px] h-16 md:h-[83px] bg-gradient-to-b from-[#4A5A41] to-[#99AE86] rounded-[60px] cursor-pointer text-xl md:text-3xl hover:from-[#3e4c33] hover:to-[#7d8f69]"
+              className="text-white w-full max-w-[217px] h-16 md:h-[83px] bg-[#5F6F52] hover:bg-[#464C35] rounded-full cursor-pointer text-xl md:text-3xl transition-colors duration-200"
+              style={{
+                boxShadow: "inset 0px 21px 11.9px rgba(189, 188, 188, 0.25)",
+              }}
             >
               Skicka
             </button>

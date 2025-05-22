@@ -32,33 +32,36 @@ export default function FormStart() {
       }}
     >
       <div className="flex flex-col sm:flex-row justify-center items-start  rounded-sm">
-        <div className="border border-[#232F21] rounded-sm w-full sm:w-3xl h-[550px] bg-[#5F6F52] flex flex-col items-center justify-center">
+        <div className="border border-[#232F21] rounded-sm w-full sm:w-3xl h-[550px] bg-[#5F6F52] flex flex-col items-center justify-center text-[#FFFFFF]">
           <div className="flex flex-col items-center justify-center ">
-            <h2 className="font-Montserrat font-normal text-lg sm:text-2xl md:text-3xl text-center">
+            <h2 className="font-montserrat font-normal text-lg sm:text-2xl md:text-3xl text-center">
               Du har blivit bjuden till en
             </h2>
-            <h2 className="font-Montserrat font-normal text-lg sm:text-2xl md:text-3xl pb-20 sm:pb-6 text-center">
+            <h2 className="font-montserrat font-normal text-lg sm:text-2xl md:text-3xl pb-20 sm:pb-6 text-center">
               Balansundersökning!
             </h2>
 
-            <h3 className="font-Montserrat font-normal text-base md:text-lg text-center">
+            <h3 className="font-montserrat font-normal text-base md:text-lg text-center">
               Tidsåtgång: ca 15 min
             </h3>
-            <h4 className="font-Montserrat font-normal text-sm p-3 text-center">
+            <h4 className="font-montserrat font-normal text-sm p-3 text-center">
               Samtliga frågor är obligatoriska
             </h4>
           </div>
 
-          <div className="text-black font-medium text-xl md:text-2xl pt-10 md:pt-8 flex flex-col md:flex-row gap-8 md:gap-10">
+          <div className="text-black font-medium text-xl md:text-2xl pt-10 md:pt-8 flex flex-col md:flex-row gap-8 md:gap-10 font-montserrat">
             <button
               onClick={handleStart}
-              className="bg-white w-40 h-14 md:w-44 md:h-16 rounded-[60px] cursor-pointer"
+              className="w-40 h-14 md:w-44 md:h-16 bg-white text-black rounded-full font-bold text-lg transition-all duration-200 hover:bg-[#7B7D70] hover:text-white shadow-md"
+              style={{ boxShadow: "inset 0px 5px 4px rgba(0, 0, 0, 0.25)" }}
             >
               Starta
             </button>
+
             <button
               onClick={handleInfo}
-              className="bg-white w-40 h-14 md:w-44 md:h-16 rounded-[60px] cursor-pointer"
+              className="w-40 h-14 md:w-44 md:h-16 bg-white text-black rounded-full font-bold text-lg transition-all duration-200 hover:bg-[#7B7D70] hover:text-white shadow-md"
+              style={{ boxShadow: "inset 0px 5px 4px rgba(0, 0, 0, 0.25)" }}
             >
               Info
             </button>
