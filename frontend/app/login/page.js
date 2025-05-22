@@ -16,6 +16,7 @@ const loginPage = () => {
   const [password, setPassword] = useState("");
   const router = useRouter();
   const { refreshUser } = useUser();
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -28,6 +29,14 @@ const loginPage = () => {
   }, []);
 
   async function handleLogin() {
+    if (!email || !password) {
+      setErrorMessage("Fyll i både e-postadress och lösenord.");
+      return;
+    }
+    if (!email.includes("@")) {
+      setErrorMessage("Ogiltig e-postadress");
+      return;
+    }
     try {
       const data = await login(email, password);
       await refreshUser();
@@ -38,34 +47,26 @@ const loginPage = () => {
       }
     } catch (err) {
       console.error("Login failed:", err.message);
-      alert("Login misslyckades");
+      setErrorMessage("Login misslyckades");
     }
   }
 
-  const handleCreateAccount = () => {
-    // Implementera logik för att skapa konto
-    console.log("Skapa konto");
-  };
-
   return (
     <div
-      className="w-full h-screen flex items-center justify-center bg-cover bg-center"
+      className="w-full h-screen flex items-center justify-center bg-cover bg-center px-4"
       style={{ backgroundImage: "url('/landingHeader.png')" }}
     >
-      <div className="flex flex-col space-y-6 mt-15">
-        <h2
-          className="text-4xl font-medium text-left mb-18 font-montserrat"
-          style={{ color: "#F6F4F0" }}
-        >
+      <div className="flex flex-col space-y-6 max-w-[800px] w-full">
+        <h2 className="text-3xl sm:text-4xl font-semibold font-montserrat text-white text-left mb-40">
           Logga in
         </h2>
 
         <input
           type="text"
-          placeholder="Användarnamn"
+          placeholder="E-postadress"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border-b-2 w-160 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300 font-montserrat"
+          className="border-b-3 border-white p-2 text-lg font-medium focus:outline-none text-white placeholder-white focus:border-gray-300 font-montserrat bg-transparent z"
         />
 
         <input
@@ -73,35 +74,29 @@ const loginPage = () => {
           placeholder="Lösenord"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border-b-2 w-160 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300 font-montserrat"
+          className="border-b-3 border-white p-2 text-lg focus:outline-none font-medium text-white placeholder-white focus:border-gray-300 font-montserrat bg-transparent"
         />
+
+        {errorMessage && (
+          <p className="text-white text-sm font-montserrat">{errorMessage}</p>
+        )}
 
         <div className="flex justify-end">
           <Link
             href="/resetPassword"
-            className="text-sm text-white hover:underline font-montserrat"
+            className="text-sm text-white font-medium hover:underline font-montserrat"
           >
             Glömt lösenord?
           </Link>
         </div>
 
-        <div className="flex space-x-6 justify-center">
+        <div className="flex justify-center">
           <button
             onClick={handleLogin}
-            className="px-27 py-4 bg-gray-300 text-white rounded-full hover:bg-gray-400 transition font-bold text-lg"
-            style={{ color: "#47423E" }}
+            className="font-montserrat w-5/6  py-4 bg-white text-black hover:bg-[#7B7D70]  hover:text-white rounded-full text-xl font-semibold duration-200 hover:shadow-[inset_0px_5px_4px_rgba(0,0,0,0.25)]"
           >
             Logga in
           </button>
-
-          <Link href="/createAccount">
-            <button
-              className="px-27 py-4 bg-gray-300 text-white rounded-full hover:bg-gray-400 transition font-bold text-lg font-montserrat"
-              style={{ color: "#47423E" }}
-            >
-              Skapa konto
-            </button>
-          </Link>
         </div>
       </div>
     </div>

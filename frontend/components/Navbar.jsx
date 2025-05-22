@@ -35,7 +35,7 @@ const Navbar = () => {
         </Link>
         {/* Nav links in center (desktop only NOT logged in) */}
         {!isLoggedIn && (
-          <div className="hidden md:flex gap-6 items-center justify-center flex-1 text-l font-medium">
+          <div className="hidden md:flex gap-6 items-center justify-center flex-1 text-lg font-medium">
             {MAIN_NAV.map(({ href, label }) => (
               <Link key={href} href={href}>
                 {label}
@@ -46,7 +46,7 @@ const Navbar = () => {
 
         {/* Nav links in center (desktop only when logged in) */}
         {isLoggedIn && (
-          <div className="hidden md:flex gap-6 items-center justify-center flex-1 text-l font-medium">
+          <div className="hidden md:flex gap-6 items-center justify-center flex-1 text-lg font-medium">
             {MAIN_NAV_LOGGED_IN.map(({ href, label }) => (
               <Link key={href} href={href}>
                 {label}
@@ -82,11 +82,12 @@ const Navbar = () => {
           {/* Login button (shown if NOT logged in) */}
           {!isLoggedIn && (
             <Link href="/login">
-              <div className="group inline-block">
-                <button className="font-montserrat px-7 py-3 bg-white text-black hover:bg-[#7B7D70] hover:text-white rounded-full text-xs font-semibold duration-200 group-hover:shadow-[inset_0px_5px_4px_rgba(0,0,0,0.25)]">
-                  Logga in
-                </button>
-              </div>
+              <button
+                className="font-montserrat px-7 py-3 bg-white text-black hover:bg-[#7B7D70] hover:text-white rounded-full font-semibold duration-200 hover:shadow-[inset_0px_5px_4px_rgba(0,0,0,0.25)]
+"
+              >
+                Logga in
+              </button>
             </Link>
           )}
         </div>

@@ -133,9 +133,9 @@ export default function WellnessBenefitsPage() {
         <div className="w-full md:w-1/3  bg-gradient-to-br from-[#aeb396] to-[#232F21] text-white shadow-2xl p-3 rounded-lg mb-4 mt-4 md:mt-0 md:mb-0 flex flex-col items-center justify-center">
           <p className="font-bold text-lg">FRISKVÅRDSBIDRAG</p>
           <span
-            className="text-white font-montserrat font-bold text-[64px] leading-[100%] p-12"
+            className="text-white font-montserrat font-bold text-[64px] leading-[100%] p-20"
             style={{
-              textShadow: "0 9px 4px rgba(0, 0, 0, 0.25)",
+              textShadow: "0 7px 4px rgba(0, 0, 0, 0.25)",
             }}
           >
             {remainingBalance !== null ? `${remainingBalance} kr` : "Laddar..."}
