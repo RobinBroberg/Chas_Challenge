@@ -130,9 +130,14 @@ export default function WellnessBenefitsPage() {
     <div className="max-w mx-auto p-6 md:p-22 bg-[#FBFAF5] font-montserrat min-h-screen flex flex-col">
       {/* Friskvårdens balans + text */}
       <div className="flex flex-col md:flex-row items-center mb-5 md:mb-10">
-        <div className="w-full md:w-1/3 bg-gradient-to-r from-[rgba(0,0,0,0.9)] to-[#C8B5A7] text-white shadow-2xl p-3 rounded-lg mb-4 mt-4 md:mt-0 md:mb-0 flex flex-col items-center justify-center">
+        <div className="w-full md:w-1/3  bg-gradient-to-br from-[#aeb396] to-[#232F21] text-white shadow-2xl p-3 rounded-lg mb-4 mt-4 md:mt-0 md:mb-0 flex flex-col items-center justify-center">
           <p className="font-bold text-lg">FRISKVÅRDSBIDRAG</p>
-          <span className="text-6xl font-bold p-12">
+          <span
+            className="text-white font-montserrat font-bold text-[64px] leading-[100%] p-12"
+            style={{
+              textShadow: "0 9px 4px rgba(0, 0, 0, 0.25)",
+            }}
+          >
             {remainingBalance !== null ? `${remainingBalance} kr` : "Laddar..."}
           </span>
 
