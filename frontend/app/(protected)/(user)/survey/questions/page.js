@@ -21,7 +21,7 @@ function FormQuestions({ id, question, value, onChange }) {
               value={num}
               checked={value === String(num)}
               required
-              className="accent-green-600 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 cursor-pointer"
+              className="accent-[#7B8273]  w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 cursor-pointer"
               onChange={onChange}
             />
           </label>
