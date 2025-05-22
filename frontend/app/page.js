@@ -51,7 +51,7 @@ export default function Home() {
           className="w-full h-[850px] object-cover brightness-75"
         />
         <div className="absolute inset-0 flex items-center justify-start px-10">
-          <h1 className="text-white font-montserrat text-8xl md:text-[14rem] tracking-widest">
+          <h1 className="text-white font-montserrat text-6xl md:text-[8rem] lg:text-[14rem] tracking-widest ">
             BALANCE
           </h1>
         </div>
@@ -77,13 +77,13 @@ export default function Home() {
       </section>
 
       {/* Full Width Image with Centered h2 */}
-      <div className="relative w-screen my-10">
+      <div className="relative w-full my-10">
         <img
           src="/landingIMG.jpg"
           alt="Landing Image"
           className="w-full md:h-[450px] object-cover brightness-75"
         />
-        <h2 className="absolute inset-0 flex items-center justify-center text-white font-bold text-5xl text-center px-4">
+        <h2 className="absolute inset-0 flex items-center justify-center text-white font-bold text-3xl md:text-5xl text-center px-4">
           DIN HÄLSA. DITT TEMPO. DITT VÄLMÅENDE.
         </h2>
       </div>
@@ -103,7 +103,7 @@ export default function Home() {
               hur du mår, enkla verktyg för att förebygga stress och stöd på
               vägen mot bättre balans i vardagen.
             </p>
-            <div className="flex justify-end">
+            <div className="flex justify-center md:justify-end">
               <button className="border-2 border-[#6ea16e] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 cursor-pointer">
                 OM OSS
               </button>
