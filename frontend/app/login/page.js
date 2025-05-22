@@ -10,9 +10,10 @@ const montserrat = Montserrat({
   weight: ["400", "500", "600"],
 });
 
-const loginPage = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(""); // <- hanterar felmeddelande
   const router = useRouter();
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const loginPage = () => {
   }, []);
 
   async function handleLogin() {
+    setError(""); // rensa tidigare fel innan nytt försök
     try {
       const data = await login(email, password);
       if (data.role === "admin") {
@@ -35,25 +37,17 @@ const loginPage = () => {
       }
     } catch (err) {
       console.error("Login failed:", err.message);
-      alert("Login misslyckades");
+      setError("Fel e-post eller lösenord. Försök igen."); // Visa fel i gränssnittet
     }
   }
-
-  const handleCreateAccount = () => {
-    // Implementera logik för att skapa konto
-    console.log("Skapa konto");
-  };
 
   return (
     <div
       className="w-full h-screen flex items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: "url('/landingHeader.png')" }}
     >
-      <div className="flex flex-col space-y-6 mt-15">
-        <h2
-          className="text-4xl font-medium text-left mb-18 font-montserrat"
-          style={{ color: "#F6F4F0" }}
-        >
+      <div className="flex flex-col space-y-6 mt-15 w-96">
+        <h2 className="text-4xl font-medium text-left mb-6 text-white font-montserrat">
           Logga in
         </h2>
 
@@ -62,7 +56,7 @@ const loginPage = () => {
           placeholder="Användarnamn"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border-b-2 w-160 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300 font-montserrat"
+          className="border-b-2 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300 font-montserrat"
         />
 
         <input
@@ -70,8 +64,14 @@ const loginPage = () => {
           placeholder="Lösenord"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border-b-2 w-160 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300 font-montserrat"
+          className="border-b-2 border-white p-2 text-lg focus:outline-none text-white placeholder-white focus:border-gray-300 font-montserrat"
         />
+
+        {error && (
+          <div className="text-red-400 text-sm mt-2 font-montserrat">
+            {error}
+          </div>
+        )}
 
         <div className="flex justify-end">
           <Link
@@ -82,10 +82,10 @@ const loginPage = () => {
           </Link>
         </div>
 
-        <div className="flex space-x-6 justify-center">
+        <div className="flex space-x-6 justify-center mt-4">
           <button
             onClick={handleLogin}
-            className="px-27 py-4 bg-gray-300 text-white rounded-full hover:bg-gray-400 transition font-bold text-lg"
+            className="px-6 py-3 bg-gray-300 text-white rounded-full hover:bg-gray-400 transition font-bold text-lg"
             style={{ color: "#47423E" }}
           >
             Logga in
@@ -93,7 +93,7 @@ const loginPage = () => {
 
           <Link href="/createAccount">
             <button
-              className="px-27 py-4 bg-gray-300 text-white rounded-full hover:bg-gray-400 transition font-bold text-lg font-montserrat"
+              className="px-6 py-3 bg-gray-300 text-white rounded-full hover:bg-gray-400 transition font-bold text-lg font-montserrat"
               style={{ color: "#47423E" }}
             >
               Skapa konto
@@ -105,4 +105,4 @@ const loginPage = () => {
   );
 };
 
-export default loginPage;
+export default LoginPage;

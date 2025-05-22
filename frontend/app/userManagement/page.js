@@ -1,137 +1,186 @@
-"use client";
+import React from "react";
 
-import React, { useState } from "react";
-
-// Din knappkomponent
-const PrimaryButton = ({ children, onClick, disabled }) => (
-  <button
-    onClick={onClick}
-    disabled={disabled}
-    className="bg-[#d4bfa5] text-white px-6 py-3 rounded-full w-full hover:bg-[#c6aa8c] transition font-semibold disabled:opacity-50"
-  >
-    {children}
-  </button>
-);
-
-const UserManagement = () => {
-  const [userList, setUserList] = useState([]);
-  const [newUserName, setNewUserName] = useState("");
-  const [newUserPassword, setNewUserPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-
-  const resetForm = () => {
-    setNewUserName("");
-    setNewUserPassword("");
-    setErrorMessage("");
-    setSuccessMessage("");
-  };
-
-  const addUser = async () => {
-    if (newUserName.trim() === "" || newUserPassword.trim() === "") {
-      setErrorMessage("Användarnamn och lösenord krävs.");
-      return;
-    }
-
-    const newUser = {
-      name: newUserName,
-      password: newUserPassword,
-    };
-
-    try {
-      const response = await fetch("http://localhost:3001/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${yourAuthToken}`, // Lägg till token för autentisering
-        },
-        body: JSON.stringify(newUser),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setUserList([...userList, { ...newUser, id: Date.now() }]);
-        setSuccessMessage("Användare tillagd.");
-        resetForm();
-      } else {
-        setErrorMessage(data.message || "Något gick fel.");
-      }
-    } catch (error) {
-      setErrorMessage("Kunde inte ansluta till servern.");
-    }
-  };
+const CircleProgress = ({
+  percentage,
+  size,
+  strokeWidth,
+  circleColor,
+  bgColor,
+  text,
+  textSize,
+}) => {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference * (1 - percentage / 100);
 
   return (
-    <div className="bg-[#2a2a2a] p-8 rounded-lg shadow-lg max-w-4xl mx-auto mt-10">
-      <h2 className="text-3xl font-semibold mb-6 text-white text-center">
-        Skapa Ny Användare
-      </h2>
+    <svg width={size} height={size} className="block mx-auto">
+      <circle
+        stroke={bgColor}
+        fill="transparent"
+        strokeWidth={strokeWidth}
+        r={radius}
+        cx={size / 2}
+        cy={size / 2}
+      />
+      <circle
+        stroke={circleColor}
+        fill="transparent"
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeDasharray={circumference}
+        strokeDashoffset={offset}
+        r={radius}
+        cx={size / 2}
+        cy={size / 2}
+        style={{ transition: "stroke-dashoffset 0.5s ease" }}
+      />
+      <text
+        x="50%"
+        y="50%"
+        dy="0.3em"
+        textAnchor="middle"
+        fontSize={textSize || size * 0.15}
+        fontWeight="bold"
+        fill={circleColor}
+        fontFamily="'Montserrat', sans-serif"
+      >
+        {text}
+      </text>
+    </svg>
+  );
+};
 
-      {errorMessage && (
-        <div className="bg-red-600 text-white p-2 rounded mb-4">
-          {errorMessage}
-        </div>
-      )}
-      {successMessage && (
-        <div className="bg-green-600 text-white p-2 rounded mb-4">
-          {successMessage}
-        </div>
-      )}
+const Card = ({
+  title,
+  subtitle,
+  footer,
+  circlePercentage,
+  circleText,
+  bgColor = "#C7CBBB",
+  width = 309,
+  height = 265,
+  circleTextSize,
+  children,
+}) => {
+  const oliveGreen = "#808000";
+  const footerColor = "#4A4A4A";
 
-      <div className="space-y-4 mb-8">
-        <div>
-          <label className="text-white block mb-1">Användarnamn</label>
-          <input
-            type="text"
-            value={newUserName}
-            onChange={(e) => setNewUserName(e.target.value)}
-            placeholder="Skriv användarnamn"
-            className="bg-[#47423E] text-white p-3 rounded w-full focus:outline-none"
-          />
-        </div>
+  return (
+    <div
+      className="rounded-xl p-5 flex flex-col justify-between shadow-md font-[Montserrat]"
+      style={{ backgroundColor: bgColor, width, height }}
+    >
+      <div className="flex justify-between items-start">
+        <h2 className="text-[#1A1A1A] text-2xl font-bold mb-2 flex items-center gap-2">
+          {title}
+          {title === "Välmåendestatistik" && (
+            <span role="img" aria-label="statistik">
+              📊
+            </span>
+          )}
+        </h2>
 
-        <div>
-          <label className="text-white block mb-1">Lösenord</label>
-          <input
-            type="password"
-            value={newUserPassword}
-            onChange={(e) => setNewUserPassword(e.target.value)}
-            placeholder="Skriv lösenord"
-            className="bg-[#47423E] text-white p-3 rounded w-full focus:outline-none"
-          />
-        </div>
-
-        <PrimaryButton onClick={addUser}>Lägg till användare</PrimaryButton>
+        {/* Månad & År Buttons */}
+        {title === "Välmåendestatistik" && (
+          <div className="flex gap-2">
+            <button
+              className="px-4 py-1 rounded-full text-white text-sm font-semibold"
+              style={{
+                background:
+                  "linear-gradient(0deg, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), linear-gradient(322deg, #232F21 0%, #D5DABC 95.67%)",
+              }}
+            >
+              Månad
+            </button>
+            <button
+              className="px-4 py-1 rounded-full text-white text-sm font-semibold"
+              style={{
+                background:
+                  "linear-gradient(0deg, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.20)), linear-gradient(322deg, #232F21 0%, #D5DABC 95.67%)",
+              }}
+            >
+              År
+            </button>
+          </div>
+        )}
       </div>
 
-      <div className="mt-8">
-        <h3 className="text-xl font-semibold text-white mb-4">Användarlista</h3>
-        <table className="min-w-full text-white">
-          <thead>
-            <tr>
-              <th className="px-6 py-3 text-left">Namn</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userList.length === 0 ? (
-              <tr>
-                <td className="text-center py-4 text-gray-300">
-                  Inga användare ännu.
-                </td>
-              </tr>
-            ) : (
-              userList.map((user) => (
-                <tr key={user.id} className="border-t border-[#47423E]">
-                  <td className="px-6 py-3">{user.name}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      {/* Subtitle */}
+      {subtitle && (
+        <p className="text-[#4A4A4A] text-base font-normal mb-2">{subtitle}</p>
+      )}
+
+      {/* Per team och linje */}
+      {title === "Välmåendestatistik" && (
+        <div className="w-full mt-1">
+          <p className="text-[10.8px] font-semibold">Per team</p>
+          <div className="w-full border-b border-black mt-1" />
+        </div>
+      )}
+
+      {/* Cirkel / extra innehåll */}
+      {circlePercentage !== undefined && (
+        <CircleProgress
+          percentage={circlePercentage}
+          size={150}
+          strokeWidth={12}
+          circleColor={oliveGreen}
+          bgColor="#D3D3D3"
+          text={circleText}
+          textSize={circleTextSize}
+        />
+      )}
+
+      {children}
+
+      {/* Footer */}
+      {footer && (
+        <p
+          className={`self-start ${
+            circlePercentage !== undefined
+              ? "text-[#4A4A4A] text-base font-medium mt-2"
+              : "text-black text-[60px] font-semibold leading-[170%] tracking-wide"
+          }`}
+        >
+          {footer}
+        </p>
+      )}
     </div>
   );
 };
 
-export default UserManagement;
+const Dashboard = () => {
+  return (
+    <div className="p-8 bg-[#f0f0f0] min-h-screen flex flex-col gap-5">
+      {/* Rad 1 - två kort sida vid sida */}
+      <div className="flex gap-5">
+        <Card
+          title="Hälsokartläggning"
+          subtitle="Besvarat undersökning"
+          footer="27/30"
+          bgColor="#C7CBBB"
+        />
+
+        <Card
+          title="Kvittogodkännande"
+          circlePercentage={60}
+          circleText="60% godkända"
+          footer="18/30 godkända"
+          circleTextSize={150 * 0.1}
+        />
+      </div>
+
+      {/* Rad 2 - Välmåendestatistik */}
+      <Card
+        title="Välmåendestatistik"
+        subtitle="Besvaras inom 3 dagar"
+        footer="0/10 besvarade"
+        width={640}
+        height={375}
+      />
+    </div>
+  );
+};
+
+export default Dashboard;
