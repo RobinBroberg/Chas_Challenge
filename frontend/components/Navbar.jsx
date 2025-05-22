@@ -95,7 +95,17 @@ const Navbar = () => {
                   />
                 </Link>
               )}
-              <AiOutlineUser className="w-6 h-6 cursor-pointer" />
+              <Link
+                href={
+                  isAdmin
+                    ? "/admin/profile"
+                    : isUser
+                    ? "/user/profile"
+                    : "/profile"
+                }
+              >
+                <AiOutlineUser className="w-6 h-6 cursor-pointer" />
+              </Link>
             </div>
           )}
 
