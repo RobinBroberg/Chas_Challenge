@@ -3,20 +3,17 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FiMenu, FiX } from "react-icons/fi";
-import { AiOutlineUser, AiOutlineHeart, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineUser } from "react-icons/ai";
 import { useUser } from "@/context/UserContext";
 
 const MAIN_NAV = [
   { href: "/about", label: "OM OSS" },
   { href: "/about/survey", label: "OM BALANSUNDERSÖKNINGEN" },
-  { href: "/about/challenges", label: "OM UTMANINGAR" },
 ];
 
 const MAIN_NAV_LOGGED_IN = [
   { href: "/survey/intro", label: "BALANSUNDERSÖKNING" },
   { href: "/friskvard", label: "FRISKVÅRD" },
-  { href: "/swipe", label: "SWIPE" },
-  { href: "/challenges", label: "UTMANINGAR" },
 ];
 
 const Navbar = () => {
@@ -27,7 +24,7 @@ const Navbar = () => {
 
   return (
     <nav className="w-full bg-[#45463F] text-white px-6 py-5 relative z-20 font-montserrat">
-      <div className="flex justify-between items-center w-full max-w-screen-2xl mx-auto">
+      <div className="flex justify-between items-center w-full  mx-auto">
         {/* Left: Logo */}
         <Link href="/">
           <img
@@ -79,17 +76,17 @@ const Navbar = () => {
           {/* Visible icons (desktop only when logged in) */}
           {isLoggedIn && (
             <div className="hidden md:flex items-center gap-4">
-              <AiOutlineSearch className="text-xl cursor-pointer" />
-              <AiOutlineHeart className="text-xl cursor-pointer" />
               <AiOutlineUser className="text-xl cursor-pointer" />
             </div>
           )}
           {/* Login button (shown if NOT logged in) */}
           {!isLoggedIn && (
             <Link href="/login">
-              <button className="bg-white text-black px-4 py-2 rounded-full text-xs">
-                Logga in
-              </button>
+              <div className="group inline-block">
+                <button className="font-montserrat px-7 py-3 bg-white text-black hover:bg-[#7B7D70] hover:text-white rounded-full text-xs font-semibold duration-200 group-hover:shadow-[inset_0px_5px_4px_rgba(0,0,0,0.25)]">
+                  Logga in
+                </button>
+              </div>
             </Link>
           )}
         </div>
