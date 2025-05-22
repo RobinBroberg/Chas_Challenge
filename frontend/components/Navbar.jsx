@@ -11,16 +11,24 @@ const MAIN_NAV = [
   { href: "/about/survey", label: "OM BALANSUNDERSÖKNINGEN" },
 ];
 
-const MAIN_NAV_LOGGED_IN = [
+const MAIN_NAV_USER = [
   { href: "/survey/intro", label: "BALANSUNDERSÖKNING" },
   { href: "/friskvard", label: "FRISKVÅRD" },
 ];
 
+const MAIN_NAV_ADMIN = [
+  { href: "/admin/surveys", label: "BALANSUNDERSÖKNING" },
+  { href: "/admin/kvittohantering", label: "KVITTOHANTERING" },
+  { href: "/friskvard", label: "FRISKVÅRD" },
+];
+
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
   const { user } = useUser();
 
   const isLoggedIn = !!user;
+  const isAdmin = user?.role === "admin";
+  const isUser = user?.role === "user";
 
   return (
     <nav className="w-full bg-[#45463F] text-white px-6 py-5 relative z-20 font-montserrat">
@@ -47,11 +55,13 @@ const Navbar = () => {
         {/* Nav links in center (desktop only when logged in) */}
         {isLoggedIn && (
           <div className="hidden md:flex gap-6 items-center justify-center flex-1 text-lg font-medium">
-            {MAIN_NAV_LOGGED_IN.map(({ href, label }) => (
-              <Link key={href} href={href}>
-                {label}
-              </Link>
-            ))}
+            {(isAdmin ? MAIN_NAV_ADMIN : MAIN_NAV_USER).map(
+              ({ href, label }) => (
+                <Link key={href} href={href}>
+                  {label}
+                </Link>
+              )
+            )}
           </div>
         )}
 
@@ -76,9 +86,19 @@ const Navbar = () => {
           {/* Visible icons (desktop only when logged in) */}
           {isLoggedIn && (
             <div className="hidden md:flex items-center gap-4">
-              <AiOutlineUser className="text-xl cursor-pointer" />
+              {isAdmin && (
+                <Link href="/admin/dashboard">
+                  <img
+                    src="/dashboardIcon.png"
+                    alt="Admin Dashboard"
+                    className="w-6 h-6 cursor-pointer"
+                  />
+                </Link>
+              )}
+              <AiOutlineUser className="w-6 h-6 cursor-pointer" />
             </div>
           )}
+
           {/* Login button (shown if NOT logged in) */}
           {!isLoggedIn && (
             <Link href="/login">
@@ -96,7 +116,7 @@ const Navbar = () => {
       {/* Dropdown for hamburger menu on mobile */}
       {isLoggedIn && menuOpen && (
         <div className="absolute top-full left-0 w-full bg-white text-[#4a4b41] px-6 py-3 flex flex-col gap-4 font-semibold text-sm shadow-md md:hidden">
-          {MAIN_NAV_LOGGED_IN.map(({ href, label }) => (
+          {(isAdmin ? MAIN_NAV_ADMIN : MAIN_NAV_USER).map(({ href, label }) => (
             <Link key={href} href={href} className="hover:underline">
               {label}
             </Link>
