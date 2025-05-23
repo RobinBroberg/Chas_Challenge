@@ -11,7 +11,7 @@ const Centers = [
   {
     id: 1,
     name: "duCalme",
-    image: "/ducalme.jpg",
+    image: "/ducalme.png",
     url: "https://www.ducalme.se",
     category: "Avslappning & Återhämtning",
   },
@@ -131,11 +131,13 @@ export default function WellnessBenefitsPage() {
       {/* Friskvårdens balans + text */}
       <div className="flex flex-col md:flex-row items-center mb-5 md:mb-10">
         <div className="w-full md:w-1/3  bg-gradient-to-br from-[#aeb396] to-[#232F21] text-white shadow-2xl p-3 rounded-lg mb-4 mt-4 md:mt-0 md:mb-0 flex flex-col items-center justify-center">
-          <p className="font-bold text-lg">FRISKVÅRDSBIDRAG</p>
+          <p className="font-bold text-sm pt-2">FRISKVÅRDSBIDRAG</p>
           <span
-            className="text-white font-montserrat font-bold text-[64px] leading-[100%] p-20"
+            className="text-white font-montserrat font-bold p-8 md:p-14 whitespace-nowrap"
             style={{
               textShadow: "0 7px 4px rgba(0, 0, 0, 0.25)",
+              fontSize: "clamp(30px, 6vw, 50px)",
+              lineHeight: "100%",
             }}
           >
             {remainingBalance !== null ? `${remainingBalance} kr` : "Laddar..."}
@@ -199,19 +201,19 @@ export default function WellnessBenefitsPage() {
             href={center.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-shadow"
+            className="hover:opacity-90 transition-opacity"
           >
-            <div className="relative w-full h-32 md:h-48">
+            <div className="relative w-full h-32 md:h-48 bg-black rounded-lg">
               <Image
                 src={center.image}
                 alt={center.name}
                 fill
-                className="object-cover"
+                className="object-cover object-center "
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
 
               <div className="absolute inset-0 flex justify-center items-center">
-                <h3 className="font-extrabold text-2xl text-white">
+                <h3 className="font-extrabold text-lg md:text-2xl text-white drop-shadow-lg">
                   {center.name}
                 </h3>
               </div>
