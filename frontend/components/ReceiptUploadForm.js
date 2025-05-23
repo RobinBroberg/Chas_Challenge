@@ -31,7 +31,7 @@ export default function ReceiptUpload({ onUploadSuccess }) {
   };
 
   return (
-    <div className="flex justify-between items-center w-full px-2">
+    <div className="flex justify-between items-center w-full">
       <p className="font-semibold text-sm">Belopp</p>
 
       <label htmlFor="receipt-upload" className="cursor-pointer">
