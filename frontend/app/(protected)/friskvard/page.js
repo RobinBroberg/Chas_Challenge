@@ -18,28 +18,28 @@ const Centers = [
   {
     id: 2,
     name: "NEST Innerhealth Studio",
-    image: "/nest-studio.jpg",
+    image: "/nest-studio.png",
     url: "https://www.nestinnerhealth.se",
     category: "Avslappning & Återhämtning",
   },
   {
     id: 3,
     name: "Remedysthlm",
-    image: "/remedysthlm.jpg",
+    image: "/remedysthlm.png",
     url: "https://www.remedysthlm.com/",
     category: ["Avslappning & Återhämtning", "Träning & Motion"],
   },
   {
     id: 4,
     name: "Stockholm Pilates Center",
-    image: "/stockholm-pilates.jpg",
+    image: "/stockholm-pilates.png",
     url: "https://www.stockholmpilates.se",
     category: "Träning & Motion",
   },
   {
     id: 5,
     name: "Altromondo Yoga",
-    image: "/altromondo-yoga.jpg",
+    image: "/altromondo-yoga.png",
     url: "https://www.altromondoyoga.se",
     category: ["Avslappning & Återhämtning", "Träning & Motion"],
   },
@@ -47,49 +47,49 @@ const Centers = [
   {
     id: 6,
     name: "Axelsons SPA",
-    image: "/axelsons-spa.jpg",
+    image: "/axelsons-spa.png",
     url: "https://www.axelsons.se",
     category: "Avslappning & Återhämtning",
   },
   {
     id: 7,
     name: "SATS",
-    image: "/sats.jpg",
+    image: "/sats.png",
     url: "https://www.sats.se",
     category: "Träning & Motion",
   },
   {
     id: 8,
     name: "EFCrossfit",
-    image: "/efcrossfit.jpg",
+    image: "/efcrossfit.png",
     url: "https://www.efcrossfit.se",
     category: "Träning & Motion",
   },
   {
     id: 9,
     name: "REI Kampsport",
-    image: "/rei-kampsport.jpg",
+    image: "/rei-kampsport.png",
     url: "https://www.reikampsport.se",
     category: "Träning & Motion",
   },
   {
     id: 10,
     name: "Stockholm Kickboxning",
-    image: "/stockholm-kickboxning.jpg",
+    image: "/stockholm-kickboxning.png",
     url: "https://www.stockholmkickboxning.se",
     category: "Träning & Motion",
   },
   {
     id: 11,
     name: "Runacademy",
-    image: "/runacademy.jpg",
+    image: "/runacademy.png",
     url: "https://www.runacademy.se",
     category: "Träning & Motion",
   },
   {
     id: 12,
     name: "Medley",
-    image: "/medley.jpg",
+    image: "/medley.png",
     url: "https://www.medley.se",
     category: "Träning & Motion",
   },
@@ -203,7 +203,7 @@ export default function WellnessBenefitsPage() {
             rel="noopener noreferrer"
             className="hover:opacity-90 transition-opacity"
           >
-            <div className="relative w-full h-32 md:h-48 bg-black rounded-lg">
+            <div className="relative w-full h-32 md:h-48 bg-[#FBFAF5] ">
               <Image
                 src={center.image}
                 alt={center.name}
