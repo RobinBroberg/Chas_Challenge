@@ -90,8 +90,7 @@ router.post("/register", async (req, res) => {
       "SELECT wellness_allowance FROM companies WHERE id = ?",
       [company_id]
     );
-    const startingAllowance =
-      role === "user" ? companyRows[0]?.wellness_allowance ?? 0 : null;
+    const startingAllowance = companyRows[0]?.wellness_allowance ?? 0;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
