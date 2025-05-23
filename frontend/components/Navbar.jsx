@@ -24,11 +24,13 @@ const MAIN_NAV_ADMIN = [
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(true);
-  const { user } = useUser();
+  const { user, loading } = useUser();
 
   const isLoggedIn = !!user;
   const isAdmin = user?.role === "admin";
   const isUser = user?.role === "user";
+
+  if (loading) return null;
 
   return (
     <nav className="w-full bg-[#45463F] text-white px-6 py-5 relative z-20 font-montserrat">

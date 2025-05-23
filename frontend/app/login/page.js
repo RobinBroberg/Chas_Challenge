@@ -83,7 +83,7 @@ const loginPage = () => {
 
         <div className="flex justify-end">
           <Link
-            href="/resetPassword"
+            href="/reset-password"
             className="text-sm text-white font-medium hover:underline font-montserrat"
           >
             Glömt lösenord?

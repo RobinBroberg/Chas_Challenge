@@ -6,6 +6,7 @@ const UserContext = createContext(null);
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   async function refreshUser() {
     try {
@@ -13,6 +14,8 @@ export function UserProvider({ children }) {
       setUser(data);
     } catch (err) {
       setUser(null);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -21,7 +24,7 @@ export function UserProvider({ children }) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, refreshUser }}>
+    <UserContext.Provider value={{ user, setUser, refreshUser, loading }}>
       {children}
     </UserContext.Provider>
   );
