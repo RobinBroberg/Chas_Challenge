@@ -10,6 +10,7 @@ export default function ReceiptManagement() {
   const [modalImage, setModalImage] = useState(null);
   const [rejectModal, setRejectModal] = useState({ open: false, id: null });
   const [rejectReason, setRejectReason] = useState("");
+  const [toast, setToast] = useState({ message: "", type: "" });
 
   useEffect(() => {
     async function fetchReceipts() {
@@ -28,7 +29,6 @@ export default function ReceiptManagement() {
   }, []);
 
   const pendingReceipts = allReceipts.filter((r) => r.status === "pending");
-
   const receiptsCount = allReceipts.length;
   const pending = pendingReceipts.length;
   const receiptDone = allReceipts.filter((r) => r.status === "approved").length;
@@ -42,30 +42,33 @@ export default function ReceiptManagement() {
         prev.map((r) => (r.id === id ? { ...r, status: "approved" } : r))
       );
 
-      alert("Kvittot godkänt");
+      setToast({ message: "Kvittot godkänt", type: "success" });
     } catch (err) {
-      alert(err.message || "Kunde inte godkänna kvittot");
+      setToast({
+        message: err.message || "Kunde inte godkänna kvittot",
+        type: "error",
+      });
     }
   };
 
-  const handleReject = async (id) => {
-    const reason = prompt("Ange en anledning till avslag:");
-    if (!reason) return;
-
-    try {
-      await rejectReceipt(id, reason);
-      setAllReceipts((prev) =>
-        prev.map((r) => (r.id === id ? { ...r, status: "rejected" } : r))
+  useEffect(() => {
+    if (toast.message) {
+      const timeout = setTimeout(
+        () => setToast({ message: "", type: "" }),
+        4000
       );
-
-      alert("Kvittot nekad");
-    } catch (err) {
-      alert(err.message || "Kunde inte avvisa kvittot");
+      return () => clearTimeout(timeout);
     }
-  };
+  }, [toast]);
 
   return (
     <div className="bg-[#EAE9E4] p-4 md:p-8">
+      {toast.message && (
+        <div className="bg-[#4A5A41] text-white fixed top-20 right-14 z-50 px-4 py-2 rounded shadow text-sm font-semibold font-montserrat">
+          {toast.message}
+        </div>
+      )}
+
       <div className="font-montserrat text-black tracking-wider space-y-4">
         <h1 className="font-bold text-2xl md:text-3xl">Kvittohantering</h1>
         <h2 className="font-semibold text-sm md:text-lg">
@@ -200,7 +203,9 @@ export default function ReceiptManagement() {
                         />
                       </button>
                       <button
-                        onClick={() => handleReject(receipt.id)}
+                        onClick={() =>
+                          setRejectModal({ open: true, id: receipt.id })
+                        }
                         title="Avslå"
                       >
                         <img
@@ -234,6 +239,57 @@ export default function ReceiptManagement() {
                 alt="Receipt"
                 className="max-w-full max-h-[80vh]"
               />
+            </div>
+          </div>
+        )}
+
+        {rejectModal.open && (
+          <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50 ">
+            <div className="bg-[#EAE9E4] p-6 border-2 border-[#232F21] rounded shadow max-w-md w-10/12 space-y-4">
+              <h2 className="text-xl font-semibold text-black">
+                Avvisa kvitto
+              </h2>
+              <p className="text-black text-sm">
+                Ange en anledning till avslag:
+              </p>
+              <textarea
+                value={rejectReason}
+                onChange={(e) => setRejectReason(e.target.value)}
+                rows={3}
+                className="w-full border focus:border-[#4A5A41] focus:ring-[#4A5A41] focus:outline-none p-2 rounded text-black"
+                placeholder="Skriv din anledning här..."
+              />
+
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  onClick={() => {
+                    setRejectModal({ open: false, id: null });
+                    setRejectReason("");
+                  }}
+                  className="px-4 py-2 bg-gray-300 text-black rounded"
+                >
+                  Avbryt
+                </button>
+                <button
+                  onClick={async () => {
+                    if (!rejectReason.trim()) return;
+
+                    try {
+                      await rejectReceipt(rejectModal.id, rejectReason);
+                      setAllReceipts((prev) =>
+                        prev.filter((r) => r.id !== rejectModal.id)
+                      );
+                      setRejectModal({ open: false, id: null });
+                      setRejectReason("");
+                    } catch (err) {
+                      alert(err.message || "Kunde inte avvisa kvittot");
+                    }
+                  }}
+                  className="px-4 py-2 bg-gradient-to-br from-[#232F21] to-[#718065] text-white rounded"
+                >
+                  Avvisa
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -294,7 +350,11 @@ export default function ReceiptManagement() {
                       alt="Approve"
                     />
                   </button>
-                  <button onClick={() => handleReject(receipt.id)}>
+                  <button
+                    onClick={() =>
+                      setRejectModal({ open: true, id: receipt.id })
+                    }
+                  >
                     <img
                       src="/circle-remove.png"
                       className="w-[24px] h-[24px] cursor-pointer"
