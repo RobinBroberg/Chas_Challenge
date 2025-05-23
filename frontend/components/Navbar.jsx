@@ -18,7 +18,7 @@ const MAIN_NAV_USER = [
 
 const MAIN_NAV_ADMIN = [
   { href: "/admin/surveys", label: "BALANSUNDERSÖKNING" },
-  { href: "/admin/kvittohantering", label: "KVITTOHANTERING" },
+  { href: "/admin/receipt-management", label: "KVITTOHANTERING" },
   { href: "/friskvard", label: "FRISKVÅRD" },
 ];
 
