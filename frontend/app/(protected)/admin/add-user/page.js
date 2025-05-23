@@ -50,10 +50,14 @@ const CreateAccountPage = () => {
             name="role"
             value={newUser.role}
             onChange={handleInput}
-            className="flex-1 border-b-2 border-white bg-transparent p-2 text-xl text-[#F6F4F0] placeholder-white focus:outline-none"
+            className="flex-1 border-b-2 border-white  text-white p-2 text-xl bg-transparent placeholder-white focus:outline-none"
           >
-            <option value="admin">HR / Chef</option>
-            <option value="user">Medarbetare</option>
+            <option value="admin" className="text-black">
+              HR / Chef
+            </option>
+            <option value="user" className="text-black">
+              Medarbetare
+            </option>
           </select>
 
           <input
