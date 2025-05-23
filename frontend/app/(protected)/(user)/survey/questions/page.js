@@ -280,7 +280,7 @@ export default function FormPage() {
                   </p>
                   <div className="flex justify-center pt-4 font-montserrat">
                     <textarea
-                      name="q12"
+                      id="q12"
                       value={responses.q12 || ""}
                       onChange={handleChange}
                       required
