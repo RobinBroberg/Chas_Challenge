@@ -36,11 +36,7 @@ router.get("/user/:id", requireAuth, requireRole("admin"), async (req, res) => {
 });
 
 router.get("/", requireAuth, async (req, res) => {
-  const { userId, role } = req.user;
-
-  if (role !== "user") {
-    return res.status(403).json({ message: "Only users have an allowance" });
-  }
+  const { userId } = req.user;
 
   try {
     const rows = await query(
