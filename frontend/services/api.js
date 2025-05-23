@@ -315,6 +315,16 @@ export async function uploadReceipt(file) {
   return await res.json();
 }
 
+export async function getAllReceipts() {
+  const res = await fetch(`${API_BASE}/receipts`, {
+    credentials: "include",
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch receipts");
+
+  return await res.json();
+}
+
 export async function getPendingReceipts() {
   const res = await fetch(`${API_BASE}/receipts`, {
     credentials: "include",

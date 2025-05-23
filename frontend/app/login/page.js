@@ -22,7 +22,7 @@ const loginPage = () => {
     const checkAuth = async () => {
       const user = await getCurrentUser();
       if (user) {
-        router.push(user.role === "admin" ? "/admin/questions" : "/");
+        router.push(user.role === "admin" ? "/" : "/");
       }
     };
     checkAuth();

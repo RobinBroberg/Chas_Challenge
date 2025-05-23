@@ -1,71 +1,68 @@
 "use client";
-import { useState } from "react";
 import { RiGroupLine } from "react-icons/ri";
+import { useEffect, useState } from "react";
+import { approveReceipt, rejectReceipt, getAllReceipts } from "@/services/api";
 
 export default function ReceiptManagement() {
-  const [receipts, setReceipts] = useState([
-    {
-      id: 1,
-      name: "Blanca R.",
-      date: "2025-02-10",
-      amount: "1500 kr",
-      status: "approved",
-    },
-    {
-      id: 2,
-      name: "Erik S.",
-      date: "2025-02-08",
-      amount: "2200 kr",
-      status: "pending",
-    },
-    {
-      id: 3,
-      name: "Maria L.",
-      date: "2025-02-05",
-      amount: "800 kr",
-      status: "approved",
-    },
-    {
-      id: 4,
-      name: "Amanda S.",
-      date: "2025-02-10",
-      amount: "1000 kr",
-      status: "pending",
-    },
-  ]);
-  const pendingReceipts = receipts.filter(
-    (receipt) => receipt.status === "pending"
-  );
+  const [allReceipts, setAllReceipts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [modalImage, setModalImage] = useState(null);
+  const [rejectModal, setRejectModal] = useState({ open: false, id: null });
+  const [rejectReason, setRejectReason] = useState("");
 
-  const handleApprove = (id) => {
-    setReceipts((prev) =>
-      prev.map((receipt) =>
-        receipt.id === id ? { ...receipt, status: "approved" } : receipt
-      )
-    );
-    alert("Kvittot godkänt");
+  useEffect(() => {
+    async function fetchReceipts() {
+      try {
+        const data = await getAllReceipts();
+        setAllReceipts(data);
+      } catch (err) {
+        console.error("Error fetching receipts:", err);
+        setError("Kunde inte hämta kvitton");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchReceipts();
+  }, []);
+
+  const pendingReceipts = allReceipts.filter((r) => r.status === "pending");
+
+  const receiptsCount = allReceipts.length;
+  const pending = pendingReceipts.length;
+  const receiptDone = allReceipts.filter((r) => r.status === "approved").length;
+  const percent =
+    receiptsCount > 0 ? Math.round((receiptDone / receiptsCount) * 100) : 0;
+
+  const handleApprove = async (id) => {
+    try {
+      await approveReceipt(id);
+      setAllReceipts((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, status: "approved" } : r))
+      );
+
+      alert("Kvittot godkänt");
+    } catch (err) {
+      alert(err.message || "Kunde inte godkänna kvittot");
+    }
   };
 
-  const handleReject = (id) => {
-    setReceipts((prev) =>
-      prev.map((receipt) =>
-        receipt.id === id ? { ...receipt, status: "rejected" } : receipt
-      )
-    );
-    alert("Kvittot nekad");
+  const handleReject = async (id) => {
+    const reason = prompt("Ange en anledning till avslag:");
+    if (!reason) return;
+
+    try {
+      await rejectReceipt(id, reason);
+      setAllReceipts((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, status: "rejected" } : r))
+      );
+
+      alert("Kvittot nekad");
+    } catch (err) {
+      alert(err.message || "Kunde inte avvisa kvittot");
+    }
   };
-
-  // const handleAccept = () => {
-  //   alert("Kvittot godkänt");
-  // };
-  // const handleDenied = () => {
-  //   alert("Kvittot nekad");
-  // };
-
-  const receiptsCount = 30;
-  const pending = 1;
-  const receiptDone = 18;
-  const percent = 60;
 
   return (
     <div className="bg-[#EAE9E4] p-4 md:p-8">
@@ -110,7 +107,7 @@ export default function ReceiptManagement() {
             <div className="flex flex-col sm:flex sm:flex-row items-center px-4">
               <RiGroupLine className="w-[80px] sm:w-[50px] md:w-[100px] h-[80px] sm:h-[100px] sm:mr-6 text-black" />
               <span className="font-montserrat text-black tracking-wider font-bold text-base sm:text-2xl md:text-4xl lg:text-6xl pt-2">
-                {receipts.length}{" "}
+                {receiptsCount}{" "}
                 <span className=" text-base sm:text-xl md:text-2xl">
                   kvitton{" "}
                   <span className="text-sm sm:text-lg md:text-2xl">totalt</span>
@@ -170,16 +167,23 @@ export default function ReceiptManagement() {
                   }`}
                 >
                   <td className="text-lg md:text-xl px-6 py-4 text-black">
-                    {receipt.name}
+                    {receipt.first_name} {receipt.last_name}
                   </td>
                   <td className="text-lg md:text-xl px-6 py-4 text-black">
-                    {receipt.date}
+                    {new Date(receipt.uploaded_at).toLocaleDateString("sv-SE")}
                   </td>
                   <td className="text-lg md:text-xl px-6 py-4 text-black">
                     {receipt.amount}
                   </td>
                   <td className="text-lg md:text-xl  px-6 py-4">
-                    <button className="text-lg md:text-xl underline cursor-pointer text-black">
+                    <button
+                      className="text-lg md:text-xl underline cursor-pointer text-black"
+                      onClick={() =>
+                        setModalImage(
+                          `${process.env.NEXT_PUBLIC_API_URL}/${receipt.file_path}`
+                        )
+                      }
+                    >
                       Visa kvitto
                     </button>
                   </td>
@@ -214,6 +218,26 @@ export default function ReceiptManagement() {
         </div>
         <div className="md:hidden border-b border-[#D3DEC9] mx-4 md:mx-10 "></div>
 
+        {modalImage && (
+          <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-4 rounded shadow-lg max-w-[90%] max-h-[90%] overflow-auto">
+              <div className="flex justify-end mb-4">
+                <button
+                  onClick={() => setModalImage(null)}
+                  className="text-black font-bold"
+                >
+                  Stäng ✕
+                </button>
+              </div>
+              <img
+                src={modalImage}
+                alt="Receipt"
+                className="max-w-full max-h-[80vh]"
+              />
+            </div>
+          </div>
+        )}
+
         {/* Mobile */}
         <div className="flex flex-col sm:p-10 md:hidden">
           {pendingReceipts.map((receipt) => (
@@ -224,7 +248,7 @@ export default function ReceiptManagement() {
               <div className="flex justify-between items-center border-b border-[#D3DEC9] mx-4 pb-4">
                 <span className="text-black text-base font-semibold">Namn</span>
                 <span className="text-black text-base text-right">
-                  {receipt.name}
+                  {receipt.first_name} {receipt.last_name}
                 </span>
               </div>
 
@@ -233,7 +257,7 @@ export default function ReceiptManagement() {
                   Datum
                 </span>
                 <span className="text-black text-base text-right">
-                  {receipt.date}
+                  {new Date(receipt.uploaded_at).toLocaleDateString("sv-SE")}
                 </span>
               </div>
 
@@ -250,7 +274,10 @@ export default function ReceiptManagement() {
                 <span className="text-black text-base font-semibold">
                   Kvitto
                 </span>
-                <a className="underline cursor-pointer text-black text-base text-right">
+                <a
+                  href={`${process.env.NEXT_PUBLIC_API_URL}/${receipt.file_path}`}
+                  target="_blank"
+                >
                   Visa kvitto
                 </a>
               </div>
