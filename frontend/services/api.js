@@ -243,12 +243,43 @@ export async function getCompanyAverages() {
 }
 
 /**
- * Get the overall average score and total answers for the logged-in user's company.
- * Admins only.
- * @returns {Object} - { overall_average, total_answers }
+ * Fetch the latest average score and total number of users
+ * who have submitted answers for the logged-in admin's company.
+ * Only accessible to admins.
+ *
+ * @returns {Object} - { averageScore: number, totalUsers: number }
  */
 export async function getOverallCompanyAverage() {
   const res = await fetch(`${API_BASE}/answers/average/overall`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  const text = await res.text();
+
+  if (!res.ok) {
+    throw new Error(`Failed: ${text || res.status}`);
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error("Failed to parse JSON");
+  }
+}
+
+/**
+ * Fetch the latest average score and total number of users
+ * who have submitted answers for the logged-in admin's company.
+ * Admins only.
+ *
+ * @returns {Object} - {
+ *   averageScore: number | null,
+ *   totalUsers: number
+ * }
+ */
+export async function getLatestCompanyAverage() {
+  const res = await fetch(`${API_BASE}/answers/average/latest`, {
     method: "GET",
     credentials: "include",
   });

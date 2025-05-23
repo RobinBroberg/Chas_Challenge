@@ -7,10 +7,10 @@ import {
   addQuestion,
   deleteQuestion,
   getCompanyAverages,
-  getOverallCompanyAverage,
   getPendingReceipts,
   approveReceipt,
   rejectReceipt,
+  getLatestCompanyAverage,
 } from "@/services/api";
 import {
   getQuestions,
@@ -124,7 +124,7 @@ export default function QuestionsPage() {
         const avg = await getCompanyAverages();
         setAverages(avg);
 
-        const overall = await getOverallCompanyAverage();
+        const overall = await getLatestCompanyAverage();
         console.log("Overall average response:", overall);
         setOverallAvg(overall);
 
@@ -274,8 +274,8 @@ export default function QuestionsPage() {
         <div className="mt-6 bg-white p-4 rounded shadow text-gray-800">
           <h2 className="font-semibold mb-2">Company Overall Score</h2>
           <p>
-            Average: <strong>{overallAvg.average}</strong> (based on{" "}
-            {overallAvg.totalAnswers} answers)
+            Average: <strong>{overallAvg.averageScore}</strong> (based on{" "}
+            {overallAvg.totalUsers} user)
           </p>
         </div>
       )}
