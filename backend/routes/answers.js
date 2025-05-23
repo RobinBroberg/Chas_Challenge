@@ -1,6 +1,7 @@
 import express from "express";
 import { requireAuth, requireRole } from "../middleware.js";
 import { query } from "../db/query.js";
+import { randomUUID } from "crypto";
 
 const router = express.Router();
 
@@ -29,21 +30,21 @@ router.post("/", requireAuth, async (req, res) => {
     }
   }
 
+  answers.sort((a, b) => a.question_id - b.question_id);
+  const submissionId = randomUUID();
+
   try {
     const insertPromises = answers.map((a) =>
       query(
-        `INSERT INTO answers (user_id, question_id, answer_value)
-           VALUES (?, ?, ?)
-           ON DUPLICATE KEY UPDATE 
-             answer_value = VALUES(answer_value), 
-             submitted_at = CURRENT_TIMESTAMP`,
-        [userId, a.question_id, a.answer_value]
+        `INSERT INTO answers (user_id, question_id, answer_value, submission_id)
+          VALUES (?, ?, ?, ?)`,
+        [userId, a.question_id, a.answer_value, submissionId]
       )
     );
 
     await Promise.all(insertPromises);
 
-    res.status(201).json({ message: "Answers submitted or updated" });
+    res.status(201).json({ message: "Answers submitted", submissionId });
   } catch (error) {
     console.error("Error submitting answers:", error);
     res.status(500).json({ message: "Failed to submit answers" });

@@ -37,11 +37,12 @@ CREATE TABLE answers (
   user_id INT NOT NULL,
   question_id INT NOT NULL,
   answer_value TINYINT NOT NULL CHECK (answer_value BETWEEN 1 AND 5),
+  submission_id CHAR(36) NOT NULL,
   submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
-  UNIQUE KEY uq_user_question (user_id, question_id)
+  FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE receipts (
   id INT AUTO_INCREMENT PRIMARY KEY,
