@@ -51,7 +51,7 @@ export default function Home() {
           className="w-full h-[850px] object-cover brightness-75"
         />
         <div className="absolute inset-0 flex items-center justify-start px-10 flex-col md:flex-row text-center md:text-left">
-          <h1 className="text-white font-montserrat text-6xl md:text-[8rem] lg:text-[14rem] tracking-widest font-medium translate-y-70 md:translate-y-0">
+          <h1 className="text-white font-montserrat text-6xl md:text-[7rem] lg:text-[9rem] 2xl:text-[14rem] tracking-widest font-medium translate-y-70 md:translate-y-0">
             BALANCE
           </h1>
         </div>
