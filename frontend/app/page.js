@@ -50,18 +50,22 @@ export default function Home() {
           alt="Logo"
           className="w-full h-[850px] object-cover brightness-75"
         />
-        <div className="absolute inset-0 flex items-center justify-start px-10 flex-col md:flex-row text-center md:text-left">
-          <h1 className="text-white font-montserrat text-6xl md:text-[7rem] lg:text-[9rem] 2xl:text-[14rem] tracking-widest font-medium translate-y-70 md:translate-y-0">
+
+        {/* BALANCE Title */}
+        <div className="absolute inset-0 flex items-center px-4 md:px-10 z-10">
+          <h1 className="text-white font-montserrat text-6xl md:text-[7rem] lg:text-[9rem] 2xl:text-[12rem] tracking-widest font-medium leading-none text-center md:text-left">
             BALANCE
           </h1>
         </div>
-        <div className="absolute inset-0 flex flex-col items-start justify-end px-14 pb-[11rem]">
-          <h3 className="text-white font-bold font-montserrat tracking-wide text-3xl md:text-[3.2rem]">
+
+        {/* Subtext */}
+        <div className="absolute inset-0 flex flex-col items-start justify-end px-6 md:px-14 pb-40 z-10">
+          <h3 className="text-white font-bold font-montserrat tracking-wide text-2xl md:text-3xl lg:text-4xl">
             DITT STÖD FÖR ETT HÅLLBART VÄLMÅENDE
           </h3>
-          <p className="text-white text-xl font-montserrat md:text-[1.7rem] font-extralight leading-snug mb-2">
+          <p className="text-white text-base md:text-xl lg:text-2xl font-montserrat font-extralight leading-snug max-w-4xl">
             Stärk din hälsa både i och utanför arbetet, ett steg närmare mot
-            ditt bästa jag - din resa mot mer balans börjar här
+            ditt bästa jag – din resa mot mer balans börjar här.
           </p>
         </div>
       </header>
@@ -262,7 +266,7 @@ export default function Home() {
         </div>
       </section>
       <section className="w-full bg-[#f5f1ea] py-16 px-4 md:px-12 lg:px-20">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-48">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-20 md:gap-48">
           {/* Left mockup (was previously on right) */}
           <div className="w-full md:w-1/2 flex justify-center md:justify-end">
             <div className="relative w-64 md:w-80">
@@ -274,21 +278,20 @@ export default function Home() {
             </div>
           </div>
 
-          <br />
           {/* Right content (was previously on left) */}
-          <div className="w-full md:w-2/2 space-y-4 font-montserrat px-4 md:px-0">
-            <div className="w-full md:w-4/4 space-y-4 font-montserrat px-4 md:px-0">
-              <h2 className="font-bold text-black md:text-[2.1rem] mb-4">
+          <div className="w-full md:w-2/2 space-y-4  px-4 md:px-0">
+            <div className="w-full md:w-4/4 space-y-4 font-wix-display px-4 md:px-0 text-right pr-10">
+              <h2 className="font-extrabold text-black md:text-[1.7rem] mb-4">
                 UTFORSKA DINA FRISKVÅRDSMÖJLIGHETER
               </h2>
               <p className="text-gray-800 text-lg mb-8">
-                Genom att ansluta till Balance som arbetsgivare får du
-                kartläggning samt statistik över hur dina medarbetare mår och
-                insikt i deras arbetssituation. Medarbetarna får tillgång till
-                enkla verktyg för att förebygga stress och stöd på vägen mot
-                bättre balans i vardagen mellan arbetsliv och fritid. Detta
-                skapar en mer hållbar och trivsam arbetsvardag för alla i
-                organisationen.
+                Utforska hur du kan använda ditt friskvårdsbidrag på ett sätt
+                som passar dig. Välj bland olika kategorier som träning,
+                avslappning, gruppaktiviteter och mental återhämtning. Oavsett
+                om du söker ny energi, rörelse eller återhämtning hittar du
+                något som passar just dig. Allt är samlat på ett och samma
+                ställe för att göra det enkelt för dig att ta hand om din hälsa
+                på ett sätt som känns rätt.
               </p>
             </div>
           </div>
