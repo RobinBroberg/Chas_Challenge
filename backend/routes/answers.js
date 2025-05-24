@@ -184,4 +184,79 @@ router.get(
   }
 );
 
+// GET /answers/monthly - get average answer values per month for the current user
+router.get("/monthly", requireAuth, async (req, res) => {
+  const { userId } = req.user;
+
+  try {
+    const rows = await query(
+      `
+      SELECT 
+        DATE_FORMAT(submitted_at, '%Y-%m') AS month,
+        ROUND(AVG(answer_value), 2) AS average
+      FROM answers
+      WHERE user_id = ?
+      GROUP BY month
+      ORDER BY month
+      `,
+      [userId]
+    );
+
+    res.json(rows);
+  } catch (error) {
+    console.error("Error fetching monthly stats:", error);
+    res.status(500).json({ message: "Failed to fetch monthly stats" });
+  }
+});
+
+// Get survey submission history for current user
+router.get("/history", requireAuth, async (req, res) => {
+  const { userId } = req.user;
+
+  try {
+    const rows = await query(
+      `
+      SELECT 
+        submission_id,
+        DATE_FORMAT(MIN(submitted_at), '%Y-%m-%d') AS date,
+        COUNT(*) AS answer_count
+      FROM answers
+      WHERE user_id = ?
+      GROUP BY submission_id
+      ORDER BY MIN(submitted_at) DESC
+      `,
+      [userId]
+    );
+
+    res.json(rows);
+  } catch (error) {
+    console.error("Error fetching answer history:", error);
+    res.status(500).json({ message: "Failed to fetch history" });
+  }
+});
+
+// Get all answers for a specific submission
+router.get("/submission/:id", requireAuth, async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req.user;
+
+  try {
+    const rows = await query(
+      `
+      SELECT q.question_text, a.answer_value
+      FROM answers a
+      JOIN questions q ON a.question_id = q.id
+      WHERE a.user_id = ? AND a.submission_id = ?
+      ORDER BY a.question_id
+      `,
+      [userId, id]
+    );
+
+    res.json(rows);
+  } catch (error) {
+    console.error("Error fetching submission answers:", error);
+    res.status(500).json({ message: "Failed to fetch answers for submission" });
+  }
+});
+
 export default router;

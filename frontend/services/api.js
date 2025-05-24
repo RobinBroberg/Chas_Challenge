@@ -60,7 +60,6 @@ export async function registerUser(userData) {
     body: JSON.stringify({
       ...userData,
       company_id: currentUser.company_id,
-      role: "user", // always force 'user'
     }),
   });
 
@@ -224,6 +223,31 @@ export async function postAnswers(answers) {
 }
 
 /**
+ * Fetch submission history for the logged-in user.
+ * Each entry includes the submission date and number of questions answered.
+ * @returns {Array<{ date: string, answered: number }>}
+ */
+export async function getAnswerHistory() {
+  const res = await fetch(`${API_BASE}/answers/history`, {
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch answer history");
+  }
+
+  return await res.json();
+}
+
+export async function getSubmissionAnswers(submissionId) {
+  const res = await fetch(`${API_BASE}/answers/submission/${submissionId}`, {
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error("Failed to fetch submission details");
+  return await res.json();
+}
+
+/**
  * Fetch average answer scores for the admin's company
  * @returns Array of objects like: { question_id, question_text, average_score, total_answers }
  */
@@ -295,6 +319,22 @@ export async function getLatestCompanyAverage() {
   } catch {
     throw new Error("Failed to parse JSON");
   }
+}
+
+/**
+ * Fetch monthly average answer values for the currently logged-in user.
+ * Returns a list of months with corresponding average scores.
+ *
+ * @returns {Promise<Array<{ month: string, average: number }>>}
+ *          - Example: [{ month: "2025-01", average: 4.2 }, ...]
+ */
+export async function getMonthlyStats() {
+  const res = await fetch(`${API_BASE}/answers/monthly`, {
+    credentials: "include",
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch monthly stats");
+  return await res.json();
 }
 
 export async function uploadReceipt(file) {

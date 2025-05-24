@@ -11,7 +11,7 @@ router.get("/", requireAuth, requireRole("admin"), async (req, res) => {
 
   try {
     const users = await query(
-      `SELECT id, first_name, last_name, email, role, remaining_wellness_allowance 
+      `SELECT id, first_name, last_name, email, role, department, remaining_wellness_allowance 
        FROM users WHERE company_id = ?`,
       [company_id]
     );

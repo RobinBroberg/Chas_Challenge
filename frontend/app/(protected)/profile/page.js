@@ -1,6 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  getAllowance,
+  getCurrentUser,
+  getMonthlyStats,
+  getAnswerHistory,
+  getSubmissionAnswers,
+} from "@/services/api";
+import SurveyAnswerModal from "@/components/SurveyAnswerModal";
 import { Bar } from "react-chartjs-2";
 import { VscArrowCircleRight } from "react-icons/vsc";
 import { BsEmojiGrin } from "react-icons/bs";
@@ -30,20 +38,15 @@ ChartJS.register(
 
 export default function MedarbetarProfil() {
   const [status, setStatus] = useState(null);
-
-  const wellbeingData = {
-    labels: ["Januari", "Februari", "Mars", "April"],
-    datasets: [
-      {
-        label: "Välmående",
-        data: [2, 5, 3, 4],
-        backgroundColor: "#9EA28B",
-        hoverBackgroundColor: "#7e816f",
-        borderRadius: 6,
-        barPercentage: 0.7,
-      },
-    ],
-  };
+  const [user, setUser] = useState(null);
+  const [remainingBalance, setRemainingBalance] = useState(null);
+  const [totalAllowance, setTotalAllowance] = useState(null);
+  const [monthlyStats, setMonthlyStats] = useState([]);
+  const [history, setHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedSubmissionId, setSelectedSubmissionId] = useState(null);
+  const [modalAnswers, setModalAnswers] = useState([]);
 
   // Dagens datum för datumformat och friskvård
   const today = new Date();
@@ -58,15 +61,65 @@ export default function MedarbetarProfil() {
   const msPerDay = 1000 * 60 * 60 * 24;
   const remainingDays = Math.ceil((endOfYear - today) / msPerDay);
 
-  //Test data
-  const user = {
-    name: "Blanca Rossi",
-    email: "blanca.rossi@gmail.com",
-    title: "UX Designer",
-    department: "UX & Designmanagement",
-    team: "TEAM 10",
-    avatar: "/profileEmployee.png",
+  const handleOpenModal = async (submissionId) => {
+    try {
+      const answers = await getSubmissionAnswers(submissionId);
+      setModalAnswers(answers);
+      setSelectedSubmissionId(submissionId);
+      setShowModal(true);
+    } catch (error) {
+      console.error("Failed to load submission answers:", error);
+    }
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [user, stats, history, allowance] = await Promise.all([
+          getCurrentUser(),
+          getMonthlyStats(),
+          getAnswerHistory(),
+          getAllowance(),
+          getSubmissionAnswers(),
+        ]);
+
+        setUser({
+          ...user,
+          avatar: user.avatar || "/profileEmployee.png",
+        });
+        setMonthlyStats(stats);
+        setHistory(history);
+        setRemainingBalance(allowance.remaining);
+        setTotalAllowance(allowance.total);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  const wellbeingData = {
+    labels: monthlyStats.map((s) =>
+      new Date(s.month + "-01").toLocaleString("sv-SE", { month: "long" })
+    ),
+    datasets: [
+      {
+        label: "Välmående",
+        data: monthlyStats.map((s) => s.average),
+        backgroundColor: "#9EA28B",
+        hoverBackgroundColor: "#7e816f",
+        borderRadius: 6,
+        barPercentage: 0.7,
+      },
+    ],
+  };
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <div
@@ -78,8 +131,8 @@ export default function MedarbetarProfil() {
         <div className="col-span-1 md:col-span-3">
           <h1 className="text-2xl font-semibold mb-5 text-white">Profil</h1>
           <p className="text-white mt-1 mb-2 font-medium relative inline-block after:block after:h-[1px] after:bg-white after:w-full md:after:w-[650px] after:mt-3">
-            Hej {user.name.split(" ")[0]}! Välkommen in här har du översikt över
-            dina aktuella insikter.
+            Hej {user.first_name}! Välkommen in här har du översikt över dina
+            aktuella insikter.
           </p>
         </div>
 
@@ -97,22 +150,22 @@ export default function MedarbetarProfil() {
               <img
                 src={user.avatar}
                 className="rounded-full w-45 h-45 md:w-55 md:h-55 object-cover border-2 border-[#5F6F52] shadow-md"
-                alt={user.name}
+                alt={"Avatar"}
               />
             </div>
 
             <div className="mt-13 space-y-6 text-black font-light text-base">
               <div className="border-b border-black pt-2 pb-3 mb-8">
-                {user.name}
+                {user.first_name} {user.last_name}
               </div>
               <div className="border-b border-black pt-2 pb-3 mb-8">
                 {user.email}
               </div>
               <div className="border-b border-black pt-2 pb-3 mb-8">
-                {user.title}
+                {user.department}
               </div>
               <div className="border-b border-black pt-2 pb-3 mb-8">
-                {user.department}
+                {user.company}
               </div>
             </div>
           </div>
@@ -120,7 +173,7 @@ export default function MedarbetarProfil() {
 
         {/* Kolum 2 */}
 
-        <div className="order-2 md:order-none md:col-span-1 flex flex-col h-full gap-6">
+        <div className="order-2 md:order-none md:col-span-1 flex flex-col h-full gap-6 md:h-[720px]">
           {/* Dagens status */}
           <div className="bg-[#565E40] text-white p-4 rounded-xl min-h-[250px] flex flex-col justify-start shadow-[inset_0_10px_10px_-6px_rgba(255,255,255,0.4)] md:basis-1/2">
             <div className="flex justify-between items-center mb-4">
@@ -179,17 +232,30 @@ export default function MedarbetarProfil() {
                 HISTORIK AV TIDIGARE UNDERSÖKNINGAR
               </h2>
               <ul className="list-disc list-inside space-y-2 text-xl text-black">
-                {["21/1 - 2025", "21/3 - 2025"].map((date, index) => (
-                  <li key={index}>
-                    {date}{" "}
-                    <VscArrowCircleRight className="inline text-gray-500 text-xl ml-1" />
-                  </li>
-                ))}
+                {history.map((entry, index) => {
+                  const formattedDate = new Date(entry.date).toLocaleDateString(
+                    "sv-SE"
+                  );
+
+                  return (
+                    <li
+                      key={index}
+                      className="flex items-center gap-2 justify-center md:justify-start"
+                    >
+                      <span className="inline-block w-30">{formattedDate}</span>
+                      <button
+                        onClick={() => handleOpenModal(entry.submission_id)}
+                      >
+                        <VscArrowCircleRight className="text-gray-500 text-xl cursor-pointer" />
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
-            <p className="text-sm font-medium text-black self-end mt-4">
-              2/7 Avklarade
-            </p>
+            {/* <p className="text-sm font-medium text-black self-end mt-4">
+              5/7 Avklarade
+            </p> */}
           </div>
         </div>
 
@@ -199,9 +265,11 @@ export default function MedarbetarProfil() {
             {/* Friskvård */}
             <div className="bg-[#565E40] text-white p-4 rounded-xl shadow-[inset_0_10px_10px_-6px_rgba(255,255,255,0.4)] flex flex-col justify-between md:h-[140px] h-[160px]">
               <div className="flex justify-between items-start">
-                <p className="font-bold md:hidden">Friskvårdspott</p>{" "}
+                <p className="font-bold md:hidden">FRISKVÅRDSPOTT</p>{" "}
                 {/* Mobil */}
-                <p className="font-bold hidden md:inline">FRISKVÅRD</p>{" "}
+                <p className="font-bold hidden md:inline">
+                  FRISKVÅRDSPOTT
+                </p>{" "}
                 {/* Desktop */}
                 {/* Desktop) */}
                 <p className="text-xs font-semibold hidden md:block">
@@ -210,7 +278,10 @@ export default function MedarbetarProfil() {
               </div>
 
               <div className="flex items-center gap-2 mb-4">
-                <p className="text-3xl font-semibold">1500/3000 kr</p>
+                <p className="text-3xl font-semibold">
+                  {remainingBalance ?? 0} / {totalAllowance ?? 0} kr
+                </p>
+
                 <Link href="/friskvard">
                   <VscArrowCircleRight className="text-white text-3xl ml-4 hidden md:inline cursor-pointer hover:scale-110 transition-transform" />
                 </Link>
@@ -271,6 +342,13 @@ export default function MedarbetarProfil() {
           </div>
         </div>
       </main>
+      {showModal && (
+        <SurveyAnswerModal
+          visible={showModal}
+          answers={modalAnswers}
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </div>
   );
 }
