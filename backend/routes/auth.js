@@ -70,6 +70,7 @@ router.post("/register", async (req, res) => {
     last_name,
     email,
     password,
+    department = null,
     role = "user",
     company_id = 1,
   } = req.body;
@@ -95,12 +96,13 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await query(
-      `INSERT INTO users (first_name, last_name, email, password, role, company_id, remaining_wellness_allowance)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO users (first_name, last_name, email, department, password, role, company_id, remaining_wellness_allowance)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         first_name,
         last_name,
         email,
+        department,
         hashedPassword,
         role,
         company_id,

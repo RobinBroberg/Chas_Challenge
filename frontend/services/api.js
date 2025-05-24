@@ -60,7 +60,6 @@ export async function registerUser(userData) {
     body: JSON.stringify({
       ...userData,
       company_id: currentUser.company_id,
-      role: "user", // always force 'user'
     }),
   });
 
