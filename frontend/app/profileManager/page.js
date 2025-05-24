@@ -8,10 +8,8 @@ export default function profileManager() {
   const [status, setStatus] = useState(null);
 
 
-// Dagens datum för datumformat och friskvård
-const today = new Date();
 
-// Format för Datum
+const today = new Date();
 const formattedDate = `Datum: ${today.getDate()}/${today.getMonth() + 1} - ${today.getFullYear()}`;
 
 // Antal dagar kvar av friskvård 
@@ -20,7 +18,7 @@ const msPerDay = 1000 * 60 * 60 * 24;
 const remainingDays = Math.ceil((endOfYear - today) / msPerDay);
 
   
-//Test data
+
   const user = {
     name: "Ryan Garcia",
     email: "Ryan.garcia@gmail.com",
@@ -37,7 +35,7 @@ return (
     >
       <main className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 sm:p-6 w-full max-w-screen-xl mx-auto">
   
-        {/* Rubrik */}
+    
         <div className="col-span-1 md:col-span-3">
           <h1 className="text-2xl font-semibold mb-5 text-white">Profil</h1>
           <p className="text-white mt-1 mb-2 font-medium relative inline-block after:block after:h-[1px] after:bg-white after:w-full md:after:w-[750px] after:mt-3">
@@ -67,6 +65,7 @@ return (
           </div>
         </div>
   
+
         {/* Kolum 2 */}
 
         <div className="order-3 md:order-none md:col-span-1 flex flex-col h-full gap-6">
@@ -97,6 +96,7 @@ return (
   
             
         <div className="order-2 md:order-none md:col-span-1 flex flex-col gap-6 md:h-[720px]">
+          
   
   {/* Kolum 3 */}
   <div className="order-2 grid grid-cols-2 gap-4 md:grid-cols-1">
@@ -106,8 +106,8 @@ return (
   
   <div className="flex justify-between items-start">
  
-    <p className="font-bold md:hidden mb-3">FRISKVÅRDSPOTT</p> {/* Mobil */}
-    <p className="font-bold hidden md:inline">FRISKVÅRD</p> {/* Desktop */}
+    <p className="font-bold md:hidden mb-3">FRISKVÅRDSPOTT</p> 
+    <p className="font-bold hidden md:inline">FRISKVÅRD</p> 
 
     {/* Desktop) */}
     <p className="text-xs font-semibold hidden md:block">{remainingDays} dagar kvar</p>
