@@ -1,5 +1,6 @@
 import React from "react";
 import { createPortal } from "react-dom";
+import { useEffect, useRef } from "react";
 
 function ReadOnlyQuestion({ question, value }) {
   return (
@@ -24,21 +25,42 @@ function ReadOnlyQuestion({ question, value }) {
 }
 
 export default function SurveyAnswerModal({ visible, onClose, answers }) {
+  const modalRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   if (!visible) return null;
 
   return createPortal(
     <div className="fixed inset-0 bg-transparent bg-opacity-40 z-50 flex items-center justify-center p-4">
-      <div className="bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto  p-6 relative">
-        <button
-          className="absolute top-4 right-4 text-gray-600 hover:text-black"
-          onClick={onClose}
-        >
-          ✕
-        </button>
+      <div
+        ref={modalRef}
+        className="bg-white w-full max-w-3xl max-h-[90vh] rounded-lg border-2 border-[#2f361b] flex flex-col overflow-hidden"
+      >
+        {/* Modal Header */}
+        <div className="relative p-3">
+          <button
+            className="absolute top-4 right-4 text-gray-600 hover:text-black"
+            onClick={onClose}
+          >
+            ✕
+          </button>
+          <h2 className="text-xl font-bold mb-2">Dina svar</h2>
+        </div>
 
-        <h2 className="text-xl font-bold mb-6">Dina svar</h2>
-
-        <div className="space-y-4">
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto px-6 py-4 space-y-4 flex-1">
           {answers.map((a, idx) => (
             <div
               key={idx}

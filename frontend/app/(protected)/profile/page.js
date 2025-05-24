@@ -314,7 +314,7 @@ export default function MedarbetarProfil() {
           {/* Statistik */}
           <div className="order-4 bg-black/10 backdrop-blur-sm border border-white p-4 rounded-xl shadow-md md:h-[360px] flex flex-col">
             <h2 className="font-bold mb-4 text-white">
-              BLANCAS VÄLMÅENDESTATISTIK
+              {user.first_name.toUpperCase()}S VÄLMÅENDESTATISTIK
             </h2>
             <div className="flex-1 overflow-hidden">
               <Bar
