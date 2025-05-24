@@ -31,7 +31,7 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       { userId: user.id, role: user.role, company_id: user.company_id },
       serverPassword,
-      { expiresIn: "1h" }
+      { expiresIn: "2h" }
     );
 
     res.cookie("token", token, {

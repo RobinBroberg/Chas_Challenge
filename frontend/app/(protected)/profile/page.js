@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAllowance, getCurrentUser, getMonthlyStats } from "@/services/api";
+import {
+  getAllowance,
+  getCurrentUser,
+  getMonthlyStats,
+  getAnswerHistory,
+  getSubmissionAnswers,
+} from "@/services/api";
+import SurveyAnswerModal from "@/components/SurveyAnswerModal";
 import { Bar } from "react-chartjs-2";
 import { VscArrowCircleRight } from "react-icons/vsc";
 import { BsEmojiGrin } from "react-icons/bs";
@@ -35,7 +42,11 @@ export default function MedarbetarProfil() {
   const [remainingBalance, setRemainingBalance] = useState(null);
   const [totalAllowance, setTotalAllowance] = useState(null);
   const [monthlyStats, setMonthlyStats] = useState([]);
+  const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedSubmissionId, setSelectedSubmissionId] = useState(null);
+  const [modalAnswers, setModalAnswers] = useState([]);
 
   // Dagens datum för datumformat och friskvård
   const today = new Date();
@@ -50,19 +61,34 @@ export default function MedarbetarProfil() {
   const msPerDay = 1000 * 60 * 60 * 24;
   const remainingDays = Math.ceil((endOfYear - today) / msPerDay);
 
+  const handleOpenModal = async (submissionId) => {
+    try {
+      const answers = await getSubmissionAnswers(submissionId);
+      setModalAnswers(answers);
+      setSelectedSubmissionId(submissionId);
+      setShowModal(true);
+    } catch (error) {
+      console.error("Failed to load submission answers:", error);
+    }
+  };
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const user = await getCurrentUser();
+        const [user, stats, history, allowance] = await Promise.all([
+          getCurrentUser(),
+          getMonthlyStats(),
+          getAnswerHistory(),
+          getAllowance(),
+          getSubmissionAnswers(),
+        ]);
+
         setUser({
           ...user,
           avatar: user.avatar || "/profileEmployee.png",
         });
-
-        const data = await getMonthlyStats();
-        setMonthlyStats(data);
-
-        const allowance = await getAllowance();
+        setMonthlyStats(stats);
+        setHistory(history);
         setRemainingBalance(allowance.remaining);
         setTotalAllowance(allowance.total);
       } catch (err) {
@@ -206,17 +232,30 @@ export default function MedarbetarProfil() {
                 HISTORIK AV TIDIGARE UNDERSÖKNINGAR
               </h2>
               <ul className="list-disc list-inside space-y-2 text-xl text-black">
-                {["21/1 - 2025", "21/3 - 2025"].map((date, index) => (
-                  <li key={index}>
-                    {date}{" "}
-                    <VscArrowCircleRight className="inline text-gray-500 text-xl ml-1" />
-                  </li>
-                ))}
+                {history.map((entry, index) => {
+                  const formattedDate = new Date(entry.date).toLocaleDateString(
+                    "sv-SE"
+                  );
+
+                  return (
+                    <li
+                      key={index}
+                      className="flex items-center gap-2 justify-center md:justify-start"
+                    >
+                      <span className="inline-block w-30">{formattedDate}</span>
+                      <button
+                        onClick={() => handleOpenModal(entry.submission_id)}
+                      >
+                        <VscArrowCircleRight className="text-gray-500 text-xl cursor-pointer" />
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
-            <p className="text-sm font-medium text-black self-end mt-4">
-              2/7 Avklarade
-            </p>
+            {/* <p className="text-sm font-medium text-black self-end mt-4">
+              5/7 Avklarade
+            </p> */}
           </div>
         </div>
 
@@ -303,6 +342,13 @@ export default function MedarbetarProfil() {
           </div>
         </div>
       </main>
+      {showModal && (
+        <SurveyAnswerModal
+          visible={showModal}
+          answers={modalAnswers}
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </div>
   );
 }

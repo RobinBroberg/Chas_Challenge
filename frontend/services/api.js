@@ -223,6 +223,31 @@ export async function postAnswers(answers) {
 }
 
 /**
+ * Fetch submission history for the logged-in user.
+ * Each entry includes the submission date and number of questions answered.
+ * @returns {Array<{ date: string, answered: number }>}
+ */
+export async function getAnswerHistory() {
+  const res = await fetch(`${API_BASE}/answers/history`, {
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch answer history");
+  }
+
+  return await res.json();
+}
+
+export async function getSubmissionAnswers(submissionId) {
+  const res = await fetch(`${API_BASE}/answers/submission/${submissionId}`, {
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error("Failed to fetch submission details");
+  return await res.json();
+}
+
+/**
  * Fetch average answer scores for the admin's company
  * @returns Array of objects like: { question_id, question_text, average_score, total_answers }
  */
