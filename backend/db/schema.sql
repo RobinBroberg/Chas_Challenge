@@ -60,11 +60,11 @@ CREATE TABLE receipts (
 );
 
 INSERT INTO companies (name, wellness_allowance) VALUES
-('TechCorp', 3000),
+('Chas Academy', 3000),
 ('HealthGroup', 2500);
 
 INSERT INTO users (first_name, last_name, email, department, password, role, company_id, remaining_wellness_allowance) VALUES
 ('Admin', 'User', 'admin@example.com', 'HR', '$2b$10$LNxeqdrCANv3aaebZRveyu8GilpDKn7pCEF2LtU7Ta0ajl0FTDuI.', 'admin', 1, 3000),
 ('Admin2', 'User', 'admin2@example.com', 'HR', '$2b$10$LNxeqdrCANv3aaebZRveyu8GilpDKn7pCEF2LtU7Ta0ajl0FTDuI.', 'admin', 2, 2500),
-('Anders', 'Nilsson', 'user@example.com', 'Ekonomi Avdelning', '$2b$10$JB1pdro3jxWVaCaHnbggqeHuRSTaqnaAuT7jwQHSjKd.hJNenyxEW', 'user', 1, 3000),
+('Emma', 'Andersson', 'user@example.com', 'Ekonomi Avdelning', '$2b$10$JB1pdro3jxWVaCaHnbggqeHuRSTaqnaAuT7jwQHSjKd.hJNenyxEW', 'user', 1, 3000),
 ('Eva', 'Svensson', 'user2@example.com', 'Ekonomi Avdelning', '$2b$10$JB1pdro3jxWVaCaHnbggqeHuRSTaqnaAuT7jwQHSjKd.hJNenyxEW', 'user', 2, 2500);

@@ -118,9 +118,29 @@ router.post("/register", async (req, res) => {
 });
 
 // GET /auth/me
-router.get("/me", requireAuth, (req, res) => {
-  const { userId, role, company_id } = req.user;
-  res.json({ userId, role, company_id });
+router.get("/me", requireAuth, async (req, res) => {
+  const { userId } = req.user;
+
+  try {
+    const [user] = await query(
+      `SELECT u.id, u.first_name, u.last_name, u.email, u.department,
+              u.role, u.company_id, u.remaining_wellness_allowance,
+              c.name AS company
+       FROM users u
+       JOIN companies c ON u.company_id = c.id
+       WHERE u.id = ?`,
+      [userId]
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error("Error in /auth/me:", err);
+    res.status(500).json({ message: "Failed to fetch user details" });
+  }
 });
 
 export default router;

@@ -296,6 +296,22 @@ export async function getLatestCompanyAverage() {
   }
 }
 
+/**
+ * Fetch monthly average answer values for the currently logged-in user.
+ * Returns a list of months with corresponding average scores.
+ *
+ * @returns {Promise<Array<{ month: string, average: number }>>}
+ *          - Example: [{ month: "2025-01", average: 4.2 }, ...]
+ */
+export async function getMonthlyStats() {
+  const res = await fetch(`${API_BASE}/answers/monthly`, {
+    credentials: "include",
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch monthly stats");
+  return await res.json();
+}
+
 export async function uploadReceipt(file) {
   const formData = new FormData();
   formData.append("receipt", file);

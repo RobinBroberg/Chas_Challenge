@@ -184,4 +184,29 @@ router.get(
   }
 );
 
+// GET /answers/monthly - get average answer values per month for the current user
+router.get("/monthly", requireAuth, async (req, res) => {
+  const { userId } = req.user;
+
+  try {
+    const rows = await query(
+      `
+      SELECT 
+        DATE_FORMAT(submitted_at, '%Y-%m') AS month,
+        ROUND(AVG(answer_value), 2) AS average
+      FROM answers
+      WHERE user_id = ?
+      GROUP BY month
+      ORDER BY month
+      `,
+      [userId]
+    );
+
+    res.json(rows);
+  } catch (error) {
+    console.error("Error fetching monthly stats:", error);
+    res.status(500).json({ message: "Failed to fetch monthly stats" });
+  }
+});
+
 export default router;
