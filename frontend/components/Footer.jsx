@@ -3,7 +3,7 @@ import { FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
 const FOOTER_LINKS1 = [
   { href: "/about", label: "Om Balance" },
-  { href: "/kontakt", label: "Kontakt" },
+  { href: "/contact", label: "Kontakt" },
   { href: "/", label: "Start" },
 ];
 
