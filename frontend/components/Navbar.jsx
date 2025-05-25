@@ -23,7 +23,7 @@ const MAIN_NAV_ADMIN = [
 ];
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { user, loading } = useUser();
 
   const isLoggedIn = !!user;
