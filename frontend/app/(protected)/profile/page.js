@@ -16,7 +16,6 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { BsEmojiNeutral } from "react-icons/bs";
 import { BsEmojiFrown } from "react-icons/bs";
 import { BsEmojiAngry } from "react-icons/bs";
-import Link from "next/link";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -26,6 +25,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import ProfileCard from "@/components/ProfileCard";
+import WellnessCard from "@/components/WellnessCard";
 
 ChartJS.register(
   CategoryScale,
@@ -137,39 +138,7 @@ export default function MedarbetarProfil() {
         </div>
 
         {/* Profilkort */}
-        <div className="order-1 md:order-none md:col-span-1 bg-white/75 p-6 pt-4 rounded-xl shadow items-center text-left border border-white flex flex-col md:h-[720px]">
-          <div className="w-full h-full flex flex-col justify-start">
-            <div className="w-full flex justify-between items-start mt-1 mb-6">
-              <p className="font-semibold text-2xl text-black relative inline-block after:block after:h-[1px] after:bg-black after:w-[215px] after:mt-1">
-                MEDARBETARE
-              </p>
-              <p className="font-bold text-xs text-black">{user.team}</p>
-            </div>
-
-            <div className="flex justify-center mt-10">
-              <img
-                src={user.avatar}
-                className="rounded-full w-45 h-45 md:w-55 md:h-55 object-cover border-2 border-[#5F6F52] shadow-md"
-                alt={"Avatar"}
-              />
-            </div>
-
-            <div className="mt-13 space-y-6 text-black font-light text-base">
-              <div className="border-b border-black pt-2 pb-3 mb-8">
-                {user.first_name} {user.last_name}
-              </div>
-              <div className="border-b border-black pt-2 pb-3 mb-8">
-                {user.email}
-              </div>
-              <div className="border-b border-black pt-2 pb-3 mb-8">
-                {user.department}
-              </div>
-              <div className="border-b border-black pt-2 pb-3 mb-8">
-                {user.company}
-              </div>
-            </div>
-          </div>
-        </div>
+        <ProfileCard title="MEDARBETARE" user={user} />
 
         {/* Kolum 2 */}
 
@@ -263,37 +232,11 @@ export default function MedarbetarProfil() {
           {/* Kolum 3 */}
           <div className="order-3 grid grid-cols-2 gap-4 md:grid-cols-1">
             {/* Friskvård */}
-            <div className="bg-[#565E40] text-white p-4 rounded-xl shadow-[inset_0_10px_10px_-6px_rgba(255,255,255,0.4)] flex flex-col justify-between md:h-[140px] h-[160px]">
-              <div className="flex justify-between items-start">
-                <p className="font-bold md:hidden">FRISKVÅRDSPOTT</p>{" "}
-                {/* Mobil */}
-                <p className="font-bold hidden md:inline">
-                  FRISKVÅRDSPOTT
-                </p>{" "}
-                {/* Desktop */}
-                {/* Desktop) */}
-                <p className="text-xs font-semibold hidden md:block">
-                  {remainingDays} dagar kvar
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2 mb-4">
-                <p className="text-3xl font-semibold">
-                  {remainingBalance ?? 0} / {totalAllowance ?? 0} kr
-                </p>
-
-                <Link href="/friskvard">
-                  <VscArrowCircleRight className="text-white text-3xl ml-4 hidden md:inline cursor-pointer hover:scale-110 transition-transform" />
-                </Link>
-              </div>
-
-              {/*  mobil  */}
-              <div className="flex justify-end md:hidden">
-                <p className="text-xs font-semibold">
-                  {remainingDays} dagar kvar
-                </p>
-              </div>
-            </div>
+            <WellnessCard
+              remainingBalance={remainingBalance}
+              totalAllowance={totalAllowance}
+              remainingDays={remainingDays}
+            />
 
             {/* Quote */}
             <div className="bg-white/10 backdrop-blur-sm shadow-md text-white p-4 rounded-xl border border-white md:h-[180px]">
