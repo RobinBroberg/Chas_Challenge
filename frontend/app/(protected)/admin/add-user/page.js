@@ -88,7 +88,7 @@ const CreateAccountPage = () => {
           <input
             type="text"
             name="first_name"
-            placeholder="Namn"
+            placeholder="Förnamn"
             value={newUser.first_name}
             onChange={handleInput}
             className="flex-1 border-b-2 border-white bg-transparent p-2 text-xl text-[#F6F4F0] placeholder-white focus:outline-none"
