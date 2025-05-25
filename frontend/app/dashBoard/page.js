@@ -85,7 +85,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Kvittogodkännande */}
-            <div className="bg-white text-black rounded-xl shadow-md flex flex-col justify-center items-center text-center px-4 h-[220px]">
+            <div className="bg-[#DFE2D2] text-black rounded-xl shadow-md flex flex-col justify-center items-center text-center px-4 h-[220px]">
               <h2 className="text-sm font-semibold">Kvittogodkännande</h2>
               <img src="/Vector.png" alt="Vector" />
               <div
@@ -93,8 +93,8 @@ export default function DashboardPage() {
                 style={{
                   background: `conic-gradient(
                     #BABEA7 0% ${100 - percent}%,
-                    #4A5A41 ${100 - percent}%,
-                    #99AE86 100%
+                    #BABEA7 ${100 - percent}%,
+                    #BABEA7 100%
                   )`,
                 }}
               >
@@ -106,7 +106,7 @@ export default function DashboardPage() {
                 </div>
               </div>
               <p className="text-black font-semibold text-sm tracking-tight pt-4 p-2">
-                {receiptDone} av {receiptsCount} godkända min väns
+                {receiptDone} av {receiptsCount}
                 kvittogodkännande
               </p>
             </div>
