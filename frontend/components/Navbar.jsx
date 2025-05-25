@@ -130,6 +130,12 @@ const Navbar = () => {
               {label}
             </Link>
           ))}
+          <Link
+            href={isAdmin ? "/admin/profile" : "/profile"}
+            className="hover:underline md:hidden"
+          >
+            PROFIL
+          </Link>
         </div>
       )}
     </nav>
