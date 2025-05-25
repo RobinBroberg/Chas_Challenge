@@ -99,11 +99,7 @@ const Navbar = () => {
               )}
               <Link
                 href={
-                  isAdmin
-                    ? "/admin/profile"
-                    : isUser
-                    ? "/user/profile"
-                    : "/profile"
+                  isAdmin ? "/admin/profile" : isUser ? "/profile" : "/profile"
                 }
               >
                 <AiOutlineUser className="w-6 h-6 cursor-pointer" />

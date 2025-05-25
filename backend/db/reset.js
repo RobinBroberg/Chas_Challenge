@@ -58,14 +58,31 @@ const runSchema = async () => {
         [testUser.company_id]
       );
 
-      const submissionId = randomUUID();
+      const now = new Date();
+      const monthsBack = 4;
+      for (let i = 0; i < monthsBack; i++) {
+        const submissionId = randomUUID();
+        const backDate = new Date(
+          now.getFullYear(),
+          now.getMonth() - i,
+          Math.floor(Math.random() * 28) + 1
+        );
+        const submittedAt = backDate
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " ");
 
-      for (const question of questionRows) {
-        const randomAnswer = Math.floor(Math.random() * 5) + 1;
-        await connection.query(
-          `INSERT INTO answers (user_id, question_id, answer_value, submission_id)
-           VALUES (?, ?, ?, ?)`,
-          [testUser.id, question.id, randomAnswer, submissionId]
+        for (const question of questionRows) {
+          const randomAnswer = Math.floor(Math.random() * 5) + 1;
+          await connection.query(
+            `INSERT INTO answers (user_id, question_id, answer_value, submission_id, submitted_at)
+             VALUES (?, ?, ?, ?, ?)`,
+            [testUser.id, question.id, randomAnswer, submissionId, submittedAt]
+          );
+        }
+
+        console.log(
+          `Inserted answers for ${backDate.toLocaleDateString("sv-SE")}`
         );
       }
 
