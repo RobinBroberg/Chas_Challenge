@@ -129,14 +129,13 @@ export default function MedarbetarProfil() {
       style={{ backgroundImage: 'url("/EmployeeBG.png")' }}
     >
       <ProfileSidebar />
-      <main className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 sm:p-6 w-full max-w-screen-xl mx-auto">
+      <main className="grid grid-cols-1 md:grid-cols-3 gap-10 p-4 sm:p-6 w-full max-w-screen-xl mx-auto mb-12">
         {/* Rubrik */}
 
         <div className="col-span-1 md:col-span-3">
           <h1 className="text-2xl font-semibold mb-5 text-white">Profil</h1>
           <p className="text-white mt-1 mb-2 font-medium relative inline-block after:block after:h-[1px] after:bg-white after:w-full md:after:w-[650px] after:mt-3">
-            Hej {user.first_name}! Välkommen in här har du översikt över dina
-            aktuella insikter.
+            Hej {user.first_name}! Välkommen till din personliga översikt
           </p>
         </div>
 
@@ -147,32 +146,32 @@ export default function MedarbetarProfil() {
 
         <div className="order-2 md:order-none md:col-span-1 flex flex-col h-full gap-6 md:h-[720px]">
           {/* Dagens status */}
-          <div className="bg-[#565E40] text-white p-4 rounded-xl min-h-[250px] flex flex-col justify-start shadow-[inset_0_10px_10px_-6px_rgba(255,255,255,0.4)] md:basis-1/2">
+          <div className="bg-[#565E40] text-white p-4 rounded-xl min-h-[100px] md:min-h-[250px] flex flex-col justify-start shadow-[inset_0_10px_10px_-6px_rgba(255,255,255,0.4)] md:basis-1/2">
             <div className="flex justify-between items-center mb-4">
               <p className="font-bold">DAGENS STATUS</p>
               <p className="text-sm">{formattedDate}</p>
             </div>
-            <div className="flex justify-between flex-wrap gap-4 mt-16">
+            <div className="flex justify-between flex-wrap gap-1 mt-6 md:mt-20 hover:">
               {[
                 {
-                  icon: <BsEmojiGrin className="text-4xl md:text-5xl" />,
-                  alt: "På topp",
-                },
-                {
-                  icon: <BsEmojiSmile className="text-4xl md:text-5xl" />,
-                  alt: "Känns bra",
-                },
-                {
-                  icon: <BsEmojiNeutral className="text-4xl md:text-5xl" />,
-                  alt: "Helt okej",
+                  icon: <BsEmojiAngry className="text-4xl md:text-5xl" />,
+                  alt: "Stressad",
                 },
                 {
                   icon: <BsEmojiFrown className="text-4xl md:text-5xl" />,
                   alt: "Lite nere",
                 },
                 {
-                  icon: <BsEmojiAngry className="text-4xl md:text-5xl" />,
-                  alt: "Stressad",
+                  icon: <BsEmojiNeutral className="text-4xl md:text-5xl" />,
+                  alt: "Helt okej",
+                },
+                {
+                  icon: <BsEmojiSmile className="text-4xl md:text-5xl" />,
+                  alt: "Känns bra",
+                },
+                {
+                  icon: <BsEmojiGrin className="text-4xl md:text-5xl" />,
+                  alt: "På topp",
                 },
               ].map((item, index) => {
                 const isSelected = status === index;
@@ -181,9 +180,9 @@ export default function MedarbetarProfil() {
                   <button
                     key={index}
                     onClick={() => setStatus(index)}
-                    className={`flex flex-col items-center transition-all duration-300 ${
+                    className={`flex flex-col items-center transition-all duration-100 hover:scale-125 hover:opacity-100 ${
                       isSelected
-                        ? "scale-140"
+                        ? "scale-150"
                         : hasChosen
                         ? "opacity-40 blur-[2px]"
                         : ""
@@ -198,7 +197,7 @@ export default function MedarbetarProfil() {
           </div>
 
           {/* Historik */}
-          <div className="order-5 md:order-none md:col-span-1 bg-white/75 border-white p-4 rounded-xl min-h-[150px] md:min-h-[360px] flex flex-col justify-between shadow md:basis-1/2">
+          <div className="order-5 md:order-none md:col-span-1 bg-white/75 border-white p-4 rounded-xl min-h-[150px] h-[200px] md:min-h-[360px] flex flex-col justify-between shadow md:basis-1/2 overflow-y-auto">
             <div>
               <h2 className="font-bold mb-6 text-sm text-black">
                 HISTORIK AV TIDIGARE UNDERSÖKNINGAR
@@ -212,7 +211,7 @@ export default function MedarbetarProfil() {
                   return (
                     <li
                       key={index}
-                      className="flex items-center gap-2 justify-center md:justify-start"
+                      className="flex items-center gap-2 justify-start"
                     >
                       <span className="inline-block w-30">{formattedDate}</span>
                       <button
@@ -251,9 +250,12 @@ export default function MedarbetarProfil() {
                   className="w-4 h-4 object-contain"
                 />
               </div>
-              <p className="text-sm mt-8 font-semibold">
-                Stäng av mejlen i 30 minuter och fokusera på en sak i taget
+              <p className="text-sm mt-4 md:mt-8 font-semibold">
+              Det är inte lätt att vara ödmjuk när man är bäst 
               </p>
+              <p className="text-sm mt-1 italic font-medium text-right">
+  – Zlatan Ibrahimovic
+</p>
             </div>
           </div>
 
