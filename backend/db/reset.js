@@ -25,16 +25,14 @@ const runSchema = async () => {
     const [companies] = await connection.query(`SELECT id FROM companies`);
 
     const defaultQuestions = [
-      "Hur pigg känner du dig idag?",
-      "Hur stressad känner du dig just nu?",
-      "Hur bra sov du i natt?",
-      "Hur motiverad är du att arbeta idag?",
-      "Hur produktiv känner du dig idag?",
-      "Hur nöjd är du med din arbetsmiljö?",
-      "Hur tydliga är dina arbetsuppgifter idag?",
-      "Hur stöttad känner du dig av ditt team eller din chef?",
-      "Hur upplever du balansen mellan jobb och privatliv?",
-      "Hur trygg känner du dig med din nuvarande arbetsbelastning?",
+      "Jag känner mig motiverad i mitt arbete",
+      "Jag upplever att arbetsbelastningen är rimlig i dagsläget",
+      "Jag upplever att stressnivån på arbetsplatsen är rimlig",
+      "Jag känner mig trygg i min arbetsmiljö, både psykiskt och fysiskt",
+      "Jag upplever att jag har möjlighet till återhämtning under arbetsdagen",
+      "Jag upplever att jag har en god balans mellan privatliv och arbetsliv",
+      "Jag upplever att samarbetet och sammanhållningen i teamet fungerar bra",
+      "Jag upplever att jag får tillräckligt med stöd när jag stöter på utmaningar i mitt arbete",
     ];
 
     // Insert the same questions for each company
@@ -62,11 +60,13 @@ const runSchema = async () => {
       const monthsBack = 4;
       for (let i = 0; i < monthsBack; i++) {
         const submissionId = randomUUID();
-        const backDate = new Date(
-          now.getFullYear(),
-          now.getMonth() - i,
-          Math.floor(Math.random() * 28) + 1
-        );
+
+        const year = now.getFullYear();
+        const month = now.getMonth() - i;
+
+        const randomDay = Math.floor(Math.random() * 28) + 1;
+        const backDate = new Date(year, month, randomDay);
+
         const submittedAt = backDate
           .toISOString()
           .slice(0, 19)

@@ -68,43 +68,48 @@ export default function QuestionsPage() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="bg-[#EAE9E4] min-h-screen p-4 md:p-10 font-montserrat">
-      <div className="max-w-4xl mx-auto bg-white border rounded-[5px]  shadow p-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-          Hantera frågor
+    <div
+    className="flex flex-col min-h-screen bg-cover bg-center"
+    style={{ backgroundImage: 'url("/EmployeeBG.png")' }}
+  >
+    
+    <div className="min-h-screen p-4 md:p-15 font-montserrat">
+      <div className="max-w-6xl mx-auto bg-white/85 border rounded-[5px]  shadow p-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+          Enkätfrågor
         </h1>
-        <p className="text-sm md:text-lg font-semibold text-gray-800 mb-6">
-          Lägg till, redigera eller ta bort frågor
+        <p className="text-sm md:text-lg font-medium text-gray-800 mb-12">
+        Hantera enkätens innehåll – lägg till, redigera eller ta bort frågor.
         </p>
 
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-4 mb-6">
           <input
             type="text"
             value={newQuestionText}
             onChange={(e) => setNewQuestionText(e.target.value)}
             placeholder="Ny fråga..."
-            className="flex-grow border border-gray-300 rounded p-2 text-gray-800"
+            className="h-14 flex-1 border-2 border-gray-800 rounded px-4 text-gray-900 text-base"
           />
           <button
             onClick={handleAddQuestion}
-            className="px-4 py-2 bg-[#4A5A41] text-white rounded hover:bg-[#3b4835]"
+            className="bg-gradient-to-r mb-3 from-[#5b6142] to-[#343a28] hover:from-[#6f7650] hover:to-[#3e4531] text-white font-medium py-4 px-4 rounded shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 w-fit"
           >
             Lägg till
           </button>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 max-h-[400px] overflow-y-auto pr-10">
           {questions.map((q, index) => (
-            <div key={q.id} className="flex items-center gap-2">
+            <div key={q.id} className="flex items-center gap-6">
               <input
                 type="text"
                 value={q.question_text}
                 onChange={(e) => handleQuestionChange(index, e.target.value)}
-                className="flex-grow border border-gray-300 rounded p-2 text-gray-800 font-semibold"
+                className="flex-grow border border-gray-700 rounded p-2 text-gray-800 font-semibold"
               />
               <button
                 onClick={() => handleDeleteQuestion(q.id)}
-                className="px-3 py-2 bg-[#C55345] text-white rounded hover:bg-[#a94135]"
+                className="px-4 py-2 bg-[#C55345] text-white rounded hover:bg-[#a94135]"
               >
                 Ta bort
               </button>
@@ -112,6 +117,7 @@ export default function QuestionsPage() {
           ))}
         </div>
       </div>
+    </div>
     </div>
   );
 }
