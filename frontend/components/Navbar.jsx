@@ -23,7 +23,7 @@ const MAIN_NAV_ADMIN = [
 ];
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { user, loading } = useUser();
 
   const isLoggedIn = !!user;
@@ -69,6 +69,16 @@ const Navbar = () => {
 
         {/* Right: Icons / Hamburger (mobile) / Login btn */}
         <div className="flex items-center gap-4">
+          {/* Dashboard icon (visible on both mobile and desktop when admin) */}
+          {isAdmin && (
+            <Link href="/admin/dashboard">
+              <img
+                src="/dashboardIcon.png"
+                alt="Admin Dashboard"
+                className="w-6 h-6 cursor-pointer"
+              />
+            </Link>
+          )}
           {isLoggedIn && (
             <>
               {menuOpen ? (
@@ -85,18 +95,9 @@ const Navbar = () => {
             </>
           )}
 
-          {/* Visible icons (desktop only when logged in) */}
+          {/* User icon (desktop only when logged in) */}
           {isLoggedIn && (
-            <div className="hidden md:flex items-center gap-4">
-              {isAdmin && (
-                <Link href="/admin/dashboard">
-                  <img
-                    src="/dashboardIcon.png"
-                    alt="Admin Dashboard"
-                    className="w-6 h-6 cursor-pointer"
-                  />
-                </Link>
-              )}
+            <div className="hidden md:flex items-center">
               <Link
                 href={
                   isAdmin ? "/admin/profile" : isUser ? "/profile" : "/profile"
@@ -129,6 +130,12 @@ const Navbar = () => {
               {label}
             </Link>
           ))}
+          <Link
+            href={isAdmin ? "/admin/profile" : "/profile"}
+            className="hover:underline md:hidden"
+          >
+            PROFIL
+          </Link>
         </div>
       )}
     </nav>

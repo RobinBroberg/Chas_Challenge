@@ -41,7 +41,7 @@ const loginPage = () => {
       const data = await login(email, password);
       await refreshUser();
       if (data.role === "admin") {
-        router.push("/admin/questions");
+        router.push("/admin/profile");
       } else {
         router.push("/");
       }

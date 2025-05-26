@@ -1,4 +1,5 @@
 import CardsSlider from "@/components/CardsSlider";
+import Link from "next/link";
 
 export default function Home() {
   const cards = [
@@ -109,9 +110,12 @@ export default function Home() {
               en mer hållbar och trivsam arbetsvardag för alla i organisationen.
             </p>
             <div className="flex justify-center md:justify-end">
-              <button className="border-2 border-[#6ea16e] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 cursor-pointer">
+              <Link
+                href="/about"
+                className="border-2 border-[#6ea16e] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 cursor-pointer inline-block"
+              >
                 OM OSS
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -320,9 +324,11 @@ export default function Home() {
             <p className="text-sm md:text-base text-gray-800 font-montserrat mb-5 font-bold">
               Vill du veta mer om hur det fungerar?
             </p>
-            <button className="bg-[#5a7350] text-white px-4 py-2 text-sm md:text-base uppercase font-montserrat font-medium rounded-4xl hover:bg-[#3e4f37] transition-all duration-300 cursor-pointer">
-              LÄS MER
-            </button>
+            <Link href="/about">
+              <button className="bg-[#5a7350] text-white px-4 py-2 text-sm md:text-base uppercase font-montserrat font-medium rounded-4xl hover:bg-[#3e4f37] transition-all duration-300 cursor-pointer">
+                LÄS MER
+              </button>
+            </Link>
           </div>
         </div>
       </section>
