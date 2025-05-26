@@ -147,7 +147,7 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
             <div className="flex items-center">
               <button
                 onClick={handleLogout}
-                className="w-13 h-13 flex items-center justify-center transition-all duration-200 hover:bg-gray-50 "
+                className="w-13 h-13 flex items-center justify-center transition-all duration-200 hover:bg-gray-50 text-black "
                 title="Logout"
               >
                 <IoIosLogOut size={22} strokeWidth={1.5} />
