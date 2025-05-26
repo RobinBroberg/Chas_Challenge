@@ -83,7 +83,7 @@ export default function DashboardPage() {
           {/* Left: Summary cards */}
           <div className="grid grid-cols-2 gap-6 col-span-1">
             {/* Medarbetare */}
-            <div className="bg-gradient-to-br from-[#AEB396] to-[#232F21] text-white rounded-xl shadow-md flex flex-col items-center justify-center text-center aspect-square">
+            <div className="bg-gradient-to-br from-[#AEB396] to-[#232F21] text-white rounded-xl shadow-md flex flex-col items-center justify-center text-center h-[200px] sm:h-[220px] lg:h-[250px]">
               <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center text-2xl mb-3">
                 👥
               </div>
@@ -93,7 +93,7 @@ export default function DashboardPage() {
 
             {/* Friskvårdsbidrag */}
             <div
-              className="bg-[#A3B17C] text-[#232F21] rounded-xl shadow-md flex flex-col justify-center  px-6 aspect-square"
+              className="bg-[#A3B17C] text-[#232F21] rounded-xl shadow-md flex flex-col justify-center  px-6 h-[200px] sm:h-[220px] lg:h-[250px]"
               style={{ backgroundColor: "rgba(163, 177, 124, 0.5)" }}
             >
               <p className="text-[16px] font-semibold  text-black text-center">
@@ -109,7 +109,7 @@ export default function DashboardPage() {
 
             {/* Balansundersökning */}
             <div
-              className="bg-[#A3B17C] text-[#232F21] rounded-xl shadow-md flex flex-col justify-center items-center text-center px-4 aspect-square col-span-2 sm:col-span-1"
+              className="bg-[#A3B17C] text-[#232F21] rounded-xl shadow-md flex flex-col justify-center items-center text-center px-4 h-[250px] sm:h-[220px] lg:h-[250px] col-span-2 sm:col-span-1"
               style={{ backgroundColor: "rgba(163, 177, 124, 0.5)" }}
             >
               <p className="text-xs font-semibold text-black">
@@ -120,7 +120,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Kvittogodkännande */}
-            <div className="bg-gradient-to-br from-[#AEB396] to-[#232F21] text-white rounded-xl shadow-md flex flex-col justify-center items-center text-center px-4 aspect-square col-span-2 sm:col-span-1">
+            <div className="bg-gradient-to-br from-[#AEB396] to-[#232F21] text-white rounded-xl shadow-md flex flex-col justify-center items-center text-center px-4 h-[250px] sm:h-[220px] lg:h-[250px] col-span-2 sm:col-span-1">
               {/* Title */}
               <div className="flex justify-center items-center gap-2 mb-2">
                 <h2 className="font-semibold text-sm tracking-tight">
