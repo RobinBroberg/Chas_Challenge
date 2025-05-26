@@ -25,7 +25,7 @@ const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
     id: "dashboard",
     label: "Dashboard",
     type: "image",
-    iconSrc: "/mage_dashboard-fill.png",
+    iconSrc: "/managerProfile.png",
     href: "/dashboard",
   };
 
@@ -34,7 +34,7 @@ const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
     id: "user profile",
     label: "User profile",
     type: "image",
-    iconSrc: "/tabler_filters-filled.png",
+    iconSrc: "/profileEmployee.png",
   };
 
   // Assemble navigation list
