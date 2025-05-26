@@ -1,87 +1,55 @@
-# 🚀 Chas Challenge — Backend Setup & Usage Guide
+# Chas Challenge – Välmåendeplattform för Arbetsplatser
 
-This guide helps you set up the local database for our project.
-
----
-
-### 📁 Project Structure (just so you know)
-
-Inside the `/backend` folder, there is a `db` folder that contains:
-
-- `schema.sql` → This creates the database tables and adds test data.
-- `reset.js` → This script runs the SQL file for you.
+Välkommen till Chas Challenge! Det här är ett digitalt verktyg som hjälper företag att följa upp och främja medarbetares hälsa och välmående. Plattformen riktar sig både till medarbetare och administratörer, med stöd för undersökningar, kvittohantering för friskvård, och insikter i hur arbetsmiljön upplevs över tid.
 
 ---
 
-### 🧰 What You Need
+## Funktioner
 
-- **MAMP - Or other local MySQL server** (Make sure MySQL is running)
-- **Node.js** (Ask if you’re not sure you have this)
+### 👥 Användarroller
 
----
-
-### ✅ Steps to Set Up the Database
-
-#### 1. Create the database
-
-- Open MAMP
-- Start the servers
-- Go to [http://localhost/phpMyAdmin]
-- Click “New” on the left
-- Name the database: `chas_challenge`
-- Click **Create**
-
-#### 2. Set your config
-
-- In the `/backend` folder, there’s a file called `.env.example`
-- Make a copy of it and rename it to `.env`
-- Open `.env` and check that it looks like this:
-
-        DB_USER=your_mysql_user
-        DB_PASS=your_mysql_password
-        DB_PORT=your_mysql_port
-        DB_HOST=localhost
-        DB_NAME=chas_challenge
-        JWT_SECRET=your_jwt_secret_here
-
-> 🛡️ `JWT_SECRET` is used to sign login tokens. You can use any long random string.
-
-#### 3. Install the backend dependencies
-
-- Open a terminal and go to the /backend folder
-
-- Run this command:
-
-        npm install
-
-This installs everything needed for the database reset script and the backend to work.
-
-#### 4. Fill the database
-
-- Open a terminal and go to the /backend folder
-
-- Run this command:
-
-         npm run db:reset
-
-This will create all the tables and add some test users and questions.
+- **Medarbetare**:
+  - Svarar på balansundersökningar.
+  - Laddar upp kvitton för friskvårdsbidrag.
+  - Får personlig översikt och statistik.
+- **Administratörer**:
+  - Skapar och redigerar undersökningsfrågor.
+  - Godkänner eller avvisar kvitton med kommentarer.
+  - Får överblick över företagets välmående.
 
 ---
 
-### 🔐 Test Logins (for local testing)
+## Friskvårdssystem
 
-You can log in using the following test users after running `npm run db:reset`:
+- Varje företag har ett årligt friskvårdsbidrag.
+- Medarbetare kan ladda upp kvitton och följa sin återstående pott.
+- Admin ser och hanterar alla inskickade kvitton.
 
-#### 👤 Admin User
+---
 
-- **Email:** `admin@example.com`
-- **Password:** `admin123`
-- **Role:** `admin`
+## 🔐 Testinloggningar
 
-#### 👤 Regular User
+### Admin
 
-- **Email:** `user@example.com`
-- **Password:** `user123`
-- **Role:** `user`
+- **Email**: `admin@example.com`
+- **Lösenord**: `admin123`
 
-These accounts are created automatically when the database is reset. Use them to test login, permissions, and role-based views.
+### Medarbetare
+
+- **Email**: `user@example.com`
+- **Lösenord**: `user123`
+
+---
+
+## Installation – Backend & Databas
+
+Gå till `backend/README.md`
+
+---
+
+## Teknologier
+
+- **Frontend**: Next.js (App Router), React, Tailwind CSS
+- **Backend**: Express, Node.js, MySQL, JWT
+- **Autentisering**: Custom med HTTP-only cookies
+- **Övrigt**: OCR med Gemini för kvittoanalys

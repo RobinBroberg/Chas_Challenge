@@ -2,6 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
+import path from "path";
 
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
@@ -22,6 +23,7 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 // Define routes
 app.use("/auth", authRoutes);

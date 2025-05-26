@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React from "react";
+
+import { FaBalanceScale } from "react-icons/fa";
+import { BsBarChart } from "react-icons/bs";
+import { BiSolidReceipt } from "react-icons/bi";
+
 import {
-  ChevronLeft,
-  ChevronRight,
   BookOpen,
   Moon,
   Coffee,
@@ -14,7 +17,9 @@ import {
   Utensils,
   Sun,
 } from "lucide-react";
+import Link from "next/link";
 
+// Map all icons
 const iconMap = {
   BookOpen,
   Moon,
@@ -25,199 +30,91 @@ const iconMap = {
   Dumbbell,
   Utensils,
   Sun,
+  FaBalanceScale,
+  BsBarChart,
+  BiSolidReceipt,
 };
 
 export default function CardsSlider() {
-  const scrollRef = useRef(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  // Sample cards data
   const cards = [
     {
-      icon: "BookOpen",
-      title: "Mental Hälsa",
-      text: "Lär dig tekniker för att minska stress och ångest i vardagen.",
+      icon: "", // No icon
+      title: "Kom igång redan idag!",
+      text: "Som arbetsgivare väljer du hur ofta du ska mäta balansen hos dina medarbetare.",
       highlight: true,
-      cta: "Skapa ett konto här",
+      cta: "Anslut till Balance",
     },
     {
-      icon: "Moon",
-      title: "Bättre Sömn",
-      text: "Våra guider hjälper dig att uppnå en mer uppfriskande sömn.",
+      icon: "FaBalanceScale",
+      title: "Balansundersökning",
+      text: "I vårt paket finns tio stycken skräddarsydda frågor om välmående på arbetsplatsen.",
       highlight: false,
-      cta: "Läs mer",
     },
     {
-      icon: "Coffee",
-      title: "Energiboost",
-      text: "Upptäck nya sätt att hålla energin uppe under dagen utan koffein.",
+      icon: "BsBarChart",
+      title: "Statistik",
+      text: "Medarbetarnas svar presenteras i statistikformat med enkel överblick i en dashboard.",
       highlight: false,
-      cta: "Läs mer",
     },
     {
-      icon: "Leaf",
-      title: "Mindfulness",
-      text: "Öva på närvaro och medvetenhet för att minska stressnivåer.",
+      icon: "BiSolidReceipt",
+      title: "Kvittohantering",
+      text: "Godkänn och överblicka status över medarbetarnas friskvårdsutlägg.",
       highlight: false,
-      cta: "Läs mer",
-    },
-    {
-      icon: "Dumbbell",
-      title: "Träning",
-      text: "Fysisk aktivitet som stärker både kropp och sinne.",
-      highlight: false,
-      cta: "Läs mer",
-    },
-    {
-      icon: "Utensils",
-      title: "Näringslära",
-      text: "Ät rätt för bättre fokus, humör och välmående.",
-      highlight: false,
-      cta: "Läs mer",
-    },
-    {
-      icon: "HeartPulse",
-      title: "Hjärt­hälsa",
-      text: "Tips för att främja ett starkt och friskt hjärta.",
-      highlight: false,
-      cta: "Läs mer",
     },
   ];
 
-  // Implement the missing handler functions
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    setStartX(e.pageX - scrollRef.current.offsetLeft);
-    setScrollLeft(scrollRef.current.scrollLeft);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Multiply by 2 for faster scrolling
-    scrollRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  const handleTouchStart = (e) => {
-    setIsDragging(true);
-    setStartX(e.touches[0].pageX - scrollRef.current.offsetLeft);
-    setScrollLeft(scrollRef.current.scrollLeft);
-  };
-
-  const handleTouchMove = (e) => {
-    if (!isDragging) return;
-    const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2;
-    scrollRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-  };
-
-  const scroll = (direction) => {
-    const container = scrollRef.current;
-    const scrollAmount = 350; // Adjust scroll amount as needed
-    if (container) {
-      if (direction === "left") {
-        container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-      } else {
-        container.scrollBy({ left: scrollAmount, behavior: "smooth" });
-      }
-    }
-  };
-
   return (
-    <div className="w-full">
-      {/* Scrollable Cards Area */}
-      <div
-        ref={scrollRef}
-        className="flex overflow-x-auto space-x-6 scroll-smooth py-6 px-4 md:px-8 cursor-grab active:cursor-grabbing"
-        style={{
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-          userSelect: isDragging ? "none" : "auto",
-        }}
-        onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseLeave}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
+    <div className="w-full py-6 px-4 md:px-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {cards.map((card, i) => {
-          const Icon = iconMap[card.icon] || BookOpen;
+          const Icon = iconMap[card.icon];
+
           return (
             <div
               key={i}
-              className={`min-w-[280px] md:min-w-[320px] max-w-[300px] md:max-w-[350px] flex-shrink-0 rounded-3xl p-6 md:p-8 shadow-lg ${
+              className={`rounded-3xl p-6 md:p-8 shadow-lg flex flex-col ${
                 card.highlight
                   ? "bg-[#5E7154] text-white"
                   : "bg-white text-black border border-[#DADAD9]"
               }`}
             >
-              <div className="flex flex-col h-full">
-                {/* icon */}
+              {/* Icon */}
+              {Icon && (
                 <div className="mb-6 self-center p-4 rounded-full bg-white/20">
                   <Icon
-                    className={`h-10 w-10 ${
+                    className={`h-14 w-14 ${
                       card.highlight ? "text-white" : "text-[#5E7154]"
                     }`}
                   />
                 </div>
+              )}
 
-                {/* title + text */}
-                <h3 className="text-xl font-bold mb-4 text-center">
-                  {card.title}
-                </h3>
-                <p className="text-base mb-6 flex-1">{card.text}</p>
+              {/* Title */}
+              <h3 className="text-2xl md:text-[28px] font-bold mb-14 text-center">
+                {card.title}
+              </h3>
 
-                {/* CTA button */}
-                <button
-                  className={`mt-auto rounded-full px-6 py-3 text-base font-semibold transition hover:scale-105 ${
-                    card.highlight
-                      ? "bg-white text-[#5E7154] hover:bg-gray-100"
-                      : "border border-[#5E7154] text-[#5E7154] hover:bg-[#5E7154] hover:text-white"
-                  }`}
-                >
-                  {card.cta}
-                </button>
-              </div>
+              {/* Text */}
+              <p className="text-2xl mb-16 text-center flex-1">{card.text}</p>
+
+              {/* Only show CTA on first card */}
+              {card.cta && (
+                <Link href="/contact" className="flex justify-center">
+                  <button
+                    className={`mt-auto rounded-full px-6 py-3 text-base font-semibold transition hover:scale-105 ${
+                      card.highlight
+                        ? "bg-white text-[#5E7154] hover:bg-gray-100"
+                        : "border border-[#5E7154] text-[#5E7154] hover:bg-[#5E7154] hover:text-white"
+                    }`}
+                  >
+                    {card.cta}
+                  </button>
+                </Link>
+              )}
             </div>
           );
         })}
-      </div>
-
-      {/* Navigation Arrows */}
-      <div className="flex justify-end mt-4 pr-4 md:pr-8">
-        <div className="flex space-x-3 bg-white/10 backdrop-blur-sm rounded-full p-1">
-          <button
-            onClick={() => scroll("left")}
-            className="p-2 rounded-full transition hover:bg-[#579257] cursor-pointer border border-[#5E7154]"
-            aria-label="Scroll left"
-          >
-            <ChevronLeft size={24} className="text-[#5E7154]" />
-          </button>
-          <button
-            onClick={() => scroll("right")}
-            className="p-2 rounded-full transition hover:bg-[#579257] cursor-pointer border border-[#5E7154]"
-            aria-label="Scroll right"
-          >
-            <ChevronRight size={24} className="text-[#5E7154]" />
-          </button>
-        </div>
       </div>
     </div>
   );

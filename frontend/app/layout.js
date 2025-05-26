@@ -13,7 +13,7 @@ const montserrat = Montserrat({
 });
 
 const wixDisplay = Wix_Madefor_Display({
-  weight: ["600"],
+  weight: ["600", "800"],
   subsets: ["latin"],
   variable: "--font-wix-display",
 });

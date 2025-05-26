@@ -1,4 +1,5 @@
 import CardsSlider from "@/components/CardsSlider";
+import Link from "next/link";
 
 export default function Home() {
   const cards = [
@@ -42,7 +43,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#f5f1ea] flex flex-col items-center">
+    <main className="min-h-screen bg-[#f5f1ea] flex flex-col items-center overflow-x-hidden">
       {/* Hero Section */}
       <header className="relative w-full mb-12">
         <img
@@ -50,25 +51,29 @@ export default function Home() {
           alt="Logo"
           className="w-full h-[850px] object-cover brightness-75"
         />
-        <div className="absolute inset-0 flex items-center justify-start px-10">
-          <h1 className="text-white font-montserrat text-6xl md:text-[8rem] lg:text-[14rem] tracking-widest ">
+
+        {/* BALANCE Title */}
+        <div className="absolute inset-0 flex items-center px-4 md:px-10 z-10">
+          <h1 className="text-white font-montserrat text-6xl md:text-[7rem] lg:text-[9rem] 2xl:text-[12rem] tracking-widest font-medium leading-none text-center md:text-left">
             BALANCE
           </h1>
         </div>
-        <div className="absolute inset-0 flex flex-col items-start justify-end px-10 pb-[7.5rem]">
-          <h3 className="text-white font-bold font-montserrat tracking-wide text-3xl md:text-[3.2rem]">
+
+        {/* Subtext */}
+        <div className="absolute inset-0 flex flex-col items-start justify-end px-6 md:px-14 pb-40 z-10">
+          <h3 className="text-white font-bold font-montserrat tracking-wide text-2xl md:text-3xl lg:text-4xl">
             DITT STÖD FÖR ETT HÅLLBART VÄLMÅENDE
           </h3>
-          <p className="text-white text-xl font-montserrat md:text-[1.7rem] font-extralight leading-snug mb-2">
+          <p className="text-white text-base md:text-xl lg:text-2xl font-montserrat font-extralight leading-snug max-w-4xl">
             Stärk din hälsa både i och utanför arbetet, ett steg närmare mot
-            ditt bästa jag - din resa mot mer balans börjar här
+            ditt bästa jag – din resa mot mer balans börjar här.
           </p>
         </div>
       </header>
 
       {/* Section Title */}
       <section className="flex flex-col items-center w-full px-4 py-8 bg-[#f5f1ea]">
-        <h2 className="text-[#3e3a35] font-sans font-bold tracking-widest text-xl md:text-[2rem] mb-6">
+        <h2 className="text-[#3e3a35] font-sans font-bold tracking-normal text-xl md:text-[2rem] mb-6">
           DIN GUIDE TILL BALANS
         </h2>
 
@@ -79,9 +84,9 @@ export default function Home() {
       {/* Full Width Image with Centered h2 */}
       <div className="relative w-full my-10">
         <img
-          src="/landingIMG.jpg"
+          src="/balanceMeeting.png"
           alt="Landing Image"
-          className="w-full md:h-[450px] object-cover brightness-75"
+          className="w-full md:h-[650px] object-cover brightness-75"
         />
         <h2 className="absolute inset-0 flex items-center justify-center text-white font-bold text-3xl md:text-5xl text-center px-4">
           DIN HÄLSA. DITT TEMPO. DITT VÄLMÅENDE.
@@ -90,23 +95,27 @@ export default function Home() {
 
       {/* App Showcase Section */}
       <section className="w-full bg-[#f5f1ea] py-16 px-4 md:px-12 lg:px-20">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 ">
           {/* Left content */}
-          <div className="w-full md:w-1/2 space-y-4">
+          <div className="w-full md:w-1/2 space-y-4 font-montserrat">
             <h2 className="font-bold text-black md:text-[2.1rem] mb-4">
-              EN PLATS FÖR DITT VÄLMÅENDE
+              EN PLATS FÖR DINA MEDARBETARES VÄLMÅENDE
             </h2>
             <p className="text-gray-800 text-lg mb-8">
-              Med Balance får du en personlig översikt över hur du mår, enkla
-              verktyg för att förebygga stress och stöd på vägen mot bättre
-              balans i vardagen.Med Balance får du en personlig översikt över
-              hur du mår, enkla verktyg för att förebygga stress och stöd på
-              vägen mot bättre balans i vardagen.
+              Genom att ansluta till Balance som arbetsgivare får du
+              kartläggning samt statistik över hur dina medarbetare mår och
+              insikt i deras arbetssituation. Medarbetarna får tillgång till
+              enkla verktyg för att förebygga stress och stöd på vägen mot
+              bättre balans i vardagen mellan arbetsliv och fritid. Detta skapar
+              en mer hållbar och trivsam arbetsvardag för alla i organisationen.
             </p>
             <div className="flex justify-center md:justify-end">
-              <button className="border-2 border-[#6ea16e] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 cursor-pointer">
+              <Link
+                href="/about"
+                className="border-2 border-[#6ea16e] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 cursor-pointer inline-block"
+              >
                 OM OSS
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -126,91 +135,83 @@ export default function Home() {
       <section className="w-full bg-[#EAE9E4] py-16 px-4 md:px-12 lg:px-20">
         <div className="max-w-6xl mx-auto">
           {/* Section Title */}
-          <h2 className="text-center font-bold text-black text-4xl md:text-5xl mb-12">
-            SWIPE
-          </h2>
 
           <div className="flex flex-col md:flex-row gap-8 items-center">
             {/* Left side - Image */}
             <div className="w-full md:w-1/2">
               <img
-                src="/balanceCollage.png"
+                src="/collage.png"
                 alt="Balance Collage"
                 className="w-full h-auto rounded-lg"
               />
             </div>
 
             {/* Right side - Categories */}
-            <div className="w-full md:w-1/2 space-y-8">
-              <div className="mb-6">
-                <h3 className="text-[#4f8942] font-bold text-xl mb-2">
-                  Kategorier
+            <div className="w-full md:w-1/2 space-y-8 font-montserrat">
+              <div className="mb-8">
+                <h3 className="text-[#000000] font-bold text-2xl mb-8 w-full whitespace-normal">
+                  EN TJÄNST SOM SÄTTER DIG OCH DIN HÄLSA I FOKUS
                 </h3>
+
+                <h4 className="text-[#000000] font-bold text-xl mb-2">
+                  Plattformen erbjuder
+                </h4>
                 <p className="text-gray-800 p-4 rounded-md">
-                  Med swipefunktionen kan användaren enkelt navigera mellan
-                  olika kategorier genom att svepa åt vänster eller höger. Det
-                  ger en smidig och intuitiv upplevelse där man snabbt kan hitta
-                  det innehåll man är intresserad av oavsett om det handlar om
-                  att träna kroppen, lugna sinnet eller hitta inspiration.
+                  Här får du ett enkelt och personligt stöd i vardagen.
+                  Plattformen hjälper dig att synliggöra ditt välmående, ta del
+                  av friskvårdsförmåner och få koll på hur du mår över tid.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[#4f8942]">
-                {/* Category 1 */}
-                <div className="flex items-start gap-4 text-[#4f8942]">
-                  <div className="h-12 w-12 rounded-full flex items-center justify-center text-xl font-bold">
+              <div className="space-y-8 font-montserrat">
+                {/* Category 1 - Full width */}
+                <div className="flex items-start gap-6 text-[#000000]">
+                  <div className="h-16 w-16 bg-[#EAE9E4] rounded-full flex items-center justify-center text-2xl font-bold shadow-md border">
                     1
                   </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-2">Träning</h4>
+                  <div className="flex-1">
+                    <h4 className="font-bold text-lg mb-2">
+                      Balansundersökning
+                    </h4>
                     <p className="text-gray-700">
-                      Här hittar du olika träningspass från yoga för nybörjare
-                      till intensiva HIIT-pass. Träna hemma i din egen takt –
-                      inga redskap krävs!
+                      Ta tempen på ditt välmående och få en överblick över hur
+                      du mår. Resultatet hjälper dig att prioritera din hälsa på
+                      ett hållbart sätt.
                     </p>
                   </div>
                 </div>
 
-                {/* Category 2 */}
-                <div className="flex items-start gap-4">
-                  <div className="h-12 w-12 rounded-full flex items-center justify-center text-xl font-bold">
-                    2
+                {/* Categories 2 and 3 - Side by side */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Category 2 */}
+                  <div className="flex items-start gap-6 text-[#000000]">
+                    <div className="h-16 w-16 bg-[#EAE9E4] rounded-full flex items-center justify-center text-2xl font-bold shadow-md border">
+                      2
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-lg mb-2">Friskvårdskoll</h4>
+                      <p className="text-gray-700">
+                        Se hur mycket friskvårdsbidrag du har kvar och vad du
+                        kan använda det till. Enkelt, tydligt och uppdaterat i
+                        realtid.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-2">Mindfulness</h4>
-                    <p className="text-gray-700">
-                      Guidad meditation, andningsövningar och avslappning för
-                      att minska stress och öka närvaro i vardagen.
-                    </p>
-                  </div>
-                </div>
 
-                {/* Category 3 */}
-                <div className="flex items-start gap-4">
-                  <div className="h-12 w-12 rounded-full  flex items-center justify-center text-xl font-bold">
-                    3
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-2">Poddar</h4>
-                    <p className="text-gray-700">
-                      Lyssna på inspirerande poddar om hälsa, personlig
-                      utveckling och mental styrka – perfekt för promenaden
-                      eller vilan.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Category 4 */}
-                <div className="flex items-start gap-4">
-                  <div className="h-12 w-12 rounded-full  flex items-center justify-center text-xl font-bold">
-                    4
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg mb-2">Hälsa & Livsstil</h4>
-                    <p className="text-gray-700">
-                      Tips och inspiration om kost, sömn, balans och dagliga
-                      rutiner för ett hållbart välmående.
-                    </p>
+                  {/* Category 3 */}
+                  <div className="flex items-start gap-6 text-[#000000]">
+                    <div className="h-16 w-16  rounded-full flex items-center justify-center text-2xl font-bold shadow-md border">
+                      3
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-lg mb-2">
+                        Personlig översikt
+                      </h4>
+                      <p className="text-gray-700">
+                        Din personliga vy visar hur vanor påverkar ditt
+                        välmående och hjälper dig hålla fokus.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -238,7 +239,7 @@ export default function Home() {
 
         <div className="flex flex-col md:flex-row gap-2">
           <div className="w-full md:w-1/3">
-            <div className="relative overflow-hidden  transition-all duration-500 ease-in-out transform hover:scale-105 h-64">
+            <div className="relative overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 h-64">
               <img
                 src="/balanceStretch.png"
                 alt="Balance Stretch"
@@ -259,8 +260,8 @@ export default function Home() {
                 alt="Balance Head"
                 className="w-full h-full object-cover brightness-60"
               />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <h2 className="text-white text-xl font-bold tracking-wider">
+              <div className="absolute inset-0 flex items-center justify-center px-4">
+                <h2 className="text-white text-xl md:text-2xl font-bold tracking-wider text-center max-w-[90%]">
                   VÄGEN TILLBAKA FRÅN SJUKSKRIVNING
                 </h2>
               </div>
@@ -269,7 +270,7 @@ export default function Home() {
         </div>
       </section>
       <section className="w-full bg-[#f5f1ea] py-16 px-4 md:px-12 lg:px-20">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-48">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-20 md:gap-48">
           {/* Left mockup (was previously on right) */}
           <div className="w-full md:w-1/2 flex justify-center md:justify-end">
             <div className="relative w-64 md:w-80">
@@ -281,19 +282,22 @@ export default function Home() {
             </div>
           </div>
 
-          <br />
           {/* Right content (was previously on left) */}
-          <div className="w-full md:w-1/2 space-y-4">
-            <h2 className="font-bold text-black md:text-[2.8rem] mb-4">
-              FRISKVÅRDSHANTERING
-            </h2>
-            <p className="text-gray-800 text-lg mb-8">
-              Med Balance får du en personlig översikt över hur du mår, enkla
-              verktyg för att förebygga stress och stöd på vägen mot bättre
-              balans i vardagenMed Balance får du en personlig översikt över hur
-              du mår, enkla verktyg för att förebygga stress och stöd på vägen
-              mot bättre balans i vardagen.
-            </p>
+          <div className="w-full md:w-2/2 space-y-4  px-4 md:px-0">
+            <div className="w-full md:w-4/4 space-y-4 font-wix-display px-4 md:px-0 text-right pr-10">
+              <h2 className="font-extrabold text-black md:text-[1.7rem] mb-4">
+                UTFORSKA DINA FRISKVÅRDSMÖJLIGHETER
+              </h2>
+              <p className="text-gray-800 text-lg mb-8">
+                Utforska hur du kan använda ditt friskvårdsbidrag på ett sätt
+                som passar dig. Välj bland olika kategorier som träning,
+                avslappning, gruppaktiviteter och mental återhämtning. Oavsett
+                om du söker ny energi, rörelse eller återhämtning hittar du
+                något som passar just dig. Allt är samlat på ett och samma
+                ställe för att göra det enkelt för dig att ta hand om din hälsa
+                på ett sätt som känns rätt.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -307,18 +311,24 @@ export default function Home() {
           />
 
           {/* Overlay card with text */}
-          <div className="absolute left-12 md:left-20 top-1/2 transform -translate-y-1/2 bg-white/70 p-6 md:p-8 rounded-xl max-w-md">
-            <h2 className="text-3xl md:text-4xl font-montserrat font-bold text-black mb-4">
-              UTMANINGAR
+          <div className="absolute left-4 md:left-20 top-1/2 transform -translate-y-1/2 bg-white/90 p-4 md:p-8 rounded-2xl w-[90%] md:w-[600px]">
+            <h2 className="text-lg md:text-3xl font-montserrat font-bold text-black mb-3 text-center md:text-left whitespace-normal">
+              FÖRENKLA ARBETETS VARDAG
             </h2>
-            <p className="text-gray-800 font-montserrat mb-6">
-              Gör hälsa till en naturlig del av din arbetsdag – delta i
-              utmaningar som peppar, motiverar och stärker gemenskapen med dina
-              kollegor
+            <p className="text-sm md:text-base text-gray-800 font-montserrat mb-4">
+              Vi hjälper arbetsgivare att skapa en hållbar arbetsmiljö där
+              människor mår bra och presterar bättre. Plattformen ger insikter
+              om välmående, förenklar friskvårdshantering och stärker det
+              dagliga stödet.
             </p>
-            <button className="bg-[#4b6043] text-white px-6 py-2 uppercase text-sm font-montserrat font-medium rounded-lg hover:bg-[#3e4f37] transition-colors">
-              LÄS MER
-            </button>
+            <p className="text-sm md:text-base text-gray-800 font-montserrat mb-5 font-bold">
+              Vill du veta mer om hur det fungerar?
+            </p>
+            <Link href="/about">
+              <button className="bg-[#5a7350] text-white px-4 py-2 text-sm md:text-base uppercase font-montserrat font-medium rounded-4xl hover:bg-[#3e4f37] transition-all duration-300 cursor-pointer">
+                LÄS MER
+              </button>
+            </Link>
           </div>
         </div>
       </section>

@@ -22,7 +22,7 @@ const loginPage = () => {
     const checkAuth = async () => {
       const user = await getCurrentUser();
       if (user) {
-        router.push(user.role === "admin" ? "/admin/questions" : "/");
+        router.push(user.role === "admin" ? "/" : "/");
       }
     };
     checkAuth();
@@ -41,7 +41,7 @@ const loginPage = () => {
       const data = await login(email, password);
       await refreshUser();
       if (data.role === "admin") {
-        router.push("/admin/questions");
+        router.push("/admin/profile");
       } else {
         router.push("/");
       }
@@ -83,7 +83,7 @@ const loginPage = () => {
 
         <div className="flex justify-end">
           <Link
-            href="/resetPassword"
+            href="/reset-password"
             className="text-sm text-white font-medium hover:underline font-montserrat"
           >
             Glömt lösenord?

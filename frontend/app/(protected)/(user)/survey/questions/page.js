@@ -37,6 +37,7 @@ export default function FormPage() {
   const [responses, setResponses] = useState({});
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState({ message: "", type: "" });
   const router = useRouter();
 
   useEffect(() => {
@@ -60,13 +61,30 @@ export default function FormPage() {
         setLoading(false);
       } catch (error) {
         console.error("Failed to fetch questions:", error);
-        alert("Kunde inte ladda frågor.");
+        setToast({ message: "Kunde inte ladda frågor.", type: "error" });
         router.push("/login");
       }
     }
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (toast.message) {
+      const timeout = setTimeout(
+        () => setToast({ message: "", type: "" }),
+        4000
+      );
+      return () => clearTimeout(timeout);
+    }
+  }, [toast]);
+
+  const getToastStyles = () => {
+    return (
+      "fixed top-6 right-6 z-50 px-6 py-4 shadow-lg text-sm font-medium bg-white border border-[#A3B17C] max-w-xs" +
+      " rounded-tr-2xl rounded-br-2xl rounded-bl-2xl rounded-tl-none"
+    );
+  };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -79,7 +97,10 @@ export default function FormPage() {
       const allAnswered = currentQuestions.every((q) => responses[q.id]);
 
       if (!allAnswered) {
-        alert("Vänligen svara på alla frågor innan du går vidare.");
+        setToast({
+          message: "Vänligen svara på alla frågor innan du går vidare.",
+          type: "warning",
+        });
         return;
       }
 
@@ -111,7 +132,10 @@ export default function FormPage() {
     );
 
     if (!allAnswered) {
-      alert("Var vänlig svara på alla frågor innan du avslutar.");
+      setToast({
+        message: "Var vänlig svara på alla frågor innan du avslutar.",
+        type: "warning",
+      });
       return;
     }
 
@@ -125,20 +149,33 @@ export default function FormPage() {
       router.push("/survey/complete");
     } catch (err) {
       console.error("Failed to post answers:", err);
-      alert("Något gick fel vid inskickningen.");
+      setToast({ message: "Något gick fel vid inskickningen.", type: "error" });
     }
   };
 
   return (
     <div className="bg-white">
+      {/* Toast Component */}
+      {toast.message && (
+        <div className={getToastStyles()}>
+          <div className="text-gray-900 font-semibold mb-1 text-base">
+            {toast.type === "error"
+              ? "Fel"
+              : toast.type === "warning"
+              ? "Snälla"
+              : "Information"}
+          </div>
+          <div className="text-gray-600 text-sm">{toast.message}</div>
+        </div>
+      )}
       {page === 0 && (
         <>
           <div className="w-full h-[300px] md:h-[400px] flex items-center justify-center bg-gradient-to-b from-[#4A5A41] to-[#99AE86]">
             <div className="flex flex-col space-y-6 md:space-y-10 text-center px-4">
-              <h1 className="font-bold text-3xl md:text-5xl font-Wix Madefor Display">
+              <h1 className="font-bold text-3xl md:text-5xl font-wix madefor display text-white">
                 Balansundersökning
               </h1>
-              <h2 className="font-normal text-lg md:text-2xl font-montserrat">
+              <h2 className="font-normal text-lg md:text-2xl font-montserrat text-white">
                 Kartläggning av arbetssituation
               </h2>
             </div>
@@ -280,7 +317,7 @@ export default function FormPage() {
                   </p>
                   <div className="flex justify-center pt-4 font-montserrat">
                     <textarea
-                      name="q12"
+                      id="q12"
                       value={responses.q12 || ""}
                       onChange={handleChange}
                       required

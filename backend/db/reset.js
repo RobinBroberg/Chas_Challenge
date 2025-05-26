@@ -1,6 +1,7 @@
 import "dotenv/config";
 import fs from "fs";
 import mysql from "mysql2/promise";
+import { randomUUID } from "crypto";
 
 const { DB_USER, DB_PASS, DB_PORT, DB_HOST, DB_NAME } = process.env;
 
@@ -17,7 +18,7 @@ const runSchema = async () => {
   const schema = fs.readFileSync("./db/schema.sql", "utf-8");
 
   try {
-    // Run schema
+    // Run schema.sql to recreate all tables
     await connection.query(schema);
     console.log("Database schema applied!");
 
@@ -36,7 +37,7 @@ const runSchema = async () => {
       "Hur trygg känner du dig med din nuvarande arbetsbelastning?",
     ];
 
-    //  Insert the same questions for each company
+    // Insert the same questions for each company
     for (const company of companies) {
       for (const question of defaultQuestions) {
         await connection.query(
@@ -47,20 +48,41 @@ const runSchema = async () => {
     }
 
     const [userRows] = await connection.query(
-      `SELECT id FROM users WHERE email = 'user@example.com'`
+      `SELECT id, company_id FROM users WHERE email = 'user@example.com'`
     );
     const testUser = userRows[0];
 
     if (testUser) {
       const [questionRows] = await connection.query(
-        `SELECT id FROM questions WHERE company_id = 1`
+        `SELECT id FROM questions WHERE company_id = ?`,
+        [testUser.company_id]
       );
 
-      for (const question of questionRows) {
-        const randomAnswer = Math.floor(Math.random() * 5) + 1;
-        await connection.query(
-          `INSERT INTO answers (user_id, question_id, answer_value) VALUES (?, ?, ?)`,
-          [testUser.id, question.id, randomAnswer]
+      const now = new Date();
+      const monthsBack = 4;
+      for (let i = 0; i < monthsBack; i++) {
+        const submissionId = randomUUID();
+        const backDate = new Date(
+          now.getFullYear(),
+          now.getMonth() - i,
+          Math.floor(Math.random() * 28) + 1
+        );
+        const submittedAt = backDate
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " ");
+
+        for (const question of questionRows) {
+          const randomAnswer = Math.floor(Math.random() * 5) + 1;
+          await connection.query(
+            `INSERT INTO answers (user_id, question_id, answer_value, submission_id, submitted_at)
+             VALUES (?, ?, ?, ?, ?)`,
+            [testUser.id, question.id, randomAnswer, submissionId, submittedAt]
+          );
+        }
+
+        console.log(
+          `Inserted answers for ${backDate.toLocaleDateString("sv-SE")}`
         );
       }
 
@@ -77,4 +99,6 @@ const runSchema = async () => {
   }
 };
 
-runSchema();
+runSchema().catch((err) => {
+  console.error("Unhandled error:", err);
+});

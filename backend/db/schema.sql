@@ -17,6 +17,7 @@ CREATE TABLE users (
   first_name VARCHAR(100) NOT NULL,
   last_name VARCHAR(100) NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
+  department VARCHAR(255),
   password VARCHAR(255) NOT NULL,
   role ENUM('user', 'admin') NOT NULL DEFAULT 'user',
   company_id INT NOT NULL,
@@ -37,11 +38,12 @@ CREATE TABLE answers (
   user_id INT NOT NULL,
   question_id INT NOT NULL,
   answer_value TINYINT NOT NULL CHECK (answer_value BETWEEN 1 AND 5),
+  submission_id CHAR(36) NOT NULL,
   submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
-  UNIQUE KEY uq_user_question (user_id, question_id)
+  FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE receipts (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -58,11 +60,11 @@ CREATE TABLE receipts (
 );
 
 INSERT INTO companies (name, wellness_allowance) VALUES
-('TechCorp', 3000),
+('Chas Academy', 3000),
 ('HealthGroup', 2500);
 
-INSERT INTO users (first_name, last_name, email, password, role, company_id, remaining_wellness_allowance) VALUES
-('Admin', 'User', 'admin@example.com', '$2b$10$LNxeqdrCANv3aaebZRveyu8GilpDKn7pCEF2LtU7Ta0ajl0FTDuI.', 'admin', 1, NULL),
-('Admin', 'User', 'admin2@example.com', '$2b$10$LNxeqdrCANv3aaebZRveyu8GilpDKn7pCEF2LtU7Ta0ajl0FTDuI.', 'admin', 2, NULL),
-('Jane', 'Doe', 'user@example.com', '$2b$10$JB1pdro3jxWVaCaHnbggqeHuRSTaqnaAuT7jwQHSjKd.hJNenyxEW', 'user', 1, 3000),
-('Jane', 'Doe', 'user2@example.com', '$2b$10$JB1pdro3jxWVaCaHnbggqeHuRSTaqnaAuT7jwQHSjKd.hJNenyxEW', 'user', 2, 2500);
+INSERT INTO users (first_name, last_name, email, department, password, role, company_id, remaining_wellness_allowance) VALUES
+('Admin', 'User', 'admin@example.com', 'HR', '$2b$10$LNxeqdrCANv3aaebZRveyu8GilpDKn7pCEF2LtU7Ta0ajl0FTDuI.', 'admin', 1, 3000),
+('Admin2', 'User', 'admin2@example.com', 'HR', '$2b$10$LNxeqdrCANv3aaebZRveyu8GilpDKn7pCEF2LtU7Ta0ajl0FTDuI.', 'admin', 2, 2500),
+('Emma', 'Andersson', 'user@example.com', 'Ekonomi Avdelning', '$2b$10$JB1pdro3jxWVaCaHnbggqeHuRSTaqnaAuT7jwQHSjKd.hJNenyxEW', 'user', 1, 3000),
+('Eva', 'Svensson', 'user2@example.com', 'Ekonomi Avdelning', '$2b$10$JB1pdro3jxWVaCaHnbggqeHuRSTaqnaAuT7jwQHSjKd.hJNenyxEW', 'user', 2, 2500);

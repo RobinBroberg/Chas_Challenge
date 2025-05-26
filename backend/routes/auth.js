@@ -31,7 +31,7 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       { userId: user.id, role: user.role, company_id: user.company_id },
       serverPassword,
-      { expiresIn: "1h" }
+      { expiresIn: "2h" }
     );
 
     res.cookie("token", token, {
@@ -70,6 +70,7 @@ router.post("/register", async (req, res) => {
     last_name,
     email,
     password,
+    department = null,
     role = "user",
     company_id = 1,
   } = req.body;
@@ -90,18 +91,18 @@ router.post("/register", async (req, res) => {
       "SELECT wellness_allowance FROM companies WHERE id = ?",
       [company_id]
     );
-    const startingAllowance =
-      role === "user" ? companyRows[0]?.wellness_allowance ?? 0 : null;
+    const startingAllowance = companyRows[0]?.wellness_allowance ?? 0;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await query(
-      `INSERT INTO users (first_name, last_name, email, password, role, company_id, remaining_wellness_allowance)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO users (first_name, last_name, email, department, password, role, company_id, remaining_wellness_allowance)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         first_name,
         last_name,
         email,
+        department,
         hashedPassword,
         role,
         company_id,
@@ -117,9 +118,29 @@ router.post("/register", async (req, res) => {
 });
 
 // GET /auth/me
-router.get("/me", requireAuth, (req, res) => {
-  const { userId, role, company_id } = req.user;
-  res.json({ userId, role, company_id });
+router.get("/me", requireAuth, async (req, res) => {
+  const { userId } = req.user;
+
+  try {
+    const [user] = await query(
+      `SELECT u.id, u.first_name, u.last_name, u.email, u.department,
+              u.role, u.company_id, u.remaining_wellness_allowance,
+              c.name AS company
+       FROM users u
+       JOIN companies c ON u.company_id = c.id
+       WHERE u.id = ?`,
+      [userId]
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error("Error in /auth/me:", err);
+    res.status(500).json({ message: "Failed to fetch user details" });
+  }
 });
 
 export default router;

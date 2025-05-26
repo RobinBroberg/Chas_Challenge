@@ -59,6 +59,16 @@ router.post(
       return res.status(400).json({ message: "No file uploaded" });
     }
 
+    const allowedTypes = ["image/jpeg", "image/png"];
+    if (!allowedTypes.includes(file.mimetype)) {
+      await fs.unlink(file.path); // delete the file if not valid
+      return res
+        .status(400)
+        .json({ message: "Only JPG or PNG images are allowed" });
+    }
+
+    const normalizedPath = file.path.replace(/\\/g, "/");
+
     try {
       const ocrData = await extractReceiptData(file.path);
       const amount = parseInt(ocrData.amount);
@@ -93,7 +103,7 @@ router.post(
       const insertResult = await query(
         `INSERT INTO receipts (user_id, file_path, amount, activity, vendor, purchase_date)
        VALUES (?, ?, ?, ?, ?, ?)`,
-        [userId, file.path, amount, activity, vendor, purchaseDate]
+        [userId, normalizedPath, amount, activity, vendor, purchaseDate]
       );
 
       await query(

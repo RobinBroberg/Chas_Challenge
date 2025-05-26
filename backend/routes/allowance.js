@@ -36,23 +36,24 @@ router.get("/user/:id", requireAuth, requireRole("admin"), async (req, res) => {
 });
 
 router.get("/", requireAuth, async (req, res) => {
-  const { userId, role } = req.user;
-
-  if (role !== "user") {
-    return res.status(403).json({ message: "Only users have an allowance" });
-  }
+  const userId = req.user.userId;
 
   try {
-    const rows = await query(
-      "SELECT remaining_wellness_allowance FROM users WHERE id = ?",
+    const [row] = await query(
+      `SELECT 
+         u.remaining_wellness_allowance AS remaining,
+         c.wellness_allowance AS total
+       FROM users u
+       JOIN companies c ON u.company_id = c.id
+       WHERE u.id = ?`,
       [userId]
     );
 
-    if (rows.length === 0) {
+    if (!row) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ remaining: rows[0].remaining_wellness_allowance });
+    res.json({ remaining: row.remaining, total: row.total });
   } catch (error) {
     console.error("Error fetching allowance:", error);
     res.status(500).json({ message: "Failed to fetch allowance" });
