@@ -93,7 +93,7 @@ export default function DashboardPage() {
 
             {/* ---- Friskvårdsbidrag ---- */}
             <div className="bg-[#DEDED7] text-[#232F21] rounded-xl shadow-md flex flex-col justify-center items-start px-6 h-[220px]">
-              <p className="text-[16px] font-semibold leading-[2%] tracking-tight text-black text-left">
+              <p className="text-[16px] font-semibold tracking-tight text-black text-left">
                 Användning av friskvårdsbidrag
               </p>
               <p className="text-[10px] text-[#A4A4A4] mt-1">
