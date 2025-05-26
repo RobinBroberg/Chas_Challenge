@@ -60,11 +60,13 @@ const runSchema = async () => {
       const monthsBack = 4;
       for (let i = 0; i < monthsBack; i++) {
         const submissionId = randomUUID();
-        const backDate = new Date(
-          now.getFullYear(),
-          now.getMonth() - i,
-          Math.floor(Math.random() * 28) + 1
-        );
+
+        const year = now.getFullYear();
+        const month = now.getMonth() - i;
+
+        const randomDay = Math.floor(Math.random() * 28) + 1;
+        const backDate = new Date(year, month, randomDay);
+
         const submittedAt = backDate
           .toISOString()
           .slice(0, 19)
