@@ -123,9 +123,7 @@ export default function FormPage() {
   };
 
   const handleFinish = async () => {
-    const validQuestions = allQuestions.filter(
-      (q) => typeof q.id === "number" || !q.id.startsWith("q")
-    );
+    const validQuestions = allQuestions.filter((q) => Number.isInteger(q.id));
 
     const allAnswered = validQuestions.every(
       (q) => responses[q.id] && responses[q.id].toString().trim() !== ""
@@ -138,7 +136,6 @@ export default function FormPage() {
       });
       return;
     }
-
     const formatted = validQuestions.map((q) => ({
       question_id: q.id,
       answer_value: parseInt(responses[q.id]),
@@ -149,7 +146,10 @@ export default function FormPage() {
       router.push("/survey/complete");
     } catch (err) {
       console.error("Failed to post answers:", err);
-      setToast({ message: "Något gick fel vid inskickningen.", type: "error" });
+      setToast({
+        message: "Något gick fel vid inskickningen.",
+        type: "error",
+      });
     }
   };
 
@@ -273,12 +273,15 @@ export default function FormPage() {
                       type="button"
                       className={`flex items-center justify-center bg-[#F5F5F1] w-40 h-40 sm:w-60 sm:h-60 md:w-[330px] md:h-[330px] rounded-full cursor-pointer transition-all duration-300
                        ${
-                         responses.q11 === "yes"
+                         responses.recommendation === "yes"
                            ? "border-4 border-green-500"
                            : "border border-[#96A56B]"
                        }`}
                       onClick={() =>
-                        setResponses((prev) => ({ ...prev, q11: "yes" }))
+                        setResponses((prev) => ({
+                          ...prev,
+                          recommendation: "yes",
+                        }))
                       }
                     >
                       <LuThumbsUp className="size-16 sm:size-24 md:size-32 text-green-500" />
@@ -288,12 +291,15 @@ export default function FormPage() {
                       type="button"
                       className={`flex items-center justify-center bg-[#F5F5F1] w-40 h-40 sm:w-60 sm:h-60 md:w-[330px] md:h-[330px] rounded-full cursor-pointer transition-all duration-300
                      ${
-                       responses.q11 === "no"
+                       responses.recommendation === "no"
                          ? "border-4 border-red-500"
                          : "border border-[#96A56B]"
                      }`}
                       onClick={() =>
-                        setResponses((prev) => ({ ...prev, q11: "no" }))
+                        setResponses((prev) => ({
+                          ...prev,
+                          recommendation: "no",
+                        }))
                       }
                     >
                       <LuThumbsDown className="size-16 sm:size-24 md:size-32 text-red-500" />
@@ -307,8 +313,8 @@ export default function FormPage() {
                   </p>
                   <div className="flex justify-center pt-4 font-montserrat">
                     <textarea
-                      id="q12"
-                      value={responses.q12 || ""}
+                      id="feedback"
+                      value={responses.feedback || ""}
                       onChange={handleChange}
                       required
                       placeholder="Ange ditt svar"
