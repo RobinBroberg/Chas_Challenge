@@ -172,10 +172,10 @@ export default function FormPage() {
         <>
           <div className="w-full h-[300px] md:h-[400px] flex items-center justify-center bg-gradient-to-b from-[#4A5A41] to-[#99AE86]">
             <div className="flex flex-col space-y-6 md:space-y-10 text-center px-4">
-              <h1 className="font-bold text-3xl md:text-5xl font-Wix Madefor Display">
+              <h1 className="font-bold text-3xl md:text-5xl font-wix madefor display text-white">
                 Balansundersökning
               </h1>
-              <h2 className="font-normal text-lg md:text-2xl font-montserrat">
+              <h2 className="font-normal text-lg md:text-2xl font-montserrat text-white">
                 Kartläggning av arbetssituation
               </h2>
             </div>
