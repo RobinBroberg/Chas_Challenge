@@ -27,8 +27,8 @@ const ProfileCard = ({
           />
         </div>
 
-        <div className="mt-13 space-y-6 text-black font-light text-base">
-          <div className="border-b border-black pt-2 pb-3 mb-8">
+        <div className="mt-8 space-y-6 text-black font-light text-base">
+          <div className="border-b font-medium border-black pt-2 pb-3 mb-8">
             {user.first_name} {user.last_name}
           </div>
           <div className="border-b border-black pt-2 pb-3 mb-8">
