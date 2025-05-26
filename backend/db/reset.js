@@ -25,16 +25,14 @@ const runSchema = async () => {
     const [companies] = await connection.query(`SELECT id FROM companies`);
 
     const defaultQuestions = [
-      "Hur pigg känner du dig idag?",
-      "Hur stressad känner du dig just nu?",
-      "Hur bra sov du i natt?",
-      "Hur motiverad är du att arbeta idag?",
-      "Hur produktiv känner du dig idag?",
-      "Hur nöjd är du med din arbetsmiljö?",
-      "Hur tydliga är dina arbetsuppgifter idag?",
-      "Hur stöttad känner du dig av ditt team eller din chef?",
-      "Hur upplever du balansen mellan jobb och privatliv?",
-      "Hur trygg känner du dig med din nuvarande arbetsbelastning?",
+      "Jag känner mig motiverad i mitt arbete",
+      "Jag upplever att arbetsbelastningen är rimlig i dagsläget",
+      "Jag upplever att stressnivån på arbetsplatsen är rimlig",
+      "Jag känner mig trygg i min arbetsmiljö, både psykiskt och fysiskt",
+      "Jag upplever att jag har möjlighet till återhämtning under arbetsdagen",
+      "Jag upplever att jag har en god balans mellan privatliv och arbetsliv",
+      "Jag upplever att samarbetet och sammanhållningen i teamet fungerar bra",
+      "Jag upplever att jag får tillräckligt med stöd när jag stöter på utmaningar i mitt arbete",
     ];
 
     // Insert the same questions for each company
@@ -58,14 +56,33 @@ const runSchema = async () => {
         [testUser.company_id]
       );
 
-      const submissionId = randomUUID();
+      const now = new Date();
+      const monthsBack = 4;
+      for (let i = 0; i < monthsBack; i++) {
+        const submissionId = randomUUID();
 
-      for (const question of questionRows) {
-        const randomAnswer = Math.floor(Math.random() * 5) + 1;
-        await connection.query(
-          `INSERT INTO answers (user_id, question_id, answer_value, submission_id)
-           VALUES (?, ?, ?, ?)`,
-          [testUser.id, question.id, randomAnswer, submissionId]
+        const year = now.getFullYear();
+        const month = now.getMonth() - i;
+
+        const randomDay = Math.floor(Math.random() * 28) + 1;
+        const backDate = new Date(year, month, randomDay);
+
+        const submittedAt = backDate
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " ");
+
+        for (const question of questionRows) {
+          const randomAnswer = Math.floor(Math.random() * 5) + 1;
+          await connection.query(
+            `INSERT INTO answers (user_id, question_id, answer_value, submission_id, submitted_at)
+             VALUES (?, ?, ?, ?, ?)`,
+            [testUser.id, question.id, randomAnswer, submissionId, submittedAt]
+          );
+        }
+
+        console.log(
+          `Inserted answers for ${backDate.toLocaleDateString("sv-SE")}`
         );
       }
 

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { registerUser } from "@/services/api";
 
 const CreateAccountPage = () => {
-  const [department, setDepartment] = useState("");
   const [regMsg, setRegMsg] = useState("");
 
   const [newUser, setNewUser] = useState({
@@ -12,6 +11,7 @@ const CreateAccountPage = () => {
     last_name: "",
     email: "",
     password: "",
+    department: "",
   });
 
   const handleInput = (e) => {
@@ -19,15 +19,29 @@ const CreateAccountPage = () => {
   };
 
   const handleCreateAccount = async () => {
+    const { first_name, last_name, email, password } = newUser;
+
+    if (!first_name || !last_name || !email || !password) {
+      setRegMsg("Alla fält måste fyllas i.");
+      return;
+    }
+
+    if (!email.includes("@") || !email.includes(".")) {
+      setRegMsg("Ogiltig e-postadress.");
+      return;
+    }
+
     try {
-      await registerUser({ ...newUser });
+      await registerUser(newUser);
+
       setRegMsg("Användare skapad!");
       setNewUser({
-        role: "",
+        role: "user",
         first_name: "",
         last_name: "",
         email: "",
         password: "",
+        department: "",
       });
     } catch (err) {
       console.error("Registration failed:", err);
@@ -62,9 +76,10 @@ const CreateAccountPage = () => {
 
           <input
             type="text"
+            name="department"
             placeholder="Avdelning"
-            value={department}
-            onChange={(e) => setDepartment(e.target.value)}
+            value={newUser.department}
+            onChange={handleInput}
             className="flex-1 border-b-2 border-white bg-transparent p-2 text-xl text-[#F6F4F0] placeholder-white focus:outline-none"
           />
         </div>
@@ -73,7 +88,7 @@ const CreateAccountPage = () => {
           <input
             type="text"
             name="first_name"
-            placeholder="Namn"
+            placeholder="Förnamn"
             value={newUser.first_name}
             onChange={handleInput}
             className="flex-1 border-b-2 border-white bg-transparent p-2 text-xl text-[#F6F4F0] placeholder-white focus:outline-none"

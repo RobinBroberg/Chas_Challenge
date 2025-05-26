@@ -37,6 +37,7 @@ export default function FormPage() {
   const [responses, setResponses] = useState({});
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState({ message: "", type: "" });
   const router = useRouter();
 
   useEffect(() => {
@@ -49,24 +50,41 @@ export default function FormPage() {
           question: q.question_text,
         }));
 
-        const groups = [
-          formatted.slice(0, 4),
-          formatted.slice(4, 8),
-          formatted.slice(8, 10),
-        ];
+        const groupSize = 4;
+        const dynamicGroups = [];
+        for (let i = 0; i < formatted.length; i += groupSize) {
+          dynamicGroups.push(formatted.slice(i, i + groupSize));
+        }
+        setGroupedQuestions(dynamicGroups);
 
         setAllQuestions(formatted);
-        setGroupedQuestions(groups);
         setLoading(false);
       } catch (error) {
         console.error("Failed to fetch questions:", error);
-        alert("Kunde inte ladda frågor.");
+        setToast({ message: "Kunde inte ladda frågor.", type: "error" });
         router.push("/login");
       }
     }
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (toast.message) {
+      const timeout = setTimeout(
+        () => setToast({ message: "", type: "" }),
+        4000
+      );
+      return () => clearTimeout(timeout);
+    }
+  }, [toast]);
+
+  const getToastStyles = () => {
+    return (
+      "fixed top-6 right-6 z-50 px-6 py-4 shadow-lg text-sm font-medium bg-white border border-[#A3B17C] max-w-xs" +
+      " rounded-tr-2xl rounded-br-2xl rounded-bl-2xl rounded-tl-none"
+    );
+  };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -79,7 +97,10 @@ export default function FormPage() {
       const allAnswered = currentQuestions.every((q) => responses[q.id]);
 
       if (!allAnswered) {
-        alert("Vänligen svara på alla frågor innan du går vidare.");
+        setToast({
+          message: "Vänligen svara på alla frågor innan du går vidare.",
+          type: "warning",
+        });
         return;
       }
 
@@ -102,19 +123,19 @@ export default function FormPage() {
   };
 
   const handleFinish = async () => {
-    const validQuestions = allQuestions.filter(
-      (q) => q.id !== "q11" && q.id !== "q12"
-    );
+    const validQuestions = allQuestions.filter((q) => Number.isInteger(q.id));
 
     const allAnswered = validQuestions.every(
       (q) => responses[q.id] && responses[q.id].toString().trim() !== ""
     );
 
     if (!allAnswered) {
-      alert("Var vänlig svara på alla frågor innan du avslutar.");
+      setToast({
+        message: "Var vänlig svara på alla frågor innan du avslutar.",
+        type: "warning",
+      });
       return;
     }
-
     const formatted = validQuestions.map((q) => ({
       question_id: q.id,
       answer_value: parseInt(responses[q.id]),
@@ -125,49 +146,60 @@ export default function FormPage() {
       router.push("/survey/complete");
     } catch (err) {
       console.error("Failed to post answers:", err);
-      alert("Något gick fel vid inskickningen.");
+      setToast({
+        message: "Något gick fel vid inskickningen.",
+        type: "error",
+      });
     }
   };
 
+  if (loading) {
+    return <div>Loading..</div>;
+  }
+
   return (
     <div className="bg-white">
-      {page === 0 && (
-        <>
-          <div className="w-full h-[300px] md:h-[400px] flex items-center justify-center bg-gradient-to-b from-[#4A5A41] to-[#99AE86]">
-            <div className="flex flex-col space-y-6 md:space-y-10 text-center px-4">
-              <h1 className="font-bold text-3xl md:text-5xl font-Wix Madefor Display">
-                Balansundersökning
-              </h1>
-              <h2 className="font-normal text-lg md:text-2xl font-montserrat">
-                Kartläggning av arbetssituation
-              </h2>
-            </div>
+      {/* Toast Component */}
+      {toast.message && (
+        <div className={getToastStyles()}>
+          <div className="text-gray-900 font-semibold mb-1 text-base">
+            {toast.type === "error"
+              ? "Fel"
+              : toast.type === "warning"
+              ? "Snälla"
+              : "Information"}
           </div>
+          <div className="text-gray-600 text-sm">{toast.message}</div>
+        </div>
+      )}
+      {/* Header and progress bar */}
+      {page <= groupedQuestions.length && (
+        <>
+          {/* Optional intro only on first page */}
+          {page === 0 && (
+            <div className="w-full h-[300px] md:h-[400px] flex items-center justify-center bg-gradient-to-b from-[#4A5A41] to-[#99AE86]">
+              <div className="flex flex-col space-y-6 md:space-y-10 text-center px-4">
+                <h1 className="font-bold text-3xl md:text-5xl font-wix madefor display text-white">
+                  Balansundersökning
+                </h1>
+                <h2 className="font-normal text-lg md:text-2xl font-montserrat text-white">
+                  Kartläggning av arbetssituation
+                </h2>
+              </div>
+            </div>
+          )}
+
+          {/* Shared progress bar */}
           <div className="flex justify-center items-center pt-10 sm:pt-16 md:pt-20">
             <img
-              src="/Progressbar1.png"
+              src={`/Progressbar${Math.min(page + 1, 3)}.png`}
               className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
+              alt={`Progressbar sida ${page + 1}`}
             />
           </div>
         </>
       )}
 
-      {page === 1 && (
-        <div className="flex justify-center items-center pt-10 sm:pt-16 md:pt-20">
-          <img
-            src="/Progressbar2.png"
-            className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
-          />
-        </div>
-      )}
-      {page === 2 && (
-        <div className="flex justify-center items-center pt-10 sm:pt-16 md:pt-20">
-          <img
-            src="/Progressbar3.png"
-            className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
-          />
-        </div>
-      )}
       <div className="flex justify-center  md:pt-20 p-10">
         <div
           className={`w-full max-w-6xl mx-auto px-4 md:px-10 text-black ${
@@ -182,7 +214,7 @@ export default function FormPage() {
                 Så upplever jag min arbetssituation
               </h2>
               <div className="flex justify-end">
-                <ul className="grid grid-cols-5 gap-x-2 sm:gap-x-4 w-full md:w-2/3 font-montserrat text-xs sm:text-sm md:text-lg pt-10 pb-5">
+                <ul className="grid grid-cols-5 gap-x-2 sm:gap-x-4 w-full md:w-2/3 font-montserrat font-medium text-xs sm:text-sm md:text-lg pt-10 pb-5">
                   <li className="text-center">
                     Instämmer
                     <br />
@@ -227,31 +259,29 @@ export default function FormPage() {
           ) : (
             // Last page
             <div className="flex flex-col justify-center items-center bg-white">
-              <div className="flex justify-center items-center pt-6 sm:pt-8 md:pt-10">
-                <img
-                  src="/Progressbar3.png"
-                  className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
-                />
-              </div>
               <form
                 onSubmit={(e) => e.preventDefault()}
                 className="w-full max-w-4xl space-y-24 pt-14 sm:pt-18 md:pt-24"
               >
                 <div className="space-y-4 px-4">
                   <p className="font-semibold text-lg md:text-2xl md:px-28 font-montserrat">
-                    11. Skulle du rekommendera din arbetsplats till andra?
+                    {allQuestions.length + 1}. Skulle du rekommendera din
+                    arbetsplats till andra?
                   </p>
                   <div className="flex flex-col sm:flex-row justify-center items-center gap-8 pt-10">
                     <button
                       type="button"
                       className={`flex items-center justify-center bg-[#F5F5F1] w-40 h-40 sm:w-60 sm:h-60 md:w-[330px] md:h-[330px] rounded-full cursor-pointer transition-all duration-300
                        ${
-                         responses.q11 === "yes"
+                         responses.recommendation === "yes"
                            ? "border-4 border-green-500"
                            : "border border-[#96A56B]"
                        }`}
                       onClick={() =>
-                        setResponses((prev) => ({ ...prev, q11: "yes" }))
+                        setResponses((prev) => ({
+                          ...prev,
+                          recommendation: "yes",
+                        }))
                       }
                     >
                       <LuThumbsUp className="size-16 sm:size-24 md:size-32 text-green-500" />
@@ -261,12 +291,15 @@ export default function FormPage() {
                       type="button"
                       className={`flex items-center justify-center bg-[#F5F5F1] w-40 h-40 sm:w-60 sm:h-60 md:w-[330px] md:h-[330px] rounded-full cursor-pointer transition-all duration-300
                      ${
-                       responses.q11 === "no"
+                       responses.recommendation === "no"
                          ? "border-4 border-red-500"
                          : "border border-[#96A56B]"
                      }`}
                       onClick={() =>
-                        setResponses((prev) => ({ ...prev, q11: "no" }))
+                        setResponses((prev) => ({
+                          ...prev,
+                          recommendation: "no",
+                        }))
                       }
                     >
                       <LuThumbsDown className="size-16 sm:size-24 md:size-32 text-red-500" />
@@ -276,12 +309,12 @@ export default function FormPage() {
 
                 <div className="space-y-4 px-4">
                   <p className="font-semibold text-lg md:text-2xl md:px-28 font-montserrat">
-                    12. Vill du ge någon mer feedback?
+                    {allQuestions.length + 2}. Vill du ge någon mer feedback?
                   </p>
                   <div className="flex justify-center pt-4 font-montserrat">
                     <textarea
-                      id="q12"
-                      value={responses.q12 || ""}
+                      id="feedback"
+                      value={responses.feedback || ""}
                       onChange={handleChange}
                       required
                       placeholder="Ange ditt svar"

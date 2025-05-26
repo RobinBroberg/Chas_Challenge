@@ -1,6 +1,6 @@
 "use client";
 import { RiGroupLine } from "react-icons/ri";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { approveReceipt, rejectReceipt, getAllReceipts } from "@/services/api";
 
 export default function ReceiptManagement() {
@@ -12,21 +12,7 @@ export default function ReceiptManagement() {
   const [rejectReason, setRejectReason] = useState("");
   const [toast, setToast] = useState({ message: "", type: "" });
 
-  useEffect(() => {
-    async function fetchReceipts() {
-      try {
-        const data = await getAllReceipts();
-        setAllReceipts(data);
-      } catch (err) {
-        console.error("Error fetching receipts:", err);
-        setError("Kunde inte hämta kvitton");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchReceipts();
-  }, []);
+  const modalRef = useRef();
 
   const pendingReceipts = allReceipts.filter((r) => r.status === "pending");
   const receiptsCount = allReceipts.length;
@@ -50,6 +36,35 @@ export default function ReceiptManagement() {
       });
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setModalImage(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    async function fetchReceipts() {
+      try {
+        const data = await getAllReceipts();
+        setAllReceipts(data);
+      } catch (err) {
+        console.error("Error fetching receipts:", err);
+        setError("Kunde inte hämta kvitton");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchReceipts();
+  }, []);
 
   useEffect(() => {
     if (toast.message) {
@@ -224,12 +239,15 @@ export default function ReceiptManagement() {
         <div className="md:hidden border-b border-[#D3DEC9] mx-4 md:mx-10 "></div>
 
         {modalImage && (
-          <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-4 rounded shadow-lg max-w-[90%] max-h-[90%] overflow-auto">
+          <div className="fixed inset-0 bg-transparent bg-opacity-50  flex items-center justify-center z-50">
+            <div
+              ref={modalRef}
+              className="bg-white p-4 rounded shadow-lg max-w-[90%]  max-h-[90%] overflow-auto"
+            >
               <div className="flex justify-end mb-4">
                 <button
                   onClick={() => setModalImage(null)}
-                  className="text-black font-bold"
+                  className="text-black font-bold cursor-pointer"
                 >
                   Stäng ✕
                 </button>
@@ -266,7 +284,7 @@ export default function ReceiptManagement() {
                     setRejectModal({ open: false, id: null });
                     setRejectReason("");
                   }}
-                  className="px-4 py-2 bg-gray-300 text-black rounded"
+                  className="px-4 py-2 bg-gray-300 text-black rounded cursor-pointer"
                 >
                   Avbryt
                 </button>
@@ -285,7 +303,7 @@ export default function ReceiptManagement() {
                       alert(err.message || "Kunde inte avvisa kvittot");
                     }
                   }}
-                  className="px-4 py-2 bg-gradient-to-br from-[#232F21] to-[#718065] text-white rounded"
+                  className="px-4 py-2 bg-gradient-to-br from-[#232F21] to-[#718065] text-white rounded cursor-pointer"
                 >
                   Avvisa
                 </button>

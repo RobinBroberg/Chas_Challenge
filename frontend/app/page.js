@@ -1,4 +1,5 @@
 import CardsSlider from "@/components/CardsSlider";
+import Link from "next/link";
 
 export default function Home() {
   const cards = [
@@ -110,7 +111,7 @@ export default function Home() {
             <div className="flex justify-center md:justify-end">
               <button className="border-2 border-[#5d8b5d] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 cursor-pointer">
                 OM OSS
-              </button>
+              </Link>
             </div>
           </div>
 
