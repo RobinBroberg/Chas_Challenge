@@ -43,9 +43,9 @@ export default function Contact() {
 
         <div className="mb-10">
           <h1 className="font-medium text-2xl sm:text-3xl mb-4 sm:mb-6">
-            kontakt oss gärna!
+            Kontakt oss gärna!
           </h1>
-          <h2 className="font-medium text-base sm:text-lg tracking-wide">
+          <h2 className="font-medium text-base sm:text-[16px] tracking-wide">
             Kom enkelt i kontakt med oss med hjälp av formuläret. Du får en
             offert redan nästkommande vardag.
           </h2>
