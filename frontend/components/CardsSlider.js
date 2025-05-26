@@ -17,6 +17,7 @@ import {
   Utensils,
   Sun,
 } from "lucide-react";
+import Link from "next/link";
 
 // Map all icons
 const iconMap = {
@@ -99,15 +100,17 @@ export default function CardsSlider() {
 
               {/* Only show CTA on first card */}
               {card.cta && (
-                <button
-                  className={`mt-auto rounded-full px-6 py-3 text-base font-semibold transition hover:scale-105 ${
-                    card.highlight
-                      ? "bg-white text-[#5E7154] hover:bg-gray-100"
-                      : "border border-[#5E7154] text-[#5E7154] hover:bg-[#5E7154] hover:text-white"
-                  }`}
-                >
-                  {card.cta}
-                </button>
+                <Link href="/contact" className="flex justify-center">
+                  <button
+                    className={`mt-auto rounded-full px-6 py-3 text-base font-semibold transition hover:scale-105 ${
+                      card.highlight
+                        ? "bg-white text-[#5E7154] hover:bg-gray-100"
+                        : "border border-[#5E7154] text-[#5E7154] hover:bg-[#5E7154] hover:text-white"
+                    }`}
+                  >
+                    {card.cta}
+                  </button>
+                </Link>
               )}
             </div>
           );
