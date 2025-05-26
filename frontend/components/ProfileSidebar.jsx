@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { FileText, Bell, Dumbbell, User } from "lucide-react";
 import { IoIosLogOut } from "react-icons/io";
 import { logout } from "../services/api";
@@ -7,6 +7,7 @@ import { useUser } from "@/context/UserContext";
 
 const ProfileSidebar = ({ onNavigate = () => {} }) => {
   const { user } = useUser();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const userType = user?.role === "admin" ? "admin" : "user";
 
@@ -102,9 +103,9 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
 
           {/* Logout */}
           <button
-            onClick={handleLogout}
+            onClick={() => setShowConfirm(true)}
             aria-label="Logout"
-            className="mb-10"
+            className="mb-10 cursor-pointer"
             title="Logout"
           >
             <IoIosLogOut size={20} />
@@ -190,6 +191,29 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
           </div>
         </div>
       </div>
+      {showConfirm && (
+        <div className="fixed inset-0 bg-transparent backdrop-blur-sm bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-xl shadow-md space-y-4 w-full max-w-sm text-center">
+            <p className="text-lg font-medium">
+              Är du säker på att du vill logga ut?
+            </p>
+            <div className="flex justify-center gap-4 pt-2">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-4 py-2 bg-gray-200 rounded-full hover:bg-gray-300"
+              >
+                Avbryt
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600"
+              >
+                Logga ut
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
