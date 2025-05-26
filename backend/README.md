@@ -46,6 +46,10 @@ Inside the `/backend` folder, there is a `db` folder that contains:
 
 > 🛡️ `JWT_SECRET` is used to sign login tokens. You can use any long random string.
 
+
+- In the `/frontend` folder, create a file called `.env.local`
+- Open `.env.local` and add `NEXT_PUBLIC_API_URL=http://localhost:3001`
+
 #### 3. Install the backend dependencies
 
 - Open a terminal and go to the /backend folder
