@@ -1,6 +1,5 @@
 import React from "react";
-import Link from "next/link";
-import { VscArrowCircleRight } from "react-icons/vsc";
+
 
 const WellnessCard = ({
   remainingBalance = 0,
@@ -21,9 +20,6 @@ const WellnessCard = ({
         <p className="text-3xl font-semibold">
           {remainingBalance} / {totalAllowance} kr
         </p>
-        <Link href="/friskvard">
-          <VscArrowCircleRight className="text-white text-3xl ml-4 hidden md:inline cursor-pointer hover:scale-110 transition-transform" />
-        </Link>
       </div>
 
       <div className="flex justify-end md:hidden">
