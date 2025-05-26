@@ -2,14 +2,12 @@ import React from "react";
 import { FileText, Bell, Dumbbell, User } from "lucide-react";
 import { IoIosLogOut } from "react-icons/io";
 import { logout } from "../services/api";
+import { useUser } from "@/context/UserContext";
 
-const ProfileSidebar = ({
-  userType = "user", // 'admin' or 'user'
-  userName = "Ryan Garcia",
-  userEmail = "ryan.garcia@gmail.com",
-  userImage = null,
-  onNavigate = () => {},
-}) => {
+const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
+  const { user } = useUser();
+
+  const userType = user?.role || "user";
   // Base navigation items (always shown)
   const baseItems = [
     { id: "documents", label: "Documents", type: "icon", icon: FileText },
@@ -101,19 +99,18 @@ const ProfileSidebar = ({
 
           {/* HR Section Label */}
           <div className="text-xs font-bold text-black mb-3 tracking-wide">
-            HR
+            {userType == "admin" ? "hr" : "M"}
           </div>
 
           {/* User Profile */}
           <button
             onClick={() => onNavigate("profile")}
             className="w-10 h-10 rounded-full overflow-hidden transition-transform duration-200 hover:scale-105"
-            title={`${userName} - ${userEmail}`}
           >
             {userImage ? (
               <img
                 src={userImage}
-                alt={userName}
+                alt={"bild"}
                 className="w-full h-full object-cover"
               />
             ) : (
@@ -174,12 +171,11 @@ const ProfileSidebar = ({
             <button
               onClick={() => onNavigate("profile")}
               className="w-8 h-8 rounded-full overflow-hidden transition-transform duration-200 hover:scale-105"
-              title={`${userName} - ${userEmail}`}
             >
               {userImage ? (
                 <img
                   src={userImage}
-                  alt={userName}
+                  alt={"bild"}
                   className="w-full h-full object-cover"
                 />
               ) : (

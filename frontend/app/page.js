@@ -255,7 +255,7 @@ export default function Home() {
             </div>
           </Link>
 
-          <Link href="/some-target-page" className="w-full md:w-2/3 block">
+          <Link href="/back-to-work" className="w-full md:w-2/3 block">
             <div className="relative overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 h-64 cursor-pointer">
               <img
                 src="/balanceHead.png"
