@@ -1,4 +1,5 @@
 "use client";
+import ProfileSidebar from "@/components/ProfileSidebar";
 
 import { useEffect, useState } from "react";
 import {
@@ -127,8 +128,10 @@ export default function MedarbetarProfil() {
       className="flex min-h-screen bg-cover bg-center"
       style={{ backgroundImage: 'url("/EmployeeBG.png")' }}
     >
+      <ProfileSidebar />
       <main className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 sm:p-6 w-full max-w-screen-xl mx-auto">
         {/* Rubrik */}
+
         <div className="col-span-1 md:col-span-3">
           <h1 className="text-2xl font-semibold mb-5 text-white">Profil</h1>
           <p className="text-white mt-1 mb-2 font-medium relative inline-block after:block after:h-[1px] after:bg-white after:w-full md:after:w-[650px] after:mt-3">
