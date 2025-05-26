@@ -38,7 +38,7 @@ export default function FormStart() {
               Du har blivit bjuden till en
             </h2>
             <h2 className="font-montserrat font-normal text-lg sm:text-2xl md:text-3xl pb-20 sm:pb-6 text-center">
-              Balansundersökning!
+              balansundersökning!
             </h2>
 
             <h3 className="font-montserrat font-normal text-base md:text-lg text-center">
