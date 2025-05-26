@@ -219,7 +219,7 @@ export default function FormPage() {
                 Så upplever jag min arbetssituation
               </h2>
               <div className="flex justify-end">
-                <ul className="grid grid-cols-5 gap-x-2 sm:gap-x-4 w-full md:w-2/3 font-montserrat text-xs sm:text-sm md:text-lg pt-10 pb-5">
+                <ul className="grid grid-cols-5 gap-x-2 sm:gap-x-4 w-full md:w-2/3 font-montserrat font-medium text-xs sm:text-sm md:text-lg pt-10 pb-5">
                   <li className="text-center">
                     Instämmer
                     <br />
