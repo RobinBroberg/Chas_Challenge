@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid3X3, FileText, Bell, Dumbbell, User } from "lucide-react";
 import { IoIosLogOut } from "react-icons/io";
+import { logout } from "../services/api";
 
 const ProfileSidebar = ({
   userType = "user", // 'admin' or 'user'
@@ -16,11 +17,21 @@ const ProfileSidebar = ({
     { icon: Dumbbell, id: "fitness", label: "Fitness" },
   ];
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Logout failed:", error);
+      alert("Logout failed. Please try again.");
+    }
+  };
+
   return (
     <div className="h-screen w-16 bg-white rounded-[32px] shadow-sm flex flex-col items-center py-8 relative ml-12 mt-18">
       {/* Navigation Icons */}
       <div className="flex flex-col space-y-8">
-        {navigationItems.map((item, index) => (
+        {navigationItems.map((item) => (
           <button
             key={item.id}
             onClick={() => onNavigate(item.id)}
@@ -36,7 +47,9 @@ const ProfileSidebar = ({
       <div className="flex-1"></div>
 
       {/* Logout */}
-      <IoIosLogOut className="mb-10" />
+      <button onClick={handleLogout} aria-label="Logout" className="mb-10 ">
+        <IoIosLogOut size={20} />
+      </button>
 
       {/* HR Section Label */}
       <div className="text-xs font-bold text-black mb-3 tracking-wide">HR</div>
