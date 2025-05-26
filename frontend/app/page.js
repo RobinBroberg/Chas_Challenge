@@ -48,28 +48,27 @@ export default function Home() {
         <img
           src="/landingHeader.png"
           alt="Logo"
-          className="w-full h-[850px] object-cover brightness-75"
+          className="w-full h-[500px] sm:h-[650px] md:h-[750px] lg:h-[850px] object-cover brightness-75"
         />
 
         {/* BALANCE Title */}
         <div className="absolute inset-0 flex items-center px-4 md:px-10 z-10">
-          <h1 className="text-white font-montserrat text-6xl md:text-[7rem] lg:text-[9rem] 2xl:text-[12rem] tracking-widest font-medium leading-none text-center md:text-left">
+          <h1 className="text-white font-montserrat text-4xl sm:text-5xl md:text-[7rem] lg:text-[9rem] 2xl:text-[12rem] tracking-widest font-medium leading-none text-center md:text-left">
             BALANCE
           </h1>
         </div>
 
         {/* Subtext */}
-        <div className="absolute inset-0 flex flex-col items-start justify-end px-6 md:px-14 pb-40 z-10">
-          <h3 className="text-white font-bold font-montserrat tracking-wide text-2xl md:text-3xl lg:text-4xl">
+        <div className="absolute inset-0 flex flex-col items-start justify-end px-6 md:px-14 pb-20 sm:pb-32 md:pb-48 lg:pb-60 z-10">
+          <h3 className="text-white font-bold font-montserrat tracking-wide text-lg sm:text-xl md:text-3xl lg:text-4xl">
             DITT STÖD FÖR ETT HÅLLBART VÄLMÅENDE
           </h3>
-          <p className="text-white text-base md:text-xl lg:text-2xl font-montserrat font-extralight leading-snug max-w-4xl">
+          <p className="text-white text-base sm:text-lg md:text-xl font-montserrat font-extralight leading-snug text-left pt-2">
             Stärk din hälsa både i och utanför arbetet, ett steg närmare mot
             ditt bästa jag – din resa mot mer balans börjar här.
           </p>
         </div>
       </header>
-
       {/* Section Title */}
       <section className="flex flex-col items-center w-full px-4 py-8 bg-[#f5f1ea]">
         <h2 className="text-[#3e3a35] font-sans font-bold tracking-normal text-xl md:text-[2rem] mb-6">
@@ -109,7 +108,7 @@ export default function Home() {
               en mer hållbar och trivsam arbetsvardag för alla i organisationen.
             </p>
             <div className="flex justify-center md:justify-end">
-              <button className="border-2 border-[#6ea16e] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 cursor-pointer">
+              <button className="border-2 border-[#5d8b5d] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 cursor-pointer">
                 OM OSS
               </button>
             </div>
@@ -306,8 +305,7 @@ export default function Home() {
             className="w-full h-full object-cover object-center"
           />
 
-          {/* Overlay card with text */}
-          <div className="absolute left-4 md:left-20 top-1/2 transform -translate-y-1/2 bg-white/90 p-4 md:p-8 rounded-2xl w-[90%] md:w-[600px]">
+          <div className="absolute left-4 text-center md:left-20 top-1/2 transform -translate-y-1/2 bg-white/90 p-4 md:p-8 rounded-2xl w-[90%] md:w-[600px]">
             <h2 className="text-lg md:text-3xl font-montserrat font-bold text-black mb-3 text-center md:text-left whitespace-normal">
               FÖRENKLA ARBETETS VARDAG
             </h2>
@@ -320,7 +318,7 @@ export default function Home() {
             <p className="text-sm md:text-base text-gray-800 font-montserrat mb-5 font-bold">
               Vill du veta mer om hur det fungerar?
             </p>
-            <button className="bg-[#5a7350] text-white px-4 py-2 text-sm md:text-base uppercase font-montserrat font-medium rounded-4xl hover:bg-[#3e4f37] transition-all duration-300 cursor-pointer">
+            <button className="bg-[#5a7350] text-white px-6 py-2 md:text-[0.8rem] font-semibold md:text-base uppercase font-montserrat rounded-4xl hover:bg-[#3e4f37] transition-all duration-300 cursor-pointer">
               LÄS MER
             </button>
           </div>

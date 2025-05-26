@@ -1,38 +1,17 @@
 "use client";
 
 import React from "react";
-
 import { FaBalanceScale } from "react-icons/fa";
 import { BsBarChart } from "react-icons/bs";
 import { BiSolidReceipt } from "react-icons/bi";
 
-import {
-  BookOpen,
-  Moon,
-  Coffee,
-  HeartPulse,
-  Users,
-  Leaf,
-  Dumbbell,
-  Utensils,
-  Sun,
-} from "lucide-react";
-
 // Map all icons
 const iconMap = {
-  BookOpen,
-  Moon,
-  Coffee,
-  HeartPulse,
-  Users,
-  Leaf,
-  Dumbbell,
-  Utensils,
-  Sun,
   FaBalanceScale,
   BsBarChart,
   BiSolidReceipt,
 };
+import Link from "next/link";
 
 export default function CardsSlider() {
   const cards = [
@@ -65,7 +44,7 @@ export default function CardsSlider() {
 
   return (
     <div className="w-full py-6 px-4 md:px-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
         {cards.map((card, i) => {
           const Icon = iconMap[card.icon];
 
@@ -74,7 +53,7 @@ export default function CardsSlider() {
               key={i}
               className={`rounded-3xl p-6 md:p-8 shadow-lg flex flex-col ${
                 card.highlight
-                  ? "bg-[#5E7154] text-white"
+                  ? "bg-[#5E7154] text-white transform scale-102 shadow-xl"
                   : "bg-white text-black border border-[#DADAD9]"
               }`}
             >
@@ -90,24 +69,36 @@ export default function CardsSlider() {
               )}
 
               {/* Title */}
-              <h3 className="text-2xl md:text-[28px] font-bold mb-14 text-center">
+              <h3
+                className={`text-2xl md:text-[28px] font-bold text-center ${
+                  card.highlight ? "mt-8 mb-12" : "mb-14"
+                }`}
+              >
                 {card.title}
               </h3>
 
               {/* Text */}
-              <p className="text-2xl mb-16 text-center flex-1">{card.text}</p>
+              <p className="text-xl mb-6 text-center mx-6 flex-1">
+                {card.text}
+              </p>
 
-              {/* Only show CTA on first card */}
+              {/* CTA Button (only on first card) */}
               {card.cta && (
-                <button
-                  className={`mt-auto rounded-full px-6 py-3 text-base font-semibold transition hover:scale-105 ${
-                    card.highlight
-                      ? "bg-white text-[#5E7154] hover:bg-gray-100"
-                      : "border border-[#5E7154] text-[#5E7154] hover:bg-[#5E7154] hover:text-white"
-                  }`}
-                >
-                  {card.cta}
-                </button>
+                <div className="flex justify-center">
+                  <Link href="/contact" className="flex justify-center">
+                    <button
+                      className={`${
+                        card.highlight ? "mt-2 px-6" : "mt-auto px-6"
+                      } rounded-full py-3 text-base font-semibold ${
+                        card.highlight
+                          ? "bg-white text-[#5E7154] hover:bg-gray-100 transition  hover:scale-105"
+                          : "border border-[#5E7154] text-[#5E7154] hover:bg-[#5E7154] hover:text-white"
+                      }`}
+                    >
+                      {card.cta}
+                    </button>
+                  </Link>
+                </div>
               )}
             </div>
           );
