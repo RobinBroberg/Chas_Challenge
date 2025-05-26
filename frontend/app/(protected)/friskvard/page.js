@@ -149,10 +149,10 @@ export default function WellnessBenefitsPage() {
         </div>
 
         <div className="hidden w-full md:w-2/3 md:flex flex-col items-center gap-4 text-center md:px-32">
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-2xl font-bold text-black">
             DAGS ATT ANVÄNDA FRISKVÅRDSBIDRAGET?
           </h1>
-          <p>
+          <p className="text-black">
             Här får du koll på hur mycket du har kvar och massor av tips på vad
             du kan använda det till! Plattformen gör det enkelt att hitta något
             som passar just dig.
@@ -172,7 +172,7 @@ export default function WellnessBenefitsPage() {
           <HiOutlineAdjustmentsVertical />
         </div>
         {isDropdownOpen && (
-          <div className="absolute z-10 right-6 w-full bg-[#FBFAF5] shadow-inner rounded-md -mt-4  max-h-60 max-w-2xs overflow-y-auto border border-[#D7D7D7]">
+          <div className="absolute z-10 right-6 w-full bg-[#FBFAF5] text-black shadow-inner rounded-md -mt-4  max-h-60 max-w-2xs overflow-y-auto border border-[#D7D7D7]">
             {categories.map((category) => (
               <div
                 key={category}

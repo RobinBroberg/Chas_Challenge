@@ -108,13 +108,13 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
           <button
             onClick={() => setShowConfirm(true)}
             aria-label="Logout"
-            className="mb-14 cursor-pointer"
+            className="mb-14 cursor-pointer text-black"
             title="Logout"
           >
             <IoIosLogOut size={28} />
           </button>
 
-          <div className="text-sm font-bold tracking-wide">
+          <div className="text-sm font-bold tracking-wide text-black">
             {userType === "admin" ? "HR" : "M"}
           </div>
           <div className="w-6 h-px bg-gray-600 mb-2" />

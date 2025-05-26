@@ -16,7 +16,7 @@ const currentYear = new Date().getFullYear();
 
 const Footer = () => {
   return (
-    <footer className="p-6 font-montserrat bg-[#FBFAF5]">
+    <footer className="p-6 font-montserrat bg-[#FBFAF5] text-black">
       <div className="container mx-auto">
         {/* Desktop layout */}
         <div className="hidden md:flex justify-between items-start mb-4 mt-4">
