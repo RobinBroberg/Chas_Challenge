@@ -1,50 +1,30 @@
+"use client";
 import React from "react";
 import { FileText, Bell, Dumbbell, User } from "lucide-react";
+import { IoIosLogOut } from "react-icons/io";
 import { logout } from "../services/api";
 import { useUser } from "@/context/UserContext";
 
-const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
+const ProfileSidebar = ({ onNavigate = () => {} }) => {
   const { user } = useUser();
 
-  const userType = user?.role || "user";
-  // Base navigation items (always shown)
+  const userType = user?.role === "admin" ? "admin" : "user";
+
+  // Top icon based on role
+  const topIconSrc =
+    userType === "admin"
+      ? "/mage_dashboard-fill.png"
+      : "/tabler_filters-filled.png";
+
+  // Profile picture based on role
+  const userImage =
+    userType === "admin" ? "/managerProfile.png" : "/profileEmployee.png";
+
   const baseItems = [
     { id: "documents", label: "Documents", type: "icon", icon: FileText },
     { id: "notifications", label: "Notifications", type: "icon", icon: Bell },
     { id: "fitness", label: "Fitness", type: "icon", icon: Dumbbell },
-    {
-      id: "logout",
-      label: "Logout",
-      type: "image",
-      iconSrc: "/logout-button.png",
-    },
   ];
-
-  // Admin-only item
-  const adminItem = {
-    id: "dashboard",
-    label: "Dashboard",
-    type: "image",
-    iconSrc: "/managerProfile.png",
-    href: "/dashboard",
-  };
-
-  // User-only item
-  const userItem = {
-    id: "user profile",
-    label: "User profile",
-    type: "image",
-    iconSrc: "/profileEmployee.png",
-  };
-
-  // Assemble navigation list
-  const logoutItem = baseItems.find((item) => item.id === "logout");
-  const mainNavItems = baseItems.filter((item) => item.id !== "logout");
-
-  const navigationItems =
-    userType === "admin"
-      ? [adminItem, ...mainNavItems]
-      : [userItem, ...mainNavItems];
 
   const handleLogout = async () => {
     try {
@@ -57,11 +37,6 @@ const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
   };
 
   const handleItemClick = (item) => {
-    if (item.id === "logout") {
-      handleLogout();
-      return;
-    }
-
     if (item.href) {
       window.location.href = item.href;
     } else {
@@ -71,75 +46,59 @@ const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
 
   return (
     <>
-      <div className="hidden md:flex ...">
+      <div className="hidden md:flex">
         {/* Desktop Sidebar */}
         <div className="hidden md:flex h-screen w-16 bg-white rounded-[32px] shadow-sm flex-col items-center py-8 relative ml-12 mt-18">
+          {/* Top icon */}
+          <div className="mb-6">
+            <img
+              src={topIconSrc}
+              alt={userType === "admin" ? "Dashboard" : "Survey"}
+              className="w-5 h-5 object-contain"
+            />
+          </div>
+
           {/* Navigation Icons */}
           <div className="flex flex-col space-y-8">
-            {navigationItems.map((item) => (
+            {baseItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => handleItemClick(item)}
                 className="w-8 h-8 flex items-center justify-center transition-colors duration-200 group"
                 title={item.label}
               >
-                {item.type === "image" ? (
-                  <img
-                    src={item.iconSrc}
-                    alt={item.label}
-                    className="w-5 h-5 object-contain"
-                    onError={() =>
-                      console.error(`Failed to load ${item.iconSrc}`)
-                    }
-                  />
-                ) : (
-                  <item.icon
-                    size={18}
-                    className="text-black"
-                    strokeWidth={1.5}
-                  />
-                )}
+                <item.icon size={18} className="text-black" strokeWidth={1.5} />
               </button>
             ))}
           </div>
 
-          {/* Spacer */}
-          <div className="flex-1"></div>
+          <div className="flex-1" />
 
           {/* Logout */}
-
-          {logoutItem && (
-            <button
-              onClick={() => handleItemClick(logoutItem)}
-              aria-label="Logout"
-              className="mb-10 w-8 h-8 flex items-center justify-center transition-colors duration-200 group"
-              title={logoutItem.label}
-            >
-              <img
-                src={logoutItem.iconSrc}
-                alt={logoutItem.label}
-                className="w-5 h-5 object-contain"
-                onError={() =>
-                  console.error(`Failed to load ${logoutItem.iconSrc}`)
-                }
-              />
-            </button>
-          )}
+          <button
+            onClick={handleLogout}
+            aria-label="Logout"
+            className="mb-10"
+            title="Logout"
+          >
+            <IoIosLogOut size={20} />
+          </button>
 
           {/* HR Section Label */}
           <div className="text-xs font-bold text-black mb-3 tracking-wide">
-            {userType == "admin" ? "hr" : "M"}
+            {userType === "admin" ? "HR" : "M"}
           </div>
 
-          {/* User Profile */}
+          {/* User Profile Picture */}
           <button
             onClick={() => onNavigate("profile")}
             className="w-10 h-10 rounded-full overflow-hidden transition-transform duration-200 hover:scale-105"
+            title="Profile"
           >
             {userImage ? (
               <img
                 src={userImage}
-                alt={"bild"}
+                alt="Profile"
                 className="w-full h-full object-cover"
               />
             ) : (
@@ -151,53 +110,36 @@ const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
         </div>
       </div>
 
-      {/* ____________Mobile Top Navigation _____________*/}
-
+      {/* Mobile Top Navigation */}
       <div className="block md:hidden w-full mt-4">
         <div className="bg-white rounded-full px-4 py-3 shadow-xl border border-gray-100">
           <div className="flex items-center justify-between">
             {/* Logout Icon */}
-            {logoutItem && (
-              <button
-                onClick={() => handleItemClick(logoutItem)}
-                className="w-10 h-10 flex items-center justify-center transition-all duration-200 hover:bg-gray-50 rounded-full"
-                title={logoutItem.label}
-              >
-                <img
-                  src={logoutItem.iconSrc}
-                  alt={logoutItem.label}
-                  className="w-5 h-5 object-contain"
-                  onError={() =>
-                    console.error(`Failed to load ${logoutItem.iconSrc}`)
-                  }
-                />
-              </button>
-            )}
+            <button
+              onClick={handleLogout}
+              className="w-10 h-10 flex items-center justify-center transition-all duration-200 hover:bg-gray-50 rounded-full"
+              title="Logout"
+            >
+              <IoIosLogOut
+                size={20}
+                className="text-gray-700"
+                strokeWidth={1.5}
+              />
+            </button>
 
             {/* Navigation Items */}
-            {navigationItems.map((item) => (
+            {baseItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => handleItemClick(item)}
                 className="w-10 h-10 flex items-center justify-center transition-all duration-200 hover:bg-gray-50 rounded-full"
                 title={item.label}
               >
-                {item.type === "image" ? (
-                  <img
-                    src={item.iconSrc}
-                    alt={item.label}
-                    className="w-5 h-5 object-contain"
-                    onError={() =>
-                      console.error(`Failed to load ${item.iconSrc}`)
-                    }
-                  />
-                ) : (
-                  <item.icon
-                    size={20}
-                    className="text-gray-700"
-                    strokeWidth={1.5}
-                  />
-                )}
+                <item.icon
+                  size={20}
+                  className="text-gray-700"
+                  strokeWidth={1.5}
+                />
               </button>
             ))}
 
@@ -205,11 +147,12 @@ const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
             <button
               onClick={() => onNavigate("profile")}
               className="w-8 h-8 rounded-full overflow-hidden transition-transform duration-200 hover:scale-105"
+              title="Profile"
             >
               {userImage ? (
                 <img
                   src={userImage}
-                  alt={"bild"}
+                  alt="Profile"
                   className="w-full h-full object-cover"
                 />
               ) : (
