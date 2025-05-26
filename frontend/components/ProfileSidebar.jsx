@@ -21,9 +21,21 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
     userType === "admin" ? "/managerProfile.png" : "/profileEmployee.png";
 
   const baseItems = [
-    { id: "documents", label: "Documents", type: "icon", icon: FileText },
+    {
+      id: "documents",
+      label: "Documents",
+      type: "icon",
+      href: "/survey/intro",
+      icon: FileText,
+    },
     { id: "notifications", label: "Notifications", type: "icon", icon: Bell },
-    { id: "fitness", label: "Fitness", type: "icon", icon: Dumbbell },
+    {
+      id: "fitness",
+      label: "Fitness",
+      type: "icon",
+      href: "/friskvard",
+      icon: Dumbbell,
+    },
   ];
 
   const handleLogout = async () => {
@@ -51,11 +63,25 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
         <div className="hidden md:flex h-screen w-16 bg-white rounded-[32px] shadow-sm flex-col items-center py-8 relative ml-12 mt-18">
           {/* Top icon */}
           <div className="mb-6">
-            <img
-              src={topIconSrc}
-              alt={userType === "admin" ? "Dashboard" : "Survey"}
-              className="w-5 h-5 object-contain"
-            />
+            {userType === "admin" ? (
+              <button
+                onClick={() => (window.location.href = "/admin/dashboard")}
+                className="cursor-pointer"
+                title="Gå till admin dashboard"
+              >
+                <img
+                  src={topIconSrc}
+                  alt="Dashboard"
+                  className="w-5 h-5 object-contain"
+                />
+              </button>
+            ) : (
+              <img
+                src={topIconSrc}
+                alt="Survey"
+                className="w-5 h-5 object-contain opacity-70"
+              />
+            )}
           </div>
 
           {/* Navigation Icons */}
@@ -64,7 +90,7 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
               <button
                 key={item.id}
                 onClick={() => handleItemClick(item)}
-                className="w-8 h-8 flex items-center justify-center transition-colors duration-200 group"
+                className="w-8 h-8 flex items-center justify-center transition-colors duration-200 group cursor-pointer"
                 title={item.label}
               >
                 <item.icon size={18} className="text-black" strokeWidth={1.5} />
