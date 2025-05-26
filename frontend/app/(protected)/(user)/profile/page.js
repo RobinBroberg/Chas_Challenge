@@ -128,7 +128,9 @@ export default function MedarbetarProfil() {
       className="flex min-h-screen bg-cover bg-center"
       style={{ backgroundImage: 'url("/EmployeeBG.png")' }}
     >
-      <ProfileSidebar />
+      <div className="hidden md:block">
+        <ProfileSidebar />
+      </div>
       <main className="grid grid-cols-1 md:grid-cols-3 gap-10 p-4 sm:p-6 w-full max-w-screen-xl mx-auto mb-12">
         {/* Rubrik */}
 
@@ -253,11 +255,11 @@ export default function MedarbetarProfil() {
                 />
               </div>
               <p className="text-sm mt-4 md:mt-8 font-semibold">
-              Det är inte lätt att vara ödmjuk när man är bäst 
+                Det är inte lätt att vara ödmjuk när man är bäst
               </p>
               <p className="text-sm mt-1 italic font-medium text-right">
-  – Zlatan Ibrahimovic
-</p>
+                – Zlatan Ibrahimovic
+              </p>
             </div>
           </div>
 
