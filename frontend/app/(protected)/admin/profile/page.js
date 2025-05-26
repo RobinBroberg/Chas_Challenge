@@ -58,7 +58,10 @@ export default function profileManager() {
       className="flex min-h-screen bg-cover bg-center"
       style={{ backgroundImage: 'url("/EmployeeBG.png")' }}
     >
-      <ProfileSidebar />
+      <div className="hidden md:block">
+        <ProfileSidebar />
+      </div>
+
       <main className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 sm:p-6 w-full max-w-screen-xl mx-auto">
         <div className="col-span-1 md:col-span-3">
           <h1 className="text-2xl font-semibold mb-5 text-white">Profil</h1>
@@ -67,7 +70,9 @@ export default function profileManager() {
             och dina viktigaste uppgifter.
           </p>
         </div>
-
+        <div className="block md:hidden ">
+          <ProfileSidebar />
+        </div>
         {/* Profilkort */}
         <ProfileCard title="HR" user={user} />
 

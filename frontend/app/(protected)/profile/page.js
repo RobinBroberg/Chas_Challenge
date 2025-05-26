@@ -128,7 +128,10 @@ export default function MedarbetarProfil() {
       className="flex min-h-screen bg-cover bg-center"
       style={{ backgroundImage: 'url("/EmployeeBG.png")' }}
     >
-      <ProfileSidebar />
+      <div className="hidden md:block">
+        <ProfileSidebar />
+      </div>
+
       <main className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 sm:p-6 w-full max-w-screen-xl mx-auto">
         {/* Rubrik */}
 
@@ -139,7 +142,9 @@ export default function MedarbetarProfil() {
             aktuella insikter.
           </p>
         </div>
-
+        <div className="block md:hidden ">
+          <ProfileSidebar />
+        </div>
         {/* Profilkort */}
         <ProfileCard title="MEDARBETARE" user={user} />
 
