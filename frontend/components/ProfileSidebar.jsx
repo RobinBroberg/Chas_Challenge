@@ -1,6 +1,5 @@
 import React from "react";
 import { FileText, Bell, Dumbbell, User } from "lucide-react";
-import { IoIosLogOut } from "react-icons/io";
 import { logout } from "../services/api";
 import { useUser } from "@/context/UserContext";
 
@@ -13,6 +12,12 @@ const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
     { id: "documents", label: "Documents", type: "icon", icon: FileText },
     { id: "notifications", label: "Notifications", type: "icon", icon: Bell },
     { id: "fitness", label: "Fitness", type: "icon", icon: Dumbbell },
+    {
+      id: "logout",
+      label: "Logout",
+      type: "image",
+      iconSrc: "/logout-button.png",
+    },
   ];
 
   // Admin-only item
@@ -26,16 +31,20 @@ const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
 
   // User-only item
   const userItem = {
-    id: "survey",
-    label: "Survey",
+    id: "user profile",
+    label: "User profile",
     type: "image",
     iconSrc: "/tabler_filters-filled.png",
-    href: "/survey",
   };
 
   // Assemble navigation list
+  const logoutItem = baseItems.find((item) => item.id === "logout");
+  const mainNavItems = baseItems.filter((item) => item.id !== "logout");
+
   const navigationItems =
-    userType === "admin" ? [adminItem, ...baseItems] : [userItem, ...baseItems];
+    userType === "admin"
+      ? [adminItem, ...mainNavItems]
+      : [userItem, ...mainNavItems];
 
   const handleLogout = async () => {
     try {
@@ -48,6 +57,11 @@ const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
   };
 
   const handleItemClick = (item) => {
+    if (item.id === "logout") {
+      handleLogout();
+      return;
+    }
+
     if (item.href) {
       window.location.href = item.href;
     } else {
@@ -93,9 +107,24 @@ const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
           <div className="flex-1"></div>
 
           {/* Logout */}
-          <button onClick={handleLogout} aria-label="Logout" className="mb-10">
-            <IoIosLogOut size={20} />
-          </button>
+
+          {logoutItem && (
+            <button
+              onClick={() => handleItemClick(logoutItem)}
+              aria-label="Logout"
+              className="mb-10 w-8 h-8 flex items-center justify-center transition-colors duration-200 group"
+              title={logoutItem.label}
+            >
+              <img
+                src={logoutItem.iconSrc}
+                alt={logoutItem.label}
+                className="w-5 h-5 object-contain"
+                onError={() =>
+                  console.error(`Failed to load ${logoutItem.iconSrc}`)
+                }
+              />
+            </button>
+          )}
 
           {/* HR Section Label */}
           <div className="text-xs font-bold text-black mb-3 tracking-wide">
@@ -122,23 +151,28 @@ const ProfileSidebar = ({ userImage = null, onNavigate = () => {} }) => {
         </div>
       </div>
 
-      {/* Mobile Top Navigation */}
+      {/* ____________Mobile Top Navigation _____________*/}
 
       <div className="block md:hidden w-full mt-4">
         <div className="bg-white rounded-full px-4 py-3 shadow-xl border border-gray-100">
           <div className="flex items-center justify-between">
             {/* Logout Icon */}
-            <button
-              onClick={handleLogout}
-              className="w-10 h-10 flex items-center justify-center transition-all duration-200 hover:bg-gray-50 rounded-full"
-              title="Logout"
-            >
-              <IoIosLogOut
-                size={20}
-                className="text-gray-700"
-                strokeWidth={1.5}
-              />
-            </button>
+            {logoutItem && (
+              <button
+                onClick={() => handleItemClick(logoutItem)}
+                className="w-10 h-10 flex items-center justify-center transition-all duration-200 hover:bg-gray-50 rounded-full"
+                title={logoutItem.label}
+              >
+                <img
+                  src={logoutItem.iconSrc}
+                  alt={logoutItem.label}
+                  className="w-5 h-5 object-contain"
+                  onError={() =>
+                    console.error(`Failed to load ${logoutItem.iconSrc}`)
+                  }
+                />
+              </button>
+            )}
 
             {/* Navigation Items */}
             {navigationItems.map((item) => (
