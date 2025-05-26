@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { FileText, Bell, Dumbbell, User } from "lucide-react";
+import { User } from "lucide-react";
 import { IoIosLogOut } from "react-icons/io";
 import { logout } from "../services/api";
 import { useUser } from "@/context/UserContext";
@@ -11,33 +11,39 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
 
   const userType = user?.role === "admin" ? "admin" : "user";
 
-  // Top icon based on role
   const topIconSrc =
     userType === "admin"
       ? "/mage_dashboard-fill.png"
       : "/tabler_filters-filled.png";
 
-  // Profile picture based on role
   const userImage =
     userType === "admin" ? "/managerProfile.png" : "/profileEmployee.png";
 
+  const BellIcon = () => (
+    <img src="/bell.png" alt="Bell Icon" className="w-6 h-6" />
+  );
+
+  const FriskvardIcon = () => (
+    <img src="/friskvård.png" alt="Friskvard Icon" className="w-6 h-6" />
+  );
+
   const baseItems = [
     {
-      id: "documents",
-      label: "Documents",
+      id: "notifications",
+      label: "Notifications",
       type: "icon",
-      href: "/survey/intro",
-      icon: FileText,
+      icon: BellIcon,
     },
-    { id: "notifications", label: "Notifications", type: "icon", icon: Bell },
     {
       id: "fitness",
       label: "Fitness",
       type: "icon",
       href: "/friskvard",
-      icon: Dumbbell,
+      icon: FriskvardIcon,
     },
   ];
+
+  const mobileItems = [...baseItems].reverse();
 
   const handleLogout = async () => {
     try {
@@ -59,10 +65,9 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
 
   return (
     <>
+      {/* Desktop Sidebar */}
       <div className="hidden md:flex">
-        {/* Desktop Sidebar */}
-        <div className="hidden md:flex h-screen w-16 bg-white rounded-[32px] shadow-sm flex-col items-center py-8 relative ml-12 mt-18">
-          {/* Top icon */}
+        <div className="hidden md:flex h-[783px] w-16 bg-white rounded-[32px] shadow-sm flex-col items-center pb-3 pt-6 relative ml-12 mt-22">
           <div className="mb-6">
             {userType === "admin" ? (
               <button
@@ -73,20 +78,19 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
                 <img
                   src={topIconSrc}
                   alt="Dashboard"
-                  className="w-5 h-5 object-contain"
+                  className="w-6 h-6 object-contain"
                 />
               </button>
             ) : (
               <img
                 src={topIconSrc}
                 alt="Survey"
-                className="w-5 h-5 object-contain opacity-70"
+                className="w-6 h-6 object-contain"
               />
             )}
           </div>
 
-          {/* Navigation Icons */}
-          <div className="flex flex-col space-y-8">
+          <div className="flex flex-col space-y-4">
             {baseItems.map((item) => (
               <button
                 key={item.id}
@@ -101,22 +105,20 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
 
           <div className="flex-1" />
 
-          {/* Logout */}
           <button
             onClick={() => setShowConfirm(true)}
             aria-label="Logout"
-            className="mb-10 cursor-pointer"
+            className="mb-14 cursor-pointer"
             title="Logout"
           >
-            <IoIosLogOut size={20} />
+            <IoIosLogOut size={28} />
           </button>
 
-          {/* HR Section Label */}
-          <div className="text-xs font-bold text-black mb-3 tracking-wide">
+          <div className="text-sm font-bold tracking-wide">
             {userType === "admin" ? "HR" : "M"}
           </div>
+          <div className="w-6 h-px bg-gray-600 mb-2" />
 
-          {/* User Profile Picture */}
           <button
             onClick={() => onNavigate("profile")}
             className="w-10 h-10 rounded-full overflow-hidden transition-transform duration-200 hover:scale-105"
@@ -139,76 +141,74 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
 
       {/* Mobile Top Navigation */}
       <div className="block md:hidden w-full mt-4">
-        <div className="bg-white rounded-full px-4 py-3 shadow-xl border border-gray-100">
+        <div className="bg-white shadow-xl rounded-full pr-4 shadow-xl border border-gray-100">
           <div className="flex items-center justify-between">
-            {/* Logout Icon */}
-            <button
-              onClick={handleLogout}
-              className="w-10 h-10 flex items-center justify-center transition-all duration-200 hover:bg-gray-50 rounded-full"
-              title="Logout"
-            >
-              <IoIosLogOut
-                size={20}
-                className="text-gray-700"
-                strokeWidth={1.5}
-              />
-            </button>
-
-            {/* Navigation Items */}
-            {baseItems.map((item) => (
+            {/* Left: Logout */}
+            <div className="flex items-center">
               <button
-                key={item.id}
-                onClick={() => handleItemClick(item)}
-                className="w-10 h-10 flex items-center justify-center transition-all duration-200 hover:bg-gray-50 rounded-full"
-                title={item.label}
+                onClick={handleLogout}
+                className="w-13 h-13 flex items-center justify-center transition-all duration-200 hover:bg-gray-50 "
+                title="Logout"
               >
-                <item.icon
-                  size={20}
-                  className="text-gray-700"
-                  strokeWidth={1.5}
-                />
+                <IoIosLogOut size={22} strokeWidth={1.5} />
               </button>
-            ))}
+            </div>
 
-            {/* User Profile */}
-            <button
-              onClick={() => onNavigate("profile")}
-              className="w-8 h-8 rounded-full overflow-hidden transition-transform duration-200 hover:scale-105"
-              title="Profile"
-            >
-              {userImage ? (
-                <img
-                  src={userImage}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
+            {/* Right: Icons */}
+            <div className="flex items-center gap-3">
+              {mobileItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleItemClick(item)}
+                  className="w-5 h-5  flex items-center justify-center transition-all duration-200 hover:bg-gray-50 rounded-full"
+                  title={item.label}
+                >
+                  <item.icon strokeWidth={1} />
+                </button>
+              ))}
+              {userType === "admin" ? (
+                <button
+                  onClick={() => (window.location.href = "/admin/dashboard")}
+                  className="cursor-pointer"
+                  title="Gå till admin dashboard"
+                >
+                  <img
+                    src={topIconSrc}
+                    alt="Dashboard"
+                    className="w-6 h-6 object-contain"
+                  />
+                </button>
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
-                  <User size={16} className="text-white" />
-                </div>
+                <img
+                  src={topIconSrc}
+                  alt="Survey"
+                  className="w-6 h-6 object-contain"
+                />
               )}
-            </button>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
       {showConfirm && (
-        <div className="fixed inset-0 bg-transparent backdrop-blur-sm bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-xl shadow-md space-y-4 w-full max-w-sm text-center">
-            <p className="text-lg font-medium">
+        <div className="fixed inset-0 backdrop-blur-xs bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-[#FBFAF5] p-12 rounded-md shadow-md space-y-4 w-full max-w-sm text-center font-montserrat">
+            <p className="text-md font-medium">
               Är du säker på att du vill logga ut?
             </p>
-            <div className="flex justify-center gap-4 pt-2">
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="px-4 py-2 bg-gray-200 rounded-full hover:bg-gray-300"
-              >
-                Avbryt
-              </button>
+            <div className="flex justify-center gap-4 pt-2 text-md font-medium">
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600"
+                className="px-6 py-2 bg-[#4A8220C2] rounded-md hover:bg-[#464C35] hover:text-white"
               >
                 Logga ut
+              </button>
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-6 py-2 bg-[#FA4B42] rounded-md hover:bg-[#820B04] hover:text-white"
+              >
+                Avbryt
               </button>
             </div>
           </div>
