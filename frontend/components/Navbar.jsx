@@ -124,13 +124,19 @@ const Navbar = () => {
       {isLoggedIn && menuOpen && (
         <div className="absolute top-full left-0 w-full bg-white text-[#4a4b41] px-6 py-3 flex flex-col gap-4 font-semibold text-sm shadow-md md:hidden">
           {(isAdmin ? MAIN_NAV_ADMIN : MAIN_NAV_USER).map(({ href, label }) => (
-            <Link key={href} href={href} className="hover:underline">
+            <Link
+              key={href}
+              href={href}
+              className="hover:underline"
+              onClick={() => setMenuOpen(false)}
+            >
               {label}
             </Link>
           ))}
           <Link
             href={isAdmin ? "/admin/profile" : "/profile"}
             className="hover:underline md:hidden"
+            onClick={() => setMenuOpen(false)}
           >
             PROFIL
           </Link>
