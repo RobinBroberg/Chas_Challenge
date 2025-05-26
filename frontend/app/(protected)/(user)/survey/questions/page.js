@@ -50,14 +50,14 @@ export default function FormPage() {
           question: q.question_text,
         }));
 
-        const groups = [
-          formatted.slice(0, 4),
-          formatted.slice(4, 8),
-          formatted.slice(8, 10),
-        ];
+        const groupSize = 4;
+        const dynamicGroups = [];
+        for (let i = 0; i < formatted.length; i += groupSize) {
+          dynamicGroups.push(formatted.slice(i, i + groupSize));
+        }
+        setGroupedQuestions(dynamicGroups);
 
         setAllQuestions(formatted);
-        setGroupedQuestions(groups);
         setLoading(false);
       } catch (error) {
         console.error("Failed to fetch questions:", error);
@@ -124,7 +124,7 @@ export default function FormPage() {
 
   const handleFinish = async () => {
     const validQuestions = allQuestions.filter(
-      (q) => q.id !== "q11" && q.id !== "q12"
+      (q) => typeof q.id === "number" || !q.id.startsWith("q")
     );
 
     const allAnswered = validQuestions.every(
@@ -153,6 +153,10 @@ export default function FormPage() {
     }
   };
 
+  if (loading) {
+    return <div>Loading..</div>;
+  }
+
   return (
     <div className="bg-white">
       {/* Toast Component */}
@@ -168,43 +172,34 @@ export default function FormPage() {
           <div className="text-gray-600 text-sm">{toast.message}</div>
         </div>
       )}
-      {page === 0 && (
+      {/* Header and progress bar */}
+      {page <= groupedQuestions.length && (
         <>
-          <div className="w-full h-[300px] md:h-[400px] flex items-center justify-center bg-gradient-to-b from-[#4A5A41] to-[#99AE86]">
-            <div className="flex flex-col space-y-6 md:space-y-10 text-center px-4">
-              <h1 className="font-bold text-3xl md:text-5xl font-wix madefor display text-white">
-                Balansundersökning
-              </h1>
-              <h2 className="font-normal text-lg md:text-2xl font-montserrat text-white">
-                Kartläggning av arbetssituation
-              </h2>
+          {/* Optional intro only on first page */}
+          {page === 0 && (
+            <div className="w-full h-[300px] md:h-[400px] flex items-center justify-center bg-gradient-to-b from-[#4A5A41] to-[#99AE86]">
+              <div className="flex flex-col space-y-6 md:space-y-10 text-center px-4">
+                <h1 className="font-bold text-3xl md:text-5xl font-wix madefor display text-white">
+                  Balansundersökning
+                </h1>
+                <h2 className="font-normal text-lg md:text-2xl font-montserrat text-white">
+                  Kartläggning av arbetssituation
+                </h2>
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Shared progress bar */}
           <div className="flex justify-center items-center pt-10 sm:pt-16 md:pt-20">
             <img
-              src="/Progressbar1.png"
+              src={`/Progressbar${Math.min(page + 1, 3)}.png`}
               className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
+              alt={`Progressbar sida ${page + 1}`}
             />
           </div>
         </>
       )}
 
-      {page === 1 && (
-        <div className="flex justify-center items-center pt-10 sm:pt-16 md:pt-20">
-          <img
-            src="/Progressbar2.png"
-            className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
-          />
-        </div>
-      )}
-      {page === 2 && (
-        <div className="flex justify-center items-center pt-10 sm:pt-16 md:pt-20">
-          <img
-            src="/Progressbar3.png"
-            className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
-          />
-        </div>
-      )}
       <div className="flex justify-center  md:pt-20 p-10">
         <div
           className={`w-full max-w-6xl mx-auto px-4 md:px-10 text-black ${
@@ -264,19 +259,14 @@ export default function FormPage() {
           ) : (
             // Last page
             <div className="flex flex-col justify-center items-center bg-white">
-              <div className="flex justify-center items-center pt-6 sm:pt-8 md:pt-10">
-                <img
-                  src="/Progressbar3.png"
-                  className="w-xs sm:w-lg md:w-full max-w-md h-6 sm:h-8 md:h-10"
-                />
-              </div>
               <form
                 onSubmit={(e) => e.preventDefault()}
                 className="w-full max-w-4xl space-y-24 pt-14 sm:pt-18 md:pt-24"
               >
                 <div className="space-y-4 px-4">
                   <p className="font-semibold text-lg md:text-2xl md:px-28 font-montserrat">
-                    11. Skulle du rekommendera din arbetsplats till andra?
+                    {allQuestions.length + 1}. Skulle du rekommendera din
+                    arbetsplats till andra?
                   </p>
                   <div className="flex flex-col sm:flex-row justify-center items-center gap-8 pt-10">
                     <button
@@ -313,7 +303,7 @@ export default function FormPage() {
 
                 <div className="space-y-4 px-4">
                   <p className="font-semibold text-lg md:text-2xl md:px-28 font-montserrat">
-                    12. Vill du ge någon mer feedback?
+                    {allQuestions.length + 2}. Vill du ge någon mer feedback?
                   </p>
                   <div className="flex justify-center pt-4 font-montserrat">
                     <textarea
