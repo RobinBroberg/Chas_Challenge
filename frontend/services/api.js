@@ -32,6 +32,16 @@ export async function logout() {
   }
 }
 
+export async function getUsers() {
+  const res = await fetch(`${API_BASE}/users`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!res.ok) return null;
+  return await res.json();
+}
+
 // Fetch the currently logged-in user from the backend using the token cookie.
 export async function getCurrentUser() {
   const res = await fetch(`${API_BASE}/auth/me`, {
