@@ -40,9 +40,10 @@ const Navbar = () => {
           <img
             src="/logonavbar.png"
             alt="Balance logo"
-            className="w-[150px] h-auto"
+            className="w-[110px] sm:w-[150px] h-auto"
           />
         </Link>
+
         {/* Nav links in center (desktop only NOT logged in) */}
         {!isLoggedIn && (
           <div className="hidden md:flex gap-6 items-center justify-center flex-1 text-lg font-medium">
@@ -111,10 +112,7 @@ const Navbar = () => {
           {/* Login button (shown if NOT logged in) */}
           {!isLoggedIn && (
             <Link href="/login">
-              <button
-                className="font-montserrat px-7 py-3 bg-white text-black hover:bg-[#7B7D70] hover:text-white rounded-full font-semibold duration-200 hover:shadow-[inset_0px_5px_4px_rgba(0,0,0,0.25)]
-"
-              >
+              <button className="font-montserrat text-sm sm:text-base px-4 py-2 sm:px-7 sm:py-3 bg-white text-black hover:bg-[#7B7D70] hover:text-white rounded-full font-semibold duration-200 hover:shadow-[inset_0px_5px_4px_rgba(0,0,0,0.25)]">
                 Logga in
               </button>
             </Link>
