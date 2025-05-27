@@ -294,8 +294,6 @@ export default function ReceiptManagement() {
                 </button>
                 <button
                   onClick={async () => {
-                    if (!rejectReason.trim()) return;
-
                     try {
                       await rejectReceipt(rejectModal.id, rejectReason);
                       setAllReceipts((prev) =>
