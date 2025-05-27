@@ -235,7 +235,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
         <div className="flex flex-col md:flex-row gap-2">
           <div className="w-full md:w-1/3">
             <div className="relative overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 h-64">
