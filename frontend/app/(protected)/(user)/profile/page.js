@@ -137,7 +137,7 @@ export default function MedarbetarProfil() {
 
           <div className="col-span-1 md:col-span-3">
             <h1 className="text-2xl font-semibold mb-5 text-white">Profil</h1>
-            <p className="text-white mt-1 mb-2 font-medium relative inline-block after:block after:h-[1px] after:bg-white after:w-full md:after:w-[650px] after:mt-3">
+            <p className="text-white mt-1 mb-2 font-medium relative inline-block after:block after:h-[1px] after:bg-white after:w-full md:after:w-[500px] after:mt-3">
               Hej {user.first_name}! Välkommen till din personliga översikt
             </p>
           </div>

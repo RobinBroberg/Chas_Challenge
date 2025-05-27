@@ -81,7 +81,7 @@ export default function QuestionsPage() {
           Enkätfrågor
         </h1>
         <p className="text-sm md:text-lg font-medium text-white mb-12">
-        Hantera enkätens innehåll – lägg till, redigera eller ta bort frågor.
+        Hantera balansundersökningens innehåll – lägg till eller ta bort frågor.
         </p>
 
         <div className="flex gap-4 mb-6">

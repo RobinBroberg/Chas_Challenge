@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
     "dev": "nodemon server.js",
-    "db:reset": "node db/reset.js"
+    "db:reset": "node db/reset.js",
+    "build": "echo 'Inget att bygga för backend, hoppar över'"
   },
   "author": "",
   "license": "ISC",
