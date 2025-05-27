@@ -92,8 +92,8 @@ export default function ReceiptManagement() {
       </div>
       <div className="sm:hidden border-b border-[#5F6F52] pt-5 mx-full"></div>
 
-      <div className="w-full flex flex-col md:flex-col lg:flex-row justify-between gap-2 pt-5">
-        <div className="w-full md:w-full lg:w-[220px] xl:w-[260px] h-[250px] font-montserrat bg-white border rounded-[5px] flex flex-col justify-center items-center ">
+      <div className="w-full flex flex-col md:flex-col lg:flex-row justify-between gap-4 pt-5">
+        <div className="w-full md:w-full lg:w-[220px] xl:w-[260px] h-[250px] font-montserrat bg-white  rounded-[5px] flex flex-col justify-center items-center ">
           <div className="text-black flex justify-center p-2 gap-2">
             <h2 className="font-semibold text-base tracking-tight">
               Kvittogodkännande
@@ -121,22 +121,26 @@ export default function ReceiptManagement() {
         </div>
 
         <div className="flex flex-1 gap-4">
-          <div className="flex-1 h-[164px] sm:h-[250px] bg-[#BABEA7] border rounded-[5px] flex items-center justify-center">
+          <div className="flex-1 h-[164px] sm:h-[250px] bg-[#BABEA7]  rounded-[5px] flex items-center justify-center">
             <div className="flex flex-col sm:flex sm:flex-row items-center px-4">
               <RiGroupLine className="w-[80px] sm:w-[50px] md:w-[100px] h-[80px] sm:h-[100px] sm:mr-6 text-black" />
-              <span className="font-montserrat text-black tracking-wider font-bold text-base sm:text-2xl md:text-4xl lg:text-6xl pt-2">
-                {receiptsCount}{" "}
-                <span className=" text-base sm:text-xl md:text-2xl">
-                  kvitton{" "}
-                  <span className="text-sm sm:text-lg md:text-2xl">totalt</span>
+              <span className="font-montserrat text-black tracking-wider text-base sm:text-2xl md:text-4xl lg:text-6xl pt-2">
+                <span className="font-bold">
+                  {receiptsCount}{" "}
+                  <span className="font-bold text-base sm:text-xl md:text-2xl">
+                    kvitton{" "}
+                  </span>
+                </span>
+                <span className="text-base sm:text-lg md:text-2xl font-normal">
+                  totalt
                 </span>
               </span>
             </div>
           </div>
 
-          <div className="flex-1 h-[164px] sm:h-[250px] bg-gradient-to-l from-[#232F21] to-[#99AE86] border rounded-[5px] flex items-center justify-center">
-            <div className="flex flex-col sm:flex-row items-center justify-center text-center font-montserrat font-bold tracking-widest text-black">
-              <span className="text-4xl sm:text-6xl md:text-5xl mb-1 sm:mb-0 sm:mr-4 lg:mr-6">
+          <div className="flex-1 h-[164px] sm:h-[250px] bg-gradient-to-l from-[#232F21] to-[#99AE86] rounded-[5px] flex items-center justify-center">
+            <div className="flex flex-col sm:flex-row items-center justify-center text-center font-montserrat tracking-widest text-black">
+              <span className="text-4xl sm:text-6xl md:text-5xl lg:text-6xl mb-1 sm:mb-0 sm:mr-4 lg:mr-6 font-bold">
                 {pending}
               </span>
               <span className="pt-4 text-xs sm:text-xl md:text-2xl text-white">
@@ -147,7 +151,7 @@ export default function ReceiptManagement() {
         </div>
       </div>
 
-      <div className="w-full md:w-full h-auto md:h-[420px] bg-white border rounded-[5px] font-montserrat tracking-wider mt-5 overflow-x-auto">
+      <div className="w-full md:w-full h-auto md:h-[420px] bg-white  rounded-[5px] font-montserrat tracking-wider mt-5 overflow-x-auto">
         <h1 className="font-bold text-xl md:text-2xl text-black p-6 md:p-10">
           Kvitton att godkänna
         </h1>
