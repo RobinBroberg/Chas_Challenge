@@ -49,28 +49,27 @@ export default function Home() {
         <img
           src="/landingHeader.png"
           alt="Logo"
-          className="w-full h-[850px] object-cover brightness-75"
+          className="w-full h-[500px] sm:h-[650px] md:h-[750px] lg:h-[850px] object-cover brightness-75"
         />
 
         {/* BALANCE Title */}
         <div className="absolute inset-0 flex items-center px-4 md:px-10 z-10">
-          <h1 className="text-white font-montserrat text-6xl md:text-[7rem] lg:text-[9rem] 2xl:text-[12rem] tracking-widest font-medium leading-none text-center md:text-left">
+          <h1 className="text-white font-montserrat text-4xl sm:text-5xl md:text-[7rem] lg:text-[9rem] 2xl:text-[12rem] tracking-widest font-medium leading-none text-center md:text-left">
             BALANCE
           </h1>
         </div>
 
         {/* Subtext */}
-        <div className="absolute inset-0 flex flex-col items-start justify-end px-6 md:px-14 pb-40 z-10">
-          <h3 className="text-white font-bold font-montserrat tracking-wide text-2xl md:text-3xl lg:text-4xl">
+        <div className="absolute inset-0 flex flex-col items-start justify-end px-6 md:px-14 pb-20 sm:pb-32 md:pb-48 lg:pb-60 z-10">
+          <h3 className="text-white font-bold font-montserrat tracking-wide text-lg sm:text-xl md:text-3xl lg:text-4xl">
             DITT STÖD FÖR ETT HÅLLBART VÄLMÅENDE
           </h3>
-          <p className="text-white text-base md:text-xl lg:text-2xl font-montserrat font-extralight leading-snug max-w-4xl">
+          <p className="text-white text-base sm:text-lg md:text-xl font-montserrat font-extralight leading-snug text-left pt-2">
             Stärk din hälsa både i och utanför arbetet, ett steg närmare mot
             ditt bästa jag – din resa mot mer balans börjar här.
           </p>
         </div>
       </header>
-
       {/* Section Title */}
       <section className="flex flex-col items-center w-full px-4 py-8 bg-[#f5f1ea]">
         <h2 className="text-[#3e3a35] font-sans font-bold tracking-normal text-xl md:text-[2rem] mb-6">
@@ -94,14 +93,14 @@ export default function Home() {
       </div>
 
       {/* App Showcase Section */}
-      <section className="w-full bg-[#f5f1ea] py-16 px-4 md:px-12 lg:px-20">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 ">
-          {/* Left content */}
-          <div className="w-full md:w-1/2 space-y-4 font-montserrat">
-            <h2 className="font-bold text-black md:text-[2.1rem] mb-4">
+      <section className="bg-[#f5f1ea] py-8 md:py-16 px-4 md:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-y-8 md:gap-y-12 md:gap-x-16">
+          {/* Left: Text content */}
+          <div className="w-full md:basis-2/3 font-montserrat mt-0 md:mt-50">
+            <h2 className="font-bold text-black text-xl sm:text-2xl lg:text-[2rem] mb-4 md:mb-6 leading-tight md:whitespace-nowrap">
               EN PLATS FÖR DINA MEDARBETARES VÄLMÅENDE
             </h2>
-            <p className="text-gray-800 text-lg mb-8">
+            <p className="text-gray-800 text-base sm:text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
               Genom att ansluta till Balance som arbetsgivare får du
               kartläggning samt statistik över hur dina medarbetare mår och
               insikt i deras arbetssituation. Medarbetarna får tillgång till
@@ -112,15 +111,15 @@ export default function Home() {
             <div className="flex justify-center md:justify-end">
               <Link
                 href="/about"
-                className="border-2 border-[#6ea16e] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 cursor-pointer inline-block"
+                className="border-2 border-[#588258] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold mr-32 py-3 px-6 md:px-8 rounded-full transition duration-300 text-sm md:text-base"
               >
                 OM OSS
               </Link>
             </div>
           </div>
 
-          {/* Right mockup */}
-          <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+          {/* Right: Image */}
+          <div className="w-full md:basis-1/3 flex justify-center md:justify-end mt-0 md:mt-10 md:mt-0">
             <div className="relative w-64 md:w-80">
               <img
                 src="/balancePhone.png"
@@ -131,7 +130,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* Swipe Section */}
+
       <section className="w-full bg-[#EAE9E4] py-16 px-4 md:px-12 lg:px-20">
         <div className="max-w-6xl mx-auto">
           {/* Section Title */}
@@ -220,6 +219,7 @@ export default function Home() {
         </div>
       </section>
 
+<<<<<<< HEAD
       <section className="w-full max-w-full">
         <Link href="/articles/sleep">
           <div className="w-full mb-2 cursor-pointer">
@@ -235,6 +235,21 @@ export default function Home() {
                   TIPS FÖR BÄTTRE SÖMN
                 </h2>
               </div>
+=======
+      <section className="w-full max-w-full roun">
+        <div className="w-full mb-2">
+          {/* First large image with overlay text */}
+          <div className="relative overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105">
+            <img
+              src="/balanceSleep.png"
+              alt="Balance Sleep"
+              className="w-full h-64 md:h-80 object-cover brightness-90"
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <h2 className="text-white text-xl md:text-2xl font-bold tracking-wider">
+                TIPS FÖR BÄTTRE SÖMN
+              </h2>
+>>>>>>> lastfixes
             </div>
           </div>
         </Link>
@@ -312,8 +327,7 @@ export default function Home() {
             className="w-full h-full object-cover object-center"
           />
 
-          {/* Overlay card with text */}
-          <div className="absolute left-4 md:left-20 top-1/2 transform -translate-y-1/2 bg-white/90 p-4 md:p-8 rounded-2xl w-[90%] md:w-[600px]">
+          <div className="absolute left-4 text-center md:left-20 top-1/2 transform -translate-y-1/2 bg-white/90 p-4 md:p-8 rounded-2xl w-[90%] md:w-[600px]">
             <h2 className="text-lg md:text-3xl font-montserrat font-bold text-black mb-3 text-center md:text-left whitespace-normal">
               FÖRENKLA ARBETETS VARDAG
             </h2>
@@ -326,10 +340,12 @@ export default function Home() {
             <p className="text-sm md:text-base text-gray-800 font-montserrat mb-5 font-bold">
               Vill du veta mer om hur det fungerar?
             </p>
-            <Link href="/about">
-              <button className="bg-[#5a7350] text-white px-4 py-2 text-sm md:text-base uppercase font-montserrat font-medium rounded-4xl hover:bg-[#3e4f37] transition-all duration-300 cursor-pointer">
-                LÄS MER
-              </button>
+
+            <Link
+              href="/about"
+              className="bg-[#5a7350] text-white px-6 py-2 md:text-[0.9rem] font-semibold md:text-base uppercase font-montserrat rounded-full hover:bg-[#3e4f37] transition-all duration-300 cursor-pointer"
+            >
+              LÄS MER
             </Link>
           </div>
         </div>
