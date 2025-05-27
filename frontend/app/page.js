@@ -219,23 +219,6 @@ export default function Home() {
         </div>
       </section>
 
-<<<<<<< HEAD
-      <section className="w-full max-w-full">
-        <Link href="/articles/sleep">
-          <div className="w-full mb-2 cursor-pointer">
-            {/* Card */}
-            <div className="relative overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105">
-              <img
-                src="/balanceSleep.png"
-                alt="Balance Sleep"
-                className="w-full h-64 md:h-80 object-cover brightness-90"
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <h2 className="text-white text-xl md:text-2xl font-bold tracking-wider">
-                  TIPS FÖR BÄTTRE SÖMN
-                </h2>
-              </div>
-=======
       <section className="w-full max-w-full roun">
         <div className="w-full mb-2">
           {/* First large image with overlay text */}
@@ -249,14 +232,13 @@ export default function Home() {
               <h2 className="text-white text-xl md:text-2xl font-bold tracking-wider">
                 TIPS FÖR BÄTTRE SÖMN
               </h2>
->>>>>>> lastfixes
             </div>
           </div>
-        </Link>
+        </div>
 
         <div className="flex flex-col md:flex-row gap-2">
-          <Link href="/articles" className="w-full md:w-1/3 block">
-            <div className="relative overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 h-64 cursor-pointer">
+          <div className="w-full md:w-1/3">
+            <div className="relative overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 h-64">
               <img
                 src="/balanceStretch.png"
                 alt="Balance Stretch"
@@ -268,10 +250,10 @@ export default function Home() {
                 </h2>
               </div>
             </div>
-          </Link>
+          </div>
 
-          <Link href="/articles/back-to-work" className="w-full md:w-2/3 block">
-            <div className="relative overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 h-64 cursor-pointer">
+          <div className="w-full md:w-2/3">
+            <div className="relative overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105 h-64">
               <img
                 src="/balanceHead.png"
                 alt="Balance Head"
@@ -283,7 +265,7 @@ export default function Home() {
                 </h2>
               </div>
             </div>
-          </Link>
+          </div>
         </div>
       </section>
       <section className="w-full bg-[#f5f1ea] py-16 px-4 md:px-12 lg:px-20">
