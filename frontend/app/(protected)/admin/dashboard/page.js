@@ -115,11 +115,11 @@ export default function DashboardPage() {
               className="bg-[#A3B17C] text-[#232F21] rounded-xl shadow-md flex flex-col justify-center items-center text-center px-4 h-[250px] sm:h-[220px] lg:h-[250px] col-span-2 sm:col-span-1"
               style={{ backgroundColor: "rgba(163, 177, 124, 0.5)" }}
             >
-              <p className="text-xs font-semibold text-black">
+              <p className="text-1xl mb-2 font-semibold text-black mt-8">
                 Balansundersökning
               </p>
-              <p className="text-[10px]  mt-1">Besvarade undersökningar</p>
-              <p className="text-4xl font-bold mt-4">27/30</p>
+              <p className="text-[10px]  mt-1 mb-5">Besvarade undersökningar</p>
+              <p className="text-4xl font-bold mt-4 flex-grow">27/30</p>
             </div>
 
             {/* Kvittogodkännande */}
