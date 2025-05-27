@@ -71,11 +71,11 @@ export default function DashboardPage() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <p className="font-semibold text-[#232F21] text-lg">HR</p>
+            <p className="font-semibold text-[#232F21] text-3xl mr-4 relative inline-block after:block after:h-[1px] after:bg-[#5F6F52] after:w-full md:after:w-[50px] after:mt-3">HR</p>
             <img
               src="/managerProfile.png"
               alt="Profil"
-              className="w-12 h-12 rounded-full object-cover border"
+              className="w-20 h-20 rounded-full object-cover border"
             />
           </div>
         </div>
