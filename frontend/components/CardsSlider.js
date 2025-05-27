@@ -51,10 +51,10 @@ export default function CardsSlider() {
           return (
             <div
               key={i}
-              className={`rounded-3xl p-6 md:p-8 shadow-lg flex flex-col ${
+              className={`rounded-3xl p-6 md:p-8 flex flex-col ${
                 card.highlight
-                  ? "bg-[#5E7154] text-white transform scale-102 shadow-xl"
-                  : "bg-white text-black border border-[#DADAD9]"
+                  ? "bg-[#5E7154] text-white transform scale-107 mr-4 shadow-2xl"
+                  : "bg-white text-black border border-[#DADAD9] shadow-lg"
               }`}
             >
               {/* Icon */}
@@ -70,7 +70,7 @@ export default function CardsSlider() {
 
               {/* Title */}
               <h3
-                className={`text-2xl md:text-[28px] font-bold text-center ${
+                className={`text-lg md:text-2xl font-bold text-center ${
                   card.highlight ? "mt-8 mb-12" : "mb-14"
                 }`}
               >
@@ -78,9 +78,7 @@ export default function CardsSlider() {
               </h3>
 
               {/* Text */}
-              <p className="text-xl mb-6 text-center mx-6 flex-1">
-                {card.text}
-              </p>
+              <p className="text mb-6 text-center mx-6 flex-1">{card.text}</p>
 
               {/* CTA Button (only on first card) */}
               {card.cta && (
@@ -89,10 +87,10 @@ export default function CardsSlider() {
                     <button
                       className={`${
                         card.highlight ? "mt-2 px-6" : "mt-auto px-6"
-                      } rounded-full py-3 text-base font-semibold ${
+                      } rounded-full py-3 text-base font-semibold transition-all duration-300 w-fit cursor-pointer ${
                         card.highlight
-                          ? "bg-white text-[#5E7154] hover:bg-gray-100 transition  hover:scale-105"
-                          : "border border-[#5E7154] text-[#5E7154] hover:bg-[#5E7154] hover:text-white"
+                          ? "bg-white text-[#5E7154] hover:bg-gray-100 hover:shadow-md"
+                          : "border border-[#5E7154] text-[#5E7154] hover:bg-[#5E7154] hover:text-white hover:shadow-sm"
                       }`}
                     >
                       {card.cta}

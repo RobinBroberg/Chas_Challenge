@@ -93,14 +93,14 @@ export default function Home() {
       </div>
 
       {/* App Showcase Section */}
-      <section className="w-full bg-[#f5f1ea] py-16 px-4 md:px-12 lg:px-20">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 ">
-          {/* Left content */}
-          <div className="w-full md:w-1/2 space-y-4 font-montserrat">
-            <h2 className="font-bold text-black md:text-[2.1rem] mb-4">
+      <section className="bg-[#f5f1ea] py-8 md:py-16 px-4 md:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-y-8 md:gap-y-12 md:gap-x-16">
+          {/* Left: Text content */}
+          <div className="w-full md:basis-2/3 font-montserrat mt-0 md:mt-50">
+            <h2 className="font-bold text-black text-xl sm:text-2xl lg:text-[2rem] mb-4 md:mb-6 leading-tight md:whitespace-nowrap">
               EN PLATS FÖR DINA MEDARBETARES VÄLMÅENDE
             </h2>
-            <p className="text-gray-800 text-lg mb-8">
+            <p className="text-gray-800 text-base sm:text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
               Genom att ansluta till Balance som arbetsgivare får du
               kartläggning samt statistik över hur dina medarbetare mår och
               insikt i deras arbetssituation. Medarbetarna får tillgång till
@@ -109,14 +109,17 @@ export default function Home() {
               en mer hållbar och trivsam arbetsvardag för alla i organisationen.
             </p>
             <div className="flex justify-center md:justify-end">
-              <button className="border-2 border-[#5d8b5d] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold py-3 px-8 rounded-full transition-all duration-300 cursor-pointer">
+              <Link
+                href="/about"
+                className="border-2 border-[#588258] bg-[#5b6b5b] hover:bg-[#4a574a] text-white font-bold mr-32 py-3 px-6 md:px-8 rounded-full transition duration-300 text-sm md:text-base"
+              >
                 OM OSS
               </Link>
             </div>
           </div>
 
-          {/* Right mockup */}
-          <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+          {/* Right: Image */}
+          <div className="w-full md:basis-1/3 flex justify-center md:justify-end mt-0 md:mt-10 md:mt-0">
             <div className="relative w-64 md:w-80">
               <img
                 src="/balancePhone.png"
@@ -127,7 +130,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* Swipe Section */}
+
       <section className="w-full bg-[#EAE9E4] py-16 px-4 md:px-12 lg:px-20">
         <div className="max-w-6xl mx-auto">
           {/* Section Title */}
@@ -216,7 +219,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full max-w-full">
+      <section className="w-full max-w-full roun">
         <div className="w-full mb-2">
           {/* First large image with overlay text */}
           <div className="relative overflow-hidden transition-all duration-500 ease-in-out transform hover:scale-105">
@@ -319,9 +322,13 @@ export default function Home() {
             <p className="text-sm md:text-base text-gray-800 font-montserrat mb-5 font-bold">
               Vill du veta mer om hur det fungerar?
             </p>
-            <button className="bg-[#5a7350] text-white px-6 py-2 md:text-[0.8rem] font-semibold md:text-base uppercase font-montserrat rounded-4xl hover:bg-[#3e4f37] transition-all duration-300 cursor-pointer">
+
+            <Link
+              href="/about"
+              className="bg-[#5a7350] text-white px-6 py-2 md:text-[0.9rem] font-semibold md:text-base uppercase font-montserrat rounded-full hover:bg-[#3e4f37] transition-all duration-300 cursor-pointer"
+            >
               LÄS MER
-            </button>
+            </Link>
           </div>
         </div>
       </section>
