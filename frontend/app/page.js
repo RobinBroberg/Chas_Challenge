@@ -72,7 +72,7 @@ export default function Home() {
       </header>
       {/* Section Title */}
       <section className="flex flex-col items-center w-full px-4 py-8 bg-[#f5f1ea]">
-        <h2 className=" font-sans font-bold tracking-normal text-xl md:text-[2rem] mb-6">
+        <h2 className="text-black font-sans font-bold tracking-normal text-xl md:text-[2rem] mb-6">
           DIN GUIDE TILL BALANS
         </h2>
 
@@ -100,7 +100,7 @@ export default function Home() {
             <h2 className="font-bold text-black text-xl sm:text-2xl lg:text-[2rem] mb-4 md:mb-6 leading-tight md:whitespace-nowrap">
               EN PLATS FÖR DINA MEDARBETARES VÄLMÅENDE
             </h2>
-            <p className="text-gray-800 text-base sm:text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
+            <p className="text-black text-base sm:text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
               Genom att ansluta till Balance som arbetsgivare får du
               kartläggning samt statistik över hur dina medarbetare mår och
               insikt i deras arbetssituation. Medarbetarna får tillgång till
@@ -151,28 +151,30 @@ export default function Home() {
                 <h3 className="text-[#000000] font-bold text-2xl mb-8 w-full whitespace-normal">
                   EN TJÄNST SOM SÄTTER DIG OCH DIN HÄLSA I FOKUS
                 </h3>
-
-                <h4 className="text-[#000000] font-bold text-xl mb-2">
-                  Plattformen erbjuder
-                </h4>
-                <p className="text-gray-800 p-4 rounded-md">
-                  Här får du ett enkelt och personligt stöd i vardagen.
-                  Plattformen hjälper dig att synliggöra ditt välmående, ta del
-                  av friskvårdsförmåner och få koll på hur du mår över tid.
-                </p>
+                <div>
+                  <h4 className="text-[#000000] font-bold text-lg mb-2">
+                    Tjänsten erbjuder
+                  </h4>
+                  <p className="text-black rounded-md">
+                    Här får du ett enkelt och personligt stöd i vardagen.
+                    Plattformen hjälper dig att synliggöra ditt välmående, ta
+                    del av friskvårdsförmåner och få koll på hur du mår över
+                    tid.
+                  </p>
+                </div>
               </div>
 
               <div className="space-y-8 font-montserrat">
                 {/* Category 1 - Full width */}
-                <div className="flex items-start gap-6 text-[#000000]">
-                  <div className="h-16 w-16 bg-[#EAE9E4] rounded-full flex items-center justify-center text-2xl font-bold shadow-md border">
-                    1
+                <div className="flex items-start gap-6 ">
+                  <div className="h-16 w-16 bg-[#EAE9E4] rounded-full flex items-center justify-center text-2xl font-bold border-2 text-white">
+                    <span className="text-black">1</span>
                   </div>
                   <div className="flex-1">
-                    <h4 className="font-bold text-lg mb-2">
+                    <h4 className="font-bold text-lg mb-2 text-black">
                       Balansundersökning
                     </h4>
-                    <p className="text-gray-700">
+                    <p className="text-black">
                       Ta tempen på ditt välmående och få en överblick över hur
                       du mår. Resultatet hjälper dig att prioritera din hälsa på
                       ett hållbart sätt.
@@ -184,12 +186,12 @@ export default function Home() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Category 2 */}
                   <div className="flex items-start gap-6 text-[#000000]">
-                    <div className="h-16 w-16 bg-[#EAE9E4] rounded-full flex items-center justify-center text-2xl font-bold shadow-md border">
-                      2
+                    <div className="h-16 w-16 bg-[#EAE9E4] rounded-full flex items-center justify-center text-2xl font-bold  border-2 text-white">
+                      <span className="text-black">2</span>
                     </div>
                     <div className="flex-1">
                       <h4 className="font-bold text-lg mb-2">Friskvårdskoll</h4>
-                      <p className="text-gray-700">
+                      <p className="text-black">
                         Se hur mycket friskvårdsbidrag du har kvar och vad du
                         kan använda det till. Enkelt, tydligt och uppdaterat i
                         realtid.
@@ -199,14 +201,14 @@ export default function Home() {
 
                   {/* Category 3 */}
                   <div className="flex items-start gap-6 text-[#000000]">
-                    <div className="h-16 w-16  rounded-full flex items-center justify-center text-2xl font-bold shadow-md border">
-                      3
+                    <div className="h-16 w-16  rounded-full flex items-center justify-center text-2xl font-bold border-2  text-white">
+                      <span className="text-black">3</span>
                     </div>
                     <div className="flex-1">
                       <h4 className="font-bold text-lg mb-2">
                         Personlig översikt
                       </h4>
-                      <p className="text-gray-700">
+                      <p className="text-black">
                         Din personliga vy visar hur vanor påverkar ditt
                         välmående och hjälper dig hålla fokus.
                       </p>
@@ -290,7 +292,7 @@ export default function Home() {
               <h2 className="font-extrabold text-black md:text-[1.7rem] mb-4">
                 UTFORSKA DINA FRISKVÅRDSMÖJLIGHETER
               </h2>
-              <p className="text-gray-800 text-lg mb-8">
+              <p className="text-black text-lg mb-8">
                 Utforska hur du kan använda ditt friskvårdsbidrag på ett sätt
                 som passar dig. Välj bland olika kategorier som träning,
                 avslappning, gruppaktiviteter och mental återhämtning. Oavsett
@@ -316,13 +318,13 @@ export default function Home() {
             <h2 className="text-lg md:text-3xl font-montserrat font-bold text-black mb-3 text-center md:text-left whitespace-normal">
               FÖRENKLA ARBETETS VARDAG
             </h2>
-            <p className="text-sm md:text-base text-gray-800 font-montserrat mb-4">
+            <p className="text-sm md:text-base text-black font-montserrat mb-4">
               Vi hjälper arbetsgivare att skapa en hållbar arbetsmiljö där
               människor mår bra och presterar bättre. Plattformen ger insikter
               om välmående, förenklar friskvårdshantering och stärker det
               dagliga stödet.
             </p>
-            <p className="text-sm md:text-base text-gray-800 font-montserrat mb-5 font-bold">
+            <p className="text-sm md:text-base text-black font-montserrat mb-5 font-bold">
               Vill du veta mer om hur det fungerar?
             </p>
 
