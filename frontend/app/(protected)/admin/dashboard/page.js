@@ -60,7 +60,7 @@ export default function DashboardPage() {
   // ----------------------- UI -----------------------
   return (
     <div className="min-h-screen bg-[#EAE9E4] py-4 px-4">
-      <div className="w-full  mx-auto  px-6 md:px-10 py-8 mt-4 rounded shadow-sm">
+      <div className="w-full  mx-auto  px-6 md:px-10 py-8 mt-4 rounded">
         {/* Header */}
         <div className="flex justify-between items-center border-b pb-4 mb-6 flex-wrap gap-4">
           <div>
