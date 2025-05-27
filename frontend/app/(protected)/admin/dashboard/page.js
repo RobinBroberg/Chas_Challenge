@@ -205,13 +205,13 @@ export default function DashboardPage() {
                   return (
                     <div
                       key={i}
-                      className={`w-5 px-3 rounded-t ${color}`}
+                      className={`w-4.5 md:w-5 px-1 md:px-3 rounded-t ${color}`}
                       style={{ height: `${item.val * 4}px` }}
                     />
                   );
                 })}
               </div>
-              <div className="flex justify-between text-[10px] text-[#797979] w-full max-w-[360px] px-4 mt-1">
+              <div className="flex justify-between text-[10px] text-[#797979] w-full max-w-[300px] md:max-w-[360px] px-4 mt-1">
                 {barData.map((_, i) => (
                   <span key={i}>{i + 1}</span>
                 ))}
