@@ -72,7 +72,7 @@ export default function Home() {
       </header>
       {/* Section Title */}
       <section className="flex flex-col items-center w-full px-4 py-8 bg-[#f5f1ea]">
-        <h2 className="text-[#3e3a35] font-sans font-bold tracking-normal text-xl md:text-[2rem] mb-6">
+        <h2 className=" font-sans font-bold tracking-normal text-xl md:text-[2rem] mb-6">
           DIN GUIDE TILL BALANS
         </h2>
 
