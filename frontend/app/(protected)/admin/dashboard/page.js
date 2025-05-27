@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { getAllReceipts, getCompanyAverages, getUsers } from "@/services/api";
 import { IoPeopleCircleOutline } from "react-icons/io5";
 
-
 export default function DashboardPage() {
   // ----------------------- STATE -----------------------
   const [receipts, setReceipts] = useState([]);
@@ -62,16 +61,18 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-[#EAE9E4] py-4 px-4">
       <div className="w-full  mx-auto  px-6 md:px-10 py-8 mt-4 rounded shadow-sm">
         {/* Header */}
-        <div className="flex justify-between items-center border-b pb-4 mb-6 flex-wrap gap-4">
+        <div className="flex justify-between items-center pb-4 mb-6 flex-wrap gap-4">
           <div>
             <h1 className="text-3xl font-bold text-[#232F21]">Dashboard</h1>
-            <p className="text-1xl text-black mt-5 opacity-80 font-medium relative inline-block after:block after:h-[1px] after:bg-[#5F6F52] after:w-full md:after:w-[750px] after:mt-3">
+            <p className="text-1xl text-black mt-5 opacity-80 font-medium relative inline-block after:block after:h-[1px] after:bg-[#5F6F52] after:w-full md:after:w-[750px] after:mt-3 ">
               Här får du en enkel överblick över teamet och dagens viktiga
               händelser
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <p className="font-semibold text-[#232F21] text-3xl mr-4 relative inline-block after:block after:h-[1px] after:bg-[#5F6F52] after:w-full md:after:w-[50px] after:mt-3">HR</p>
+            <p className="font-semibold text-[#232F21] text-3xl mr-4 relative inline-block after:block after:h-[1px] after:bg-[#5F6F52] after:w-full md:after:w-[50px] after:mt-3">
+              HR
+            </p>
             <img
               src="/managerProfile.png"
               alt="Profil"
@@ -87,8 +88,7 @@ export default function DashboardPage() {
             {/* Medarbetare */}
             <div className="bg-gradient-to-br from-[#AEB396] to-[#232F21] text-white rounded-xl shadow-md flex flex-col items-center justify-center text-center h-[200px] sm:h-[220px] lg:h-[250px]">
               <div className="rounded-full bg-white/20 flex items-center justify-center text-8xl mb-3">
-              <IoPeopleCircleOutline />
-
+                <IoPeopleCircleOutline />
               </div>
               <p className="text-4xl font-bold">{noneAdmins.length}</p>
               <p className="text-sm mt-1">Medarbetare</p>
@@ -163,16 +163,18 @@ export default function DashboardPage() {
               <h2 className="text-lg font-bold text-[#232F21] mb-1 text-shadow-4xs">
                 Statistik per besvarad fråga
               </h2>
-              <p className="text-sm text-[#232F21] mb-4 relative inline-block after:block after:h-[1px] after:bg-[#232F21] after:w-full md:after:w-[300px] after:mt-3">Mitt team</p>
+              <p className="text-sm text-[#232F21] mb-4 relative inline-block after:block after:h-[1px] after:bg-[#232F21] after:w-full md:after:w-[300px] after:mt-3">
+                Mitt team
+              </p>
               <ul className="text-sm text-[#232F21] space-y-5 mt-15 font-medium">
-              <li>1. Motivation</li>
-  <li>2. Rimlig arbetsbelastning</li>
-  <li>3. Rimlig stressnivå</li>
-  <li>4. Psykisk och fysisk trygghet</li>
-  <li>5. Återhämtning under arbetsdagen</li>
-  <li>6. Balans mellan privatliv och arbetsliv</li>
-  <li>7. Samarbete och sammanhållning</li>
-  <li>8. Tillräckligt stöd vid utmaningar</li>
+                <li>1. Motivation</li>
+                <li>2. Rimlig arbetsbelastning</li>
+                <li>3. Rimlig stressnivå</li>
+                <li>4. Psykisk och fysisk trygghet</li>
+                <li>5. Återhämtning under arbetsdagen</li>
+                <li>6. Balans mellan privatliv och arbetsliv</li>
+                <li>7. Samarbete och sammanhållning</li>
+                <li>8. Tillräckligt stöd vid utmaningar</li>
               </ul>
             </div>
 
