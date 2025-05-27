@@ -141,7 +141,7 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
 
       {/* Mobile Top Navigation */}
       <div className="block md:hidden w-full mt-4">
-        <div className="bg-white shadow-xl rounded-full pr-4 shadow-xl border border-gray-100">
+        <div className="bg-white shadow-xl rounded-full pr-4 border border-gray-100">
           <div className="flex items-center justify-between">
             {/* Left: Logout */}
             <div className="flex items-center">
