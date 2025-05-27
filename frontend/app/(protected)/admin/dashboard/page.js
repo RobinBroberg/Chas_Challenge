@@ -96,7 +96,7 @@ export default function DashboardPage() {
               className="bg-[#A3B17C] text-[#232F21] rounded-xl shadow-md flex flex-col justify-center  px-6 h-[200px] sm:h-[220px] lg:h-[250px]"
               style={{ backgroundColor: "rgba(163, 177, 124, 0.5)" }}
             >
-              <p className="text-[16px] font-semibold  text-black text-center">
+              <p className="text-[12px] md:text-[16px] font-semibold  text-black text-center">
                 Användning av friskvårdsbidrag
               </p>
               <p className="text-[13px]  mt-1 text-center">
