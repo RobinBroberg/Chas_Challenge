@@ -19,6 +19,10 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
   const userImage =
     userType === "admin" ? "/managerProfile.png" : "/profileEmployee.png";
 
+  const PaperIcon = () => (
+    <img src="/paper.png" alt="Paper Icon" className="w-6 h-6" />
+  );
+
   const BellIcon = () => (
     <img src="/bell.png" alt="Bell Icon" className="w-6 h-6" />
   );
@@ -28,6 +32,13 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
   );
 
   const baseItems = [
+    user?.role !== "admin" && {
+      id: "undersökning",
+      label: "Undersökning",
+      type: "icon",
+      href: "/survey/intro",
+      icon: PaperIcon,
+    },
     {
       id: "notifications",
       label: "Notifications",
@@ -41,7 +52,7 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
       href: "/friskvard",
       icon: FriskvardIcon,
     },
-  ];
+  ].filter(Boolean);
 
   const mobileItems = [...baseItems].reverse();
 
@@ -67,7 +78,7 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
     <>
       {/* Desktop Sidebar */}
       <div className="hidden md:flex">
-        <div className="hidden md:flex h-[783px] w-16 bg-white rounded-[32px] shadow-sm flex-col items-center pb-3 pt-6 relative ml-12 mt-22">
+        <div className="hidden md:flex md:h-[750px] w-16 bg-white rounded-[32px] shadow-sm flex-col items-center pb-3 pt-6 relative">
           <div className="mb-6">
             {userType === "admin" ? (
               <button
@@ -117,7 +128,7 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
           <div className="text-sm font-bold tracking-wide text-black">
             {userType === "admin" ? "HR" : "M"}
           </div>
-          <div className="w-6 h-px bg-gray-600 mb-2" />
+          <div className="w-6 h-px bg-gray-600 mb-3" />
 
           <button
             onClick={() => onNavigate("profile")}
@@ -141,7 +152,7 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
 
       {/* Mobile Top Navigation */}
       <div className="block md:hidden w-full mt-4">
-        <div className="bg-white shadow-xl rounded-full pr-4 shadow-xl border border-gray-100">
+        <div className="bg-white shadow-xl rounded-full pr-4 border border-gray-100">
           <div className="flex items-center justify-between">
             {/* Left: Logout */}
             <div className="flex items-center">
@@ -194,7 +205,7 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
       {showConfirm && (
         <div className="fixed inset-0 backdrop-blur-xs bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-[#FBFAF5] p-12 rounded-md shadow-md space-y-4 w-full max-w-sm text-center font-montserrat">
-            <p className="text-md font-medium">
+            <p className="text-md font-medium text-black">
               Är du säker på att du vill logga ut?
             </p>
             <div className="flex justify-center gap-4 pt-2 text-md font-medium">

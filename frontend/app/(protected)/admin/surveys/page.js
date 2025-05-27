@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { addQuestion, deleteQuestion } from "@/services/api";
 import { getQuestions, getCurrentUser } from "@/services/api";
+import { RxCross2 } from "react-icons/rx";
+
 
 export default function QuestionsPage() {
   const [questions, setQuestions] = useState([]);
@@ -74,11 +76,11 @@ export default function QuestionsPage() {
   >
     
     <div className="min-h-screen p-4 md:p-15 font-montserrat">
-      <div className="max-w-6xl mx-auto bg-white/85 border rounded-[5px]  shadow p-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+      <div className="max-w-6xl mx-auto bg-white/20 backdrop-blur-xl border rounded-[5px] shadow p-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-4">
           Enkätfrågor
         </h1>
-        <p className="text-sm md:text-lg font-medium text-gray-800 mb-12">
+        <p className="text-sm md:text-lg font-medium text-white mb-12">
         Hantera enkätens innehåll – lägg till, redigera eller ta bort frågor.
         </p>
 
@@ -88,7 +90,7 @@ export default function QuestionsPage() {
             value={newQuestionText}
             onChange={(e) => setNewQuestionText(e.target.value)}
             placeholder="Ny fråga..."
-            className="h-14 flex-1 border-2 border-gray-800 rounded px-4 text-gray-900 text-base"
+            className="h-14 flex-1 border-2 border-white rounded px-4 text-white text-base focus:outline-none focus:ring-2 focus:ring-green-100 focus:border-transparent transition"
           />
           <button
             onClick={handleAddQuestion}
@@ -98,21 +100,22 @@ export default function QuestionsPage() {
           </button>
         </div>
 
-        <div className="space-y-4 max-h-[400px] overflow-y-auto pr-10">
+        <div className="space-y-4 max-h-[450px] overflow-y-auto pr-6">
           {questions.map((q, index) => (
-            <div key={q.id} className="flex items-center gap-6">
+            <div key={q.id} className="max-w-8xl mx-auto flex items-center gap-4 bg-white/65 hover:bg-gray-100 transition-colors duration-200 px-8 py-3 rounded shadow-sm">
               <input
                 type="text"
                 value={q.question_text}
                 onChange={(e) => handleQuestionChange(index, e.target.value)}
-                className="flex-grow border border-gray-700 rounded p-2 text-gray-800 font-semibold"
+                className="flex-grow p-2 text-black font-semibold transition-colors"
               />
-              <button
-                onClick={() => handleDeleteQuestion(q.id)}
-                className="px-4 py-2 bg-[#C55345] text-white rounded hover:bg-[#a94135]"
-              >
-                Ta bort
-              </button>
+                 <button
+        onClick={() => handleDeleteQuestion(q.id)}
+        className="text-gray-600 hover:text-red-500 transition text-xl leading-none"
+        title="Ta bort frågan"
+      >
+        <RxCross2 />
+      </button>
             </div>
           ))}
         </div>
