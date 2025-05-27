@@ -76,7 +76,7 @@ export default function ReceiptUpload({ onUploadSuccess }) {
         <p className="font-semibold text-sm">Belopp</p>
 
         <label htmlFor="receipt-upload" className="cursor-pointer">
-          <IoReceiptOutline className="text-xl hover:text-[#C8B5A7]" />
+          <IoReceiptOutline className="text-md md:text-xl hover:text-[#C8B5A7]" />
         </label>
 
         <input

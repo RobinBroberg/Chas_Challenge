@@ -205,7 +205,7 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
       {showConfirm && (
         <div className="fixed inset-0 backdrop-blur-xs bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-[#FBFAF5] p-12 rounded-md shadow-md space-y-4 w-full max-w-sm text-center font-montserrat">
-            <p className="text-md font-medium">
+            <p className="text-md font-medium text-black">
               Är du säker på att du vill logga ut?
             </p>
             <div className="flex justify-center gap-4 pt-2 text-md font-medium">
