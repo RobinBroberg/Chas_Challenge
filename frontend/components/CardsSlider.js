@@ -53,7 +53,7 @@ export default function CardsSlider() {
               key={i}
               className={`rounded-3xl p-6 md:p-8 flex flex-col justify-between min-h-[460px] ${
                 card.highlight
-                  ? "bg-[#5E7154] text-white transform scale-107 mr-4 shadow-2xl"
+                  ? "bg-[#5E7154] text-white transform scale-107  md:mr-4 shadow-2xl"
                   : "bg-white text-black border border-[#DADAD9] shadow-lg"
               }`}
             >
