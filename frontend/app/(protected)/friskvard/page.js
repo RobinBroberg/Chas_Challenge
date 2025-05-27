@@ -163,7 +163,7 @@ export default function WellnessBenefitsPage() {
       {/* Category Dropdown */}
       <div className="mb-9 relative">
         <div
-          className="bg-[#F6F4F0] border border-[#EFEFEF] shadow-inner rounded-md p-2 flex items-center justify-between cursor-pointer"
+          className="bg-[#F6F4F0] border border-[#e6e3e3] shadow-inner rounded-md p-2 flex items-center justify-between cursor-pointer"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         >
           <span className="text-[#C4C4C4]">
