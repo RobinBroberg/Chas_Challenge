@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { getAllReceipts, getCompanyAverages, getUsers } from "@/services/api";
+import { IoPeopleCircleOutline } from "react-icons/io5";
+
 
 export default function DashboardPage() {
   // ----------------------- STATE -----------------------
@@ -63,7 +65,7 @@ export default function DashboardPage() {
         <div className="flex justify-between items-center border-b pb-4 mb-6 flex-wrap gap-4">
           <div>
             <h1 className="text-3xl font-bold text-[#232F21]">Dashboard</h1>
-            <p className="text-sm text-[#232F21] mt-1 opacity-80">
+            <p className="text-1xl text-black mt-5 opacity-80 font-medium relative inline-block after:block after:h-[1px] after:bg-[#5F6F52] after:w-full md:after:w-[750px] after:mt-3">
               Här får du en enkel överblick över teamet och dagens viktiga
               händelser
             </p>
@@ -84,8 +86,9 @@ export default function DashboardPage() {
           <div className="grid grid-cols-2 gap-6 col-span-1">
             {/* Medarbetare */}
             <div className="bg-gradient-to-br from-[#AEB396] to-[#232F21] text-white rounded-xl shadow-md flex flex-col items-center justify-center text-center h-[200px] sm:h-[220px] lg:h-[250px]">
-              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center text-2xl mb-3">
-                👥
+              <div className="rounded-full bg-white/20 flex items-center justify-center text-8xl mb-3">
+              <IoPeopleCircleOutline />
+
               </div>
               <p className="text-4xl font-bold">{noneAdmins.length}</p>
               <p className="text-sm mt-1">Medarbetare</p>
@@ -157,16 +160,19 @@ export default function DashboardPage() {
           <div className="col-span-1 lg:col-span-2 bg-white rounded-xl shadow-lg px-6 py-6 flex flex-col lg:flex-row items-center lg:items-start gap-6 h-full">
             {/* Left: Questions */}
             <div className="flex-1">
-              <h2 className="text-lg font-bold text-[#232F21] mb-1">
+              <h2 className="text-lg font-bold text-[#232F21] mb-1 text-shadow-4xs">
                 Statistik per besvarad fråga
               </h2>
-              <p className="text-sm text-[#797979] mb-4">Mitt team</p>
-              <ul className="text-sm text-[#232F21] space-y-1">
-                {barData.map((q, i) => (
-                  <li key={i}>
-                    {i + 1}. {q.label}
-                  </li>
-                ))}
+              <p className="text-sm text-[#232F21] mb-4 relative inline-block after:block after:h-[1px] after:bg-[#232F21] after:w-full md:after:w-[300px] after:mt-3">Mitt team</p>
+              <ul className="text-sm text-[#232F21] space-y-5 mt-15 font-medium">
+              <li>1. Motivation</li>
+  <li>2. Rimlig arbetsbelastning</li>
+  <li>3. Rimlig stressnivå</li>
+  <li>4. Psykisk och fysisk trygghet</li>
+  <li>5. Återhämtning under arbetsdagen</li>
+  <li>6. Balans mellan privatliv och arbetsliv</li>
+  <li>7. Samarbete och sammanhållning</li>
+  <li>8. Tillräckligt stöd vid utmaningar</li>
               </ul>
             </div>
 
@@ -180,15 +186,15 @@ export default function DashboardPage() {
                   av arbetsmiljön
                 </p>
                 <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-x-2">
+                  <div className="flex items-end justify-end gap-x-2">
                     <span>Hög</span>
                     <div className="w-6 h-6 rounded-sm bg-[#AEB396]" />
                   </div>
-                  <div className="flex items-center gap-x-2">
+                  <div className="flex items-end gap-x-2">
                     <span>Medel</span>
                     <div className="w-6 h-6 rounded-sm bg-[#C4C7B4]" />
                   </div>
-                  <div className="flex items-center gap-x-2">
+                  <div className="flex items-end justify-end gap-x-2 mb-15">
                     <span>Låg</span>
                     <div className="w-6 h-6 rounded-sm bg-[#DEDED7]" />
                   </div>
