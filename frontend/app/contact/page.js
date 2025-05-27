@@ -30,8 +30,8 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#85967b] to-[#e8f0e0] flex justify-center">
-      <div className="font-montserrat text-black flex flex-col pt-20 p-4 sm:p-8 md:p-16 max-w-5xl w-full">
+    <div className="min-h-screen bg-gradient-to-br from-[#95997F] to-[#D9DBCD] flex justify-center">
+      <div className="font-montserrat text-black flex flex-col pt-20 pb-14 md:pb-0 p-4 sm:p-8 md:p-16 max-w-5xl w-full">
         {toast.message && (
           <div className={getToastStyles()}>
             <div className="text-gray-900 font-semibold mb-1 text-base">
@@ -45,7 +45,7 @@ export default function Contact() {
           <h1 className="font-medium text-2xl sm:text-3xl mb-4 sm:mb-6">
             Kontakt oss gärna!
           </h1>
-          <h2 className="font-medium text-base sm:text-[16px] tracking-wide">
+          <h2 className=" text-base sm:text-[16px] tracking-wide">
             Kom enkelt i kontakt med oss med hjälp av formuläret. Du får en
             offert redan nästkommande vardag.
           </h2>
@@ -55,12 +55,12 @@ export default function Contact() {
           <input
             type="text"
             placeholder="Företagsnamn"
-            className="flex-1 px-4 h-14 text-black bg-[#FBFAF5] border border-[#5F6F52] rounded-[10px]"
+            className="flex-1 px-4 h-14 py-3 text-black bg-[#FBFAF5] border-[0.5px] border-[#5F6F52] rounded-[10px]"
           />
           <input
             type="text"
             placeholder="Organisationsnummer"
-            className="flex-1 px-4 h-14 text-black bg-[#FBFAF5] border border-[#5F6F52] rounded-[10px]"
+            className="flex-1 px-4 h-14 py-3 text-black bg-[#FBFAF5] border-[0.5px] border-[#5F6F52] rounded-[10px]"
           />
         </div>
 
@@ -68,24 +68,24 @@ export default function Contact() {
           <input
             type="email"
             placeholder="E-postadress"
-            className="flex-1 px-4 h-14 text-black bg-[#FBFAF5] border border-[#5F6F52] rounded-[10px]"
+            className="flex-1 px-4 h-14 py-3 text-black bg-[#FBFAF5] border-[0.5px] border-[#5F6F52] rounded-[10px]"
           />
           <input
             type="text"
             placeholder="Telefonnummer"
-            className="flex-1 px-4 h-14 text-black bg-[#FBFAF5] border border-[#5F6F52] rounded-[10px]"
+            className="flex-1 px-4 h-14 py-3 text-black bg-[#FBFAF5] border-[0.5px] border-[#5F6F52] rounded-[10px]"
           />
         </div>
 
         <div className="mb-6">
           <textarea
-            placeholder="Meddelande"
-            className="w-full px-4 py-4 h-28 resize-none text-black bg-[#FBFAF5] border border-[#5F6F52] rounded-[10px]"
+            placeholder="Skriv ditt meddelande här"
+            className="w-full px-4 py-4 h-28 resize-none text-black bg-[#FBFAF5] border-[0.5px] border-[#5F6F52] rounded-[10px]"
           />
         </div>
 
         <button
-          className="self-center mt-5 text-white w-40 h-14 sm:h-16 text-lg sm:text-xl md:text-3xl bg-[#464C35] hover:bg-[#5F6F52] rounded-full cursor-pointer transition-colors duration-200"
+          className="self-center mt-5 text-white w-40 h-14 sm:h-16 text-lg sm:text-xl md:text-2xl bg-[#45463F] hover:bg-[#5F6F52] rounded-full cursor-pointer transition-colors duration-200"
           style={{
             boxShadow: "inset 0px 21px 11.9px rgba(189, 188, 188, 0.25)",
           }}
