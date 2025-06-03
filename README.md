@@ -1,6 +1,6 @@
-# Chas Challenge – Välmåendeplattform för Arbetsplatser
+# Balance – Välmåendeplattform för Arbetsplatser
 
-Välkommen till Chas Challenge! Det här är ett digitalt verktyg som hjälper företag att följa upp och främja medarbetares hälsa och välmående. Plattformen riktar sig både till medarbetare och administratörer, med stöd för undersökningar, kvittohantering för friskvård, och insikter i hur arbetsmiljön upplevs över tid.
+Välkommen till Balance! Det här är ett digitalt verktyg som hjälper företag att följa upp och främja medarbetares hälsa och välmående. Plattformen riktar sig både till medarbetare och administratörer, med stöd för undersökningar, kvittohantering för friskvård, och insikter i hur arbetsmiljön upplevs över tid.
 
 ---
 
