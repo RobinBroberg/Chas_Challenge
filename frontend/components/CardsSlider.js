@@ -69,7 +69,7 @@ export default function CardsSlider() {
               )}
 
               {/* Title */}
-              <h3 className="text-lg md:text-2xl font-bold text-center mt-12">
+              <h3 className="text-lg md:text-xl 2xl:text-2xl font-bold text-center mt-12">
                 {card.title}
               </h3>
 
