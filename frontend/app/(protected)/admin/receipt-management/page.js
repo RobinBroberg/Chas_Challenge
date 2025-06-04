@@ -144,7 +144,7 @@ export default function ReceiptManagement() {
                 {pending}
               </span>
               <span className="pt-4 text-xs sm:text-xl md:text-2xl text-white">
-                Väntar på godkännadet
+                Väntar på godkännande
               </span>
             </div>
           </div>
