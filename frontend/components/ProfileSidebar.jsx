@@ -28,7 +28,7 @@ const ProfileSidebar = ({ onNavigate = () => {} }) => {
   );
 
   const FriskvardIcon = () => (
-    <img src="/friskvård.png" alt="Friskvard Icon" className="w-6 h-6" />
+    <img src="/Friskvård.png" alt="Friskvard Icon" className="w-6 h-6" />
   );
 
   const baseItems = [
